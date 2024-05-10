@@ -6,7 +6,6 @@ import androidx.core.view.isVisible
 import androidx.navigation.NavDestination
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import ru.practicum.android.diploma.BuildConfig
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.ActivityRootBinding
@@ -25,9 +24,8 @@ class RootActivity : AppCompatActivity() {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.rootFragmentContainerView) as NavHostFragment
         val navController = navHostFragment.navController
-        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+        val bottomNavigationView = binding.bottomNavigationView
         bottomNavigationView.setupWithNavController(navController)
-        bottomNavigationView.menu.findItem(R.id.mainFragment).isChecked = true
         navController.addOnDestinationChangedListener { _, destination, _ ->
             bottomNavigationView.isVisible = isBottomNavigationVisible(destination)
         }
