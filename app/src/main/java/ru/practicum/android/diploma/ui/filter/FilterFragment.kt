@@ -2,7 +2,7 @@ package ru.practicum.android.diploma.ui.filter
 
 import androidx.fragment.app.Fragment
 
-class FilterFragment: Fragment() {
+class FilterFragment : Fragment() {
     //    private var _binding: FragmentFilterBinding? = null
 //    private val binding get() = _binding!!
 

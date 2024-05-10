@@ -2,7 +2,7 @@ package ru.practicum.android.diploma.ui.main
 
 import androidx.fragment.app.Fragment
 
-class MainFragment: Fragment() {
+class MainFragment : Fragment() {
     //    private var _binding: FragmentMainBinding? = null
 //    private val binding get() = _binding!!
 
