@@ -37,7 +37,9 @@ android {
 
     buildFeatures {
         buildConfig = true
+        viewBinding = true
     }
+
 }
 
 dependencies {
@@ -92,4 +94,7 @@ dependencies {
     // Библиотека для загрузки изображений Glide
     implementation(libs.glide)
     annotationProcessor(libs.compiler)
+
+    // Библиотека для привязки данных Binding
+    implementation(libs.androidx.databinding.runtime)
 }
