@@ -1,4 +1,5 @@
 package ru.practicum.android.diploma.ui.vacancy
 
-class VacancyViewModel {
-}
+import androidx.lifecycle.ViewModel
+
+class VacancyViewModel : ViewModel()

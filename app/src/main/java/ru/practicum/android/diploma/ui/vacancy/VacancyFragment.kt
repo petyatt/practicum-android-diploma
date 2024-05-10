@@ -2,7 +2,7 @@ package ru.practicum.android.diploma.ui.vacancy
 
 import androidx.fragment.app.Fragment
 
-class VacancyFragment: Fragment() {
+class VacancyFragment : Fragment() {
 
     //    private var _binding: FragmentVacancyBinding? = null
 //    private val binding get() = _binding!!

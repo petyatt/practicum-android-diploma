@@ -2,7 +2,7 @@ package ru.practicum.android.diploma.ui.favorites
 
 import androidx.fragment.app.Fragment
 
-class FavoritesFragment: Fragment() {
+class FavoritesFragment : Fragment() {
     //    private var _binding: FragmentFavoritesBinding? = null
 //    private val binding get() = _binding!!
 

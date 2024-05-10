@@ -2,7 +2,7 @@ package ru.practicum.android.diploma.ui.team
 
 import androidx.fragment.app.Fragment
 
-class TeamFragment: Fragment() {
+class TeamFragment : Fragment() {
 //    private var _binding: FragmentTeamBinding? = null
 //    private val binding get() = _binding!!
 
