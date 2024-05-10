@@ -1,5 +1,15 @@
 [versions]
 
+activityKtx = "1.9.0"
+converterGson = "2.9.0"
+fragmentKtx = "1.7.0"
+glide = "4.15.1"
+koinAndroid = "3.3.0"
+kotlinxCoroutinesAndroid = "1.7.1"
+lifecycleLivedataKtx = "2.7.0"
+navigationUiKtx = "2.7.7"
+roomKtx = "2.6.1"
+roomCompiler = "2.6.1"
 java = "VERSION_1_8"
 
 # Build constants
@@ -23,11 +33,11 @@ staticAnalysis-detektLibraries = { module = "io.gitlab.arturbosch.detekt:detekt-
 staticAnalysis-detektTwitterComposeRules = { module = "com.twitter.compose.rules:detekt", version.ref = "detektTwitterComposeRules" }
 
 # AndroidX
-androidX-core = "androidx.core:core-ktx:1.12.0"
+androidX-core = "androidx.core:core-ktx:1.13.1"
 androidX-appCompat = "androidx.appcompat:appcompat:1.6.1"
 
 # UI layer libraries
-ui-material = "com.google.android.material:material:1.10.0"
+ui-material = "com.google.android.material:material:1.12.0"
 ui-constraintLayout = "androidx.constraintlayout:constraintlayout:2.1.4"
 
 # Unit tests
@@ -36,5 +46,41 @@ unitTests-junit = "junit:junit:4.13.2"
 # UI tests
 uiTests-junitExt = "androidx.test.ext:junit:1.1.5"
 uiTests-espressoCore = "androidx.test.espresso:espresso-core:3.5.1"
+
+# Glide
+compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "glide" }
+glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
+
+# Retrofit
+converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
+retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "converterGson" }
+
+# Koin
+koin-android = { module = "io.insert-koin:koin-android", version.ref = "koinAndroid" }
+
+# Coroutine
+kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutinesAndroid" }
+
+# LiveData
+androidx-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycleLivedataKtx" }
+androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycleLivedataKtx" }
+lifecycle-livedata-ktx = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "lifecycleLivedataKtx" }
+
+# Activity
+androidx-activity = { module = "androidx.activity:activity", version.ref = "activityKtx" }
+androidx-activity-ktx = { module = "androidx.activity:activity-ktx", version.ref = "activityKtx" }
+
+# Fragment
+androidx-fragment = { module = "androidx.fragment:fragment", version.ref = "fragmentKtx" }
+androidx-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "fragmentKtx" }
+
+# Navigation
+androidx-navigation-fragment-ktx = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigationUiKtx" }
+androidx-navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigationUiKtx" }
+
+# Room
+androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomCompiler" }
+androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomKtx" }
+androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomKtx" }
 
 [bundles]

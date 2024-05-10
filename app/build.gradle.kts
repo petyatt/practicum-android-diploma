@@ -1,4 +1,5 @@
 plugins {
+    id ("kotlin-kapt")
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("ru.practicum.android.diploma.plugins.developproperties")
@@ -55,4 +56,40 @@ dependencies {
     androidTestImplementation(libs.uiTests.junitExt)
     androidTestImplementation(libs.uiTests.espressoCore)
     // endregion
+
+    // Библиотека для работы с базой данных Room
+    implementation(libs.androidx.room.runtime)
+    kapt(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
+
+    // Библиотеки для навигации
+    implementation (libs.androidx.navigation.fragment.ktx)
+    implementation (libs.androidx.navigation.ui.ktx)
+
+    // Библиотеки фрагментов
+    implementation (libs.androidx.fragment)
+    implementation (libs.androidx.fragment.ktx)
+
+    // Библиотеки для работы с активити
+    implementation (libs.androidx.activity)
+    implementation (libs.androidx.activity.ktx)
+
+    // Библиотеки жизненного цикла
+    implementation (libs.lifecycle.livedata.ktx)
+    implementation (libs.androidx.lifecycle.runtime.ktx)
+    implementation (libs.androidx.lifecycle.viewmodel.ktx)
+
+    // Библиотека для работы с корутинами
+    implementation (libs.kotlinx.coroutines.android)
+
+    // Библиотека внедрения зависимостей Koin
+    implementation (libs.koin.android)
+
+    // Библиотека для работы с сетью Retrofit
+    implementation (libs.retrofit)
+    implementation (libs.converter.gson)
+
+    // Библиотека для загрузки изображений Glide
+    implementation (libs.glide)
+    annotationProcessor (libs.compiler)
 }
