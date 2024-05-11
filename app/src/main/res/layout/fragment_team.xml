@@ -5,12 +5,8 @@
     tools:context=".ui.team.TeamFragment">
 
     <TextView
-        style="@style/text_medium_22"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingHorizontal="@dimen/dimen_16"
-        android:paddingVertical="@dimen/dimen_20"
-        android:text="@string/team_toolbar" />
+        style="@style/text_top_bar"
+        android:text="@string/team" />
 
     <TextView
         style="@style/text_bold_32"
@@ -24,8 +20,8 @@
         style="@style/text_medium_16"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:lineSpacingExtra="@dimen/dimen_16"
         android:paddingHorizontal="@dimen/dimen_16"
         android:paddingVertical="@dimen/dimen_24"
-        android:lineSpacingExtra="@dimen/dimen_16"
         android:text="@string/team_list" />
 </LinearLayout>
