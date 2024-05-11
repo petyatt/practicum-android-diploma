@@ -25,6 +25,9 @@
         <action
             android:id="@+id/action_mainFragment_to_vacancyFragment"
             app:destination="@id/vacancyFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_teamFragment"
+            app:destination="@id/teamFragment" />
     </fragment>
     <fragment
         android:id="@+id/teamFragment"

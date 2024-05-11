@@ -3,4 +3,8 @@
     <string name="main">Главная</string>
     <string name="favorites">Избранное</string>
     <string name="team">Команда</string>
+
+    <string name="team_toolbar">Команда</string>
+    <string name="team_title">Над приложением работали</string>
+    <string name="team_list">Михаил Павлов\nНиколай Михайлов\nПетр Ткаченко\nАлексей Муренков</string>
 </resources>
