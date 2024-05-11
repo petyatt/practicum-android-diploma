@@ -22,7 +22,7 @@ class FavoritesFragment : Fragment() {
 
     }
     override fun onDestroyView() {
-        super.onDestroy()
+        super.onDestroyView()
         _binding = null
     }
 }
