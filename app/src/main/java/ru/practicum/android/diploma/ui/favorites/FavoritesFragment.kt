@@ -16,7 +16,6 @@ class FavoritesFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         _binding = FragmentFavoritesBinding.inflate(inflater, container, false)
         return binding.root
 
