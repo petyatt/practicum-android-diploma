@@ -17,7 +17,6 @@ class VacancyFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         _binding = FragmentVacancyBinding.inflate(inflater, container, false)
         return binding.root
 

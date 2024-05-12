@@ -16,7 +16,6 @@ class FilterFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         _binding = FragmentFilterBinding.inflate(inflater, container, false)
         return binding.root
 
