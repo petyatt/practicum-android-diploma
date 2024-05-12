@@ -4,7 +4,10 @@ import android.app.Application
 import org.koin.core.context.startKoin
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.component.KoinComponent
-import ru.practicum.android.diploma.di.favorites.favorites
+import ru.practicum.android.diploma.di.favorites
+import ru.practicum.android.diploma.di.filter
+import ru.practicum.android.diploma.di.team
+import ru.practicum.android.diploma.di.vacancy
 
 class App : Application(), KoinComponent {
     override fun onCreate() {
@@ -13,7 +16,10 @@ class App : Application(), KoinComponent {
         startKoin {
             androidContext(this@App)
             modules(
-                favorites
+                favorites,
+                filter,
+                team,
+                vacancy
             )
         }
     }
