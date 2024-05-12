@@ -22,9 +22,6 @@ class RootActivity : AppCompatActivity() {
         _binding = ActivityRootBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Пример использования access token для HeadHunter API
-        networkRequestExample(accessToken = BuildConfig.HH_ACCESS_TOKEN)
-
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.rootFragmentContainerView) as NavHostFragment
         val navController = navHostFragment.navController
@@ -38,10 +35,6 @@ class RootActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
-    }
-
-    private fun networkRequestExample(accessToken: String) {
-        // ...
     }
 
     private fun isBottomNavigationVisible(destination: NavDestination): Boolean {
