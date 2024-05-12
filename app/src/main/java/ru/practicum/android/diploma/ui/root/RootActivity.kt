@@ -1,5 +1,6 @@
 package ru.practicum.android.diploma.ui.root
 
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -15,6 +16,9 @@ class RootActivity : AppCompatActivity() {
     private val binding get() = _binding!!
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+
         _binding = ActivityRootBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
