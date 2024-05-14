@@ -1,8 +1,10 @@
 <resources>
     <dimen name="dimen_8">8dp</dimen>
+    <dimen name="dimen_12">12dp</dimen>
     <dimen name="dimen_16">16dp</dimen>
     <dimen name="dimen_20">20dp</dimen>
     <dimen name="dimen_24">24dp</dimen>
+    <dimen name="dimen_56">56dp</dimen>
 
     <dimen name="text_32">32sp</dimen>
     <dimen name="text_22">22sp</dimen>
