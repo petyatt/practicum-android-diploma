@@ -9,8 +9,12 @@ import androidx.core.content.ContextCompat
 import androidx.core.widget.doAfterTextChanged
 import ru.practicum.android.diploma.R
 
-class SearchEditText @JvmOverloads constructor(
-    context: Context, attrs: AttributeSet? = null, defStyle: Int = androidx.appcompat.R.attr.editTextStyle
+class SearchEditText
+@JvmOverloads
+constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyle: Int = androidx.appcompat.R.attr.editTextStyle
 ) : AppCompatEditText(context, attrs, defStyle) {
 
     private val closeIcon = ContextCompat.getDrawable(context, R.drawable.icon_close)
