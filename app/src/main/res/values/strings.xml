@@ -9,4 +9,6 @@
 
     <string name="team_title">Над приложением работали</string>
     <string name="team_list">Михаил Павлов\nНиколай Михайлов\nПетр Ткаченко\nАлексей Муренков</string>
+    
+    <string name="main_search_hint">Введите запрос</string>
 </resources>
