@@ -6,7 +6,6 @@ import retrofit2.http.Query
 import ru.practicum.android.diploma.BuildConfig
 import ru.practicum.android.diploma.data.network.response.VacancyResponse
 
-
 interface HeadHunterApiService {
     @Headers(
         "Authorization: Bearer ${BuildConfig.HH_ACCESS_TOKEN}",
@@ -23,6 +22,6 @@ interface HeadHunterApiService {
         @Query("salary") salary: Int? = null,
         @Query("only_with_salary") onlyWithSalary: Boolean = false
 
-    ) : VacancyResponse
+    ): VacancyResponse
 
 }
