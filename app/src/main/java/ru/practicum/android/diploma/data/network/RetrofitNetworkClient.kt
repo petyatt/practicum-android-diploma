@@ -11,7 +11,8 @@ import ru.practicum.android.diploma.data.network.request.RequestVacancies
 import java.io.IOException
 
 class RetrofitNetworkClient(
-    private val headHunterApiService: HeadHunterApiService, private val context: Context
+    private val headHunterApiService: HeadHunterApiService,
+    private val context: Context
 ) : NetworkClient {
     override suspend fun doRequest(dto: Any): Response {
         if (!isConnected()) {
@@ -42,7 +43,7 @@ class RetrofitNetworkClient(
 
             } catch (e: IOException) {
                 e.printStackTrace()
-                getConnectionTrouble()
+                Response().apply { resultCode = NO_INTERNET_ERROR }
             } catch (e: HttpException) {
                 e.printStackTrace()
                 getConnectionTrouble()
@@ -51,7 +52,7 @@ class RetrofitNetworkClient(
                 getRuntimeTrouble()
             } catch (e: Exception) {
                 e.printStackTrace()
-                getRuntimeTrouble()
+                Response().apply { resultCode = SERVER_ERROR }
             }
 
         }
