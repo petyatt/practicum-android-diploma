@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 import ru.practicum.android.diploma.data.dto.Response
 import ru.practicum.android.diploma.data.dto.VacancyItemDto
 
-data class VacancyResponse (
+data class VacancyResponse(
     val items: List<VacancyItemDto>,
     val found: Int,
     val pages: Int,
