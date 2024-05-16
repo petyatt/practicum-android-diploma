@@ -1,6 +1,6 @@
 package ru.practicum.android.diploma.data.network.request
 
-data class RequestVacancies (
+data class RequestVacancies(
     val text: String? = null,
     val page: Int = 0,
     val perPage: Int = 20,
