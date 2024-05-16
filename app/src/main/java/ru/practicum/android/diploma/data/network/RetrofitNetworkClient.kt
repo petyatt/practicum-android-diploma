@@ -42,16 +42,16 @@ class RetrofitNetworkClient(
 
             } catch (e: IOException) {
                 e.printStackTrace()
-                Response().apply { resultCode = SERVER_ERROR }
+                getConnectionTrouble()
             } catch (e: HttpException) {
                 e.printStackTrace()
-                Response().apply { resultCode = SERVER_ERROR }
+                getConnectionTrouble()
             } catch (e: RuntimeException) {
                 e.printStackTrace()
-                Response().apply { resultCode = SERVER_ERROR }
+                getRuntimeTrouble()
             } catch (e: Exception) {
                 e.printStackTrace()
-                Response().apply { resultCode = SERVER_ERROR }
+                getRuntimeTrouble()
             }
 
         }
@@ -64,11 +64,20 @@ class RetrofitNetworkClient(
         val capabilities = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
         if (capabilities != null) {
             when {
-                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> return true
-                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> return true
+                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) or capabilities.hasTransport(
+                    NetworkCapabilities.TRANSPORT_WIFI
+                ) -> return true
             }
         }
         return false
+    }
+
+    private fun getConnectionTrouble(): Response {
+        return Response().apply { resultCode = SERVER_ERROR }
+    }
+
+    private fun getRuntimeTrouble(): Response {
+        return Response().apply { resultCode = CLIENT_ERROR }
     }
 
     companion object {
