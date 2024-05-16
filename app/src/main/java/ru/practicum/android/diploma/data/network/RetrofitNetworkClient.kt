@@ -73,11 +73,11 @@ class RetrofitNetworkClient(
         return false
     }
 
-    private fun getConnectionTrouble(): Response {
+    private suspend fun getConnectionTrouble(): Response {
         return Response().apply { resultCode = SERVER_ERROR }
     }
 
-    private fun getRuntimeTrouble(): Response {
+    private suspend fun getRuntimeTrouble(): Response {
         return Response().apply { resultCode = CLIENT_ERROR }
     }
 
