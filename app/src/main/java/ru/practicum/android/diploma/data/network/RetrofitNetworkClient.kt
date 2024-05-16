@@ -46,10 +46,10 @@ class RetrofitNetworkClient(
                 Response().apply { resultCode = NO_INTERNET_ERROR }
             } catch (e: HttpException) {
                 e.printStackTrace()
-                getConnectionTrouble()
+                getHttpExceptionResponse()
             } catch (e: RuntimeException) {
                 e.printStackTrace()
-                getRuntimeTrouble()
+                getRuntimeExceptionResponse()
             } catch (e: Exception) {
                 e.printStackTrace()
                 Response().apply { resultCode = SERVER_ERROR }
@@ -73,11 +73,11 @@ class RetrofitNetworkClient(
         return false
     }
 
-    private suspend fun getConnectionTrouble(): Response {
+    private suspend fun getHttpExceptionResponse(): Response {
         return Response().apply { resultCode = SERVER_ERROR }
     }
 
-    private suspend fun getRuntimeTrouble(): Response {
+    private suspend fun getRuntimeExceptionResponse(): Response {
         return Response().apply { resultCode = CLIENT_ERROR }
     }
 
