@@ -14,6 +14,7 @@ class RetrofitNetworkClient(
     private val headHunterApiService: HeadHunterApiService,
     private val context: Context
 ) : NetworkClient {
+    @Suppress("TooGenericExceptionCaught")
     override suspend fun doRequest(dto: Any): Response {
         if (!isConnected()) {
             return Response().apply { resultCode = NO_INTERNET_ERROR }
