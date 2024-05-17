@@ -39,4 +39,15 @@
         <item name="android:paddingHorizontal">@dimen/dimen_16</item>
         <item name="android:paddingVertical">@dimen/dimen_20</item>
     </style>
+
+    <style name="edit_search" parent="text_medium_16">
+        <item name="android:imeOptions">actionSearch</item>
+        <item name="android:minHeight">@dimen/dimen_56</item>
+        <item name="android:padding">@dimen/dimen_16</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:inputType">text</item>
+        <item name="android:textColorHint">?attr/colorOnSurface</item>
+        <item name="android:background">@drawable/edit_search_background</item>
+        <item name="android:textCursorDrawable">@drawable/edit_search_cursor</item>
+    </style>
 </resources>
