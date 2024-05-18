@@ -1,8 +1,8 @@
 package ru.practicum.android.diploma.data.dto
 
 data class SalaryDto(
-    val from: Int?,
-    val to: Int?,
-    val currency: CurrencyIds,
-    val gross: Boolean
+    val currency: String? = null,
+    val from: Int? = null,
+    val gross: Boolean? = null,
+    val to: Int? = null
 )
