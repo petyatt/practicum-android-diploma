@@ -17,4 +17,3 @@ data class VacancyItemDto(
     val contacts: ContactsDto?,
     @SerializedName("key_skills") val keySkills: List<IdNameDto>?,
 )
-
