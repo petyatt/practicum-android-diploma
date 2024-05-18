@@ -38,4 +38,6 @@
     <string name="team_list">Михаил Павлов\nНиколай Михайлов\nПетр Ткаченко\nАлексей Муренков</string>
     
     <string name="main_search_hint">Введите запрос</string>
+    <string name="bad_connection">Нет интернета</string>
+    <string name="server_error">Ошибка сервера</string>
 </resources>
