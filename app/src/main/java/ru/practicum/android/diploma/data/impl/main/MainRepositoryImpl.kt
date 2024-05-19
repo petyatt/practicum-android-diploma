@@ -30,8 +30,8 @@ class MainRepositoryImpl(
         context.getString(R.string.server_error)
     }
 
-    override fun searchVacancies(vacancy: String): Flow<Resource<Vacancies>> = flow {
-        val response = networkClient.doRequest(MainRequest(vacancy))
+    override fun searchVacancies(vacancy: String,page: Int): Flow<Resource<Vacancies>> = flow {
+        val response = networkClient.doRequest(MainRequest(vacancy,page))
         when (response.resultCode) {
             ResponseCode.NETWORK_FAILED -> {
                 emit(Resource.Error(badConnection))

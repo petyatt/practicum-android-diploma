@@ -12,16 +12,20 @@ class MainViewModel(
 
 ) : ViewModel() {
     private val vacancySearchStateLiveData = MutableLiveData<VacancySearchState>()
+    var _page: Int = 0
     fun observeState(): LiveData<VacancySearchState> = vacancySearchStateLiveData
     private fun renderState(state: VacancySearchState) {
         this.vacancySearchStateLiveData.postValue(state)
     }
     fun sendRequest(searchText: String) {
         if (searchText.isNotEmpty()) {
+            if (_page!=0){
+                _page+=1
+            }
             renderState(VacancySearchState.Loading)
             viewModelScope.launch {
                 mainInteractor
-                    .searchVacancies(searchText)
+                    .searchVacancies(searchText,_page)
                     .collect { foundVacancies ->
                         if (foundVacancies.first == null) {
                             renderState(
@@ -32,10 +36,12 @@ class MainViewModel(
                                 renderState(VacancySearchState.Error(Placeholder.NOTHING_FOUND))
                             } else {
                                 renderState(VacancySearchState.Content(foundVacancies.first!!))
+                                _page = foundVacancies.first!!.page
                             }
                         }
                     }
             }
         }
     }
+
 }

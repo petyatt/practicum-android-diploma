@@ -11,6 +11,9 @@ import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentMainBinding
@@ -48,6 +51,18 @@ class MainFragment : Fragment() {
             }
             doOnTextChanged { text, _, _, _ -> onSearchDebounce(text.toString()) }
         }
+        binding.recyclerView.addOnScrollListener(object : OnScrollListener(){
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (dy > 0) {
+                    val pos = (binding.recyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
+                    val itemsCount = vacancyListAdapter.itemCount
+                    if (pos >= itemsCount-1) {
+                        onSearchDebounce(binding.search.toString())
+                    }
+                }
+            }
+        })
     }
 
     override fun onDestroyView() {
