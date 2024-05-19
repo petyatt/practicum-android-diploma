@@ -7,6 +7,7 @@ import retrofit2.HttpException
 import ru.practicum.android.diploma.data.dto.Response
 import ru.practicum.android.diploma.data.dto.ResponseCode
 import ru.practicum.android.diploma.data.network.request.RequestVacancies
+import ru.practicum.android.diploma.data.request.MainRequest
 import ru.practicum.android.diploma.util.isConnected
 import java.io.IOException
 
@@ -36,6 +37,7 @@ class RetrofitNetworkClient(
 
                         Response().apply { resultCode = ResponseCode.SUCCESS }
                     }
+
 
                     else -> {
                         Response().apply { resultCode = ResponseCode.BAD_ARGUMENT }

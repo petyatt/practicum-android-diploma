@@ -10,6 +10,7 @@ import ru.practicum.android.diploma.data.dto.ResponseCode
 import ru.practicum.android.diploma.data.dto.VacancyDescriptionRequest
 import ru.practicum.android.diploma.data.dto.VacancyDescriptionResponse
 import ru.practicum.android.diploma.data.network.NetworkClient
+import ru.practicum.android.diploma.data.network.request.RequestVacancies
 import ru.practicum.android.diploma.data.request.MainRequest
 import ru.practicum.android.diploma.data.response.VacanciesResponse
 import ru.practicum.android.diploma.domain.api.main.MainRepository
@@ -31,7 +32,7 @@ class MainRepositoryImpl(
     }
 
     override fun searchVacancies(vacancy: String,page: Int): Flow<Resource<Vacancies>> = flow {
-        val response = networkClient.doRequest(MainRequest(vacancy,page))
+        val response = networkClient.doRequest(RequestVacancies(text = vacancy, page = page))
         when (response.resultCode) {
             ResponseCode.NETWORK_FAILED -> {
                 emit(Resource.Error(badConnection))

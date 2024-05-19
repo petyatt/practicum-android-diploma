@@ -11,7 +11,7 @@ interface HeadHunterApiService {
         "Authorization: Bearer ${BuildConfig.HH_ACCESS_TOKEN}",
         "HH-User-Agent: DW_YP (petya.07@yandex.ru)"
     )
-    @GET("/vacancies")
+    @GET("vacancies")
     suspend fun getVacancies(
         @Query("text") text: String? = null,
         @Query("page") page: Int = 0,
