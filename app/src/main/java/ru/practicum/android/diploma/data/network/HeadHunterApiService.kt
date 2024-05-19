@@ -5,6 +5,7 @@ import retrofit2.http.Headers
 import retrofit2.http.Query
 import ru.practicum.android.diploma.BuildConfig
 import ru.practicum.android.diploma.data.network.response.VacancyResponse
+import ru.practicum.android.diploma.data.response.VacanciesResponse
 
 interface HeadHunterApiService {
     @Headers(
@@ -22,6 +23,6 @@ interface HeadHunterApiService {
         @Query("salary") salary: Int? = null,
         @Query("only_with_salary") onlyWithSalary: Boolean = false
 
-    ): VacancyResponse
+    ): VacanciesResponse
 
 }
