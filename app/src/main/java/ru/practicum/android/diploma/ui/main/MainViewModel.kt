@@ -12,7 +12,7 @@ class MainViewModel(
 
 ) : ViewModel() {
     private val vacancySearchStateLiveData = MutableLiveData<VacancySearchState>()
-    var _page: Int = 0
+    private var _page: Int = 0
     fun observeState(): LiveData<VacancySearchState> = vacancySearchStateLiveData
     private fun renderState(state: VacancySearchState) {
         this.vacancySearchStateLiveData.postValue(state)
