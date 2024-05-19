@@ -24,4 +24,5 @@
     <dimen name="layout_marginTop_16dp">16dp</dimen>
     <dimen name="layout_marginStart_46dp">46dp</dimen>
     <dimen name="layout_marginEnd_46dp">46dp</dimen>
+    <dimen name="corner_radius_small_2">2dp</dimen>
 </resources>
