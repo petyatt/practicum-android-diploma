@@ -12,8 +12,8 @@ class MainInteractorImpl(
     private val mainRepository: MainRepository
 ) : MainInteractor {
 
-    override fun searchVacancies(vacancy: String,page:Int): Flow<Pair<Vacancies?, String?>> {
-        return mainRepository.searchVacancies(vacancy,page).map { result ->
+    override fun searchVacancies(vacancy: String, page: Int): Flow<Pair<Vacancies?, String?>> {
+        return mainRepository.searchVacancies(vacancy, page).map { result ->
             when (result) {
                 is Resource.Success -> {
                     Pair(result.data, null)

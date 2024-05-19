@@ -19,13 +19,13 @@ class MainViewModel(
     }
     fun sendRequest(searchText: String) {
         if (searchText.isNotEmpty()) {
-            if (_page!=0){
-                _page+=1
+            if (_page != 0) {
+                _page += 1
             }
             renderState(VacancySearchState.Loading)
             viewModelScope.launch {
                 mainInteractor
-                    .searchVacancies(searchText,_page)
+                    .searchVacancies(searchText, _page)
                     .collect { foundVacancies ->
                         if (foundVacancies.first == null) {
                             renderState(
