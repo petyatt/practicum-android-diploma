@@ -38,4 +38,8 @@ class MainViewModel(
             }
         }
     }
+
+    fun setDefaultState() {
+        renderState(VacancySearchState.Default)
+    }
 }
