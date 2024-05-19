@@ -1,11 +1,13 @@
 package ru.practicum.android.diploma.ui.main
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
@@ -38,21 +40,38 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.observeState().observe(viewLifecycleOwner) { render(it) }
+        viewModel.setDefaultState()
+        setSearchFieldListeners()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewModel.setDefaultState()
+        _binding = null
+    }
+
+    private fun setSearchFieldListeners() {
         with(binding.search) {
             lastSearchText = text.toString()
             setOnEditorActionListener { v, actionId, _ ->
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     search(v.text.toString())
+                    val imm = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE)
+                        as InputMethodManager
+                    imm.hideSoftInputFromWindow(v.windowToken, 0)
                 }
                 false
             }
-            doOnTextChanged { text, _, _, _ -> onSearchDebounce(text.toString()) }
+            doOnTextChanged { text, _, _, _ ->
+                if (text.isNullOrBlank()) {
+                    viewModel.setDefaultState()
+                } else {
+                    binding.iconSearch.isVisible = false
+                    binding.iconClear.isVisible = true
+                    onSearchDebounce(text.toString())
+                }
+            }
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     private fun search(text: String) {
@@ -63,6 +82,10 @@ class MainFragment : Fragment() {
 
     private fun render(state: VacancySearchState) {
         when (state) {
+            is VacancySearchState.Default -> {
+                showDefaultState()
+            }
+
             is VacancySearchState.Loading -> {
                 showProgressBar()
             }
@@ -75,6 +98,16 @@ class MainFragment : Fragment() {
                 showPlaceholder(state.placeholder, state.errorMessage)
             }
         }
+    }
+
+    private fun showDefaultState() {
+        binding.progressBarCenter.isVisible = false
+        binding.placeholderImage.isVisible = true
+        binding.placeholderImage.setImageResource(R.drawable.placeholder_search)
+        binding.placeholderText.isVisible = false
+        binding.search.text?.clear()
+        binding.iconSearch.isVisible = true
+        binding.iconClear.isVisible = false
     }
 
     private fun showProgressBar() {
@@ -92,16 +125,20 @@ class MainFragment : Fragment() {
             Placeholder.BAD_CONNECTION -> {
                 binding.placeholderImage.setImageResource(R.drawable.placeholder_no_internet)
                 binding.placeholderText.text = getText(R.string.bad_connection)
+                if (errorMessage != "") {
+                    Toast
+                        .makeText(
+                            requireContext(),
+                            getString(R.string.error_message, errorMessage),
+                            Toast.LENGTH_SHORT)
+                        .show()
+                }
             }
 
             Placeholder.NOTHING_FOUND -> {
                 binding.placeholderImage.setImageResource(R.drawable.placeholder_no_vacancies)
                 binding.placeholderText.text = getText(R.string.no_vacancies)
             }
-        }
-        if (errorMessage != "") {
-            Toast.makeText(requireContext(), getString(R.string.error_message, errorMessage), Toast.LENGTH_SHORT)
-                .show()
         }
     }
 
