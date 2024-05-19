@@ -130,7 +130,8 @@ class MainFragment : Fragment() {
                         .makeText(
                             requireContext(),
                             getString(R.string.error_message, errorMessage),
-                            Toast.LENGTH_SHORT)
+                            Toast.LENGTH_SHORT
+                        )
                         .show()
                 }
             }
