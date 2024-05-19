@@ -12,7 +12,7 @@ import ru.practicum.android.diploma.data.dto.VacancyDescriptionResponse
 import ru.practicum.android.diploma.data.network.NetworkClient
 import ru.practicum.android.diploma.data.request.MainRequest
 import ru.practicum.android.diploma.data.response.VacanciesResponse
-import ru.practicum.android.diploma.domain.api.main.MainReporistory
+import ru.practicum.android.diploma.domain.api.main.MainRepository
 import ru.practicum.android.diploma.domain.models.Vacancies
 import ru.practicum.android.diploma.domain.models.VacancyDescription
 import ru.practicum.android.diploma.util.Resource
@@ -22,7 +22,7 @@ class MainRepositoryImpl(
     private val vacanciesConverter: VacanciesConverter,
     private val vacanciesDescriptionConverter: VacanciesDescriptionConverter,
     context: Context
-) : MainReporistory {
+) : MainRepository {
     private val badConnection by lazy {
         context.getString(R.string.bad_connection)
     }
