@@ -9,8 +9,7 @@ import ru.practicum.android.diploma.domain.api.main.MainInteractor
 
 class MainViewModel(
     private val mainInteractor: MainInteractor,
-
-    ) : ViewModel() {
+) : ViewModel() {
     private val vacancySearchStateLiveData = MutableLiveData<VacancySearchState>()
     private var _page: Int = 0
     fun observeState(): LiveData<VacancySearchState> = vacancySearchStateLiveData
@@ -26,23 +25,22 @@ class MainViewModel(
             renderState(VacancySearchState.Loading)
             viewModelScope.launch {
                 mainInteractor.searchVacancies(searchText, _page).collect { foundVacancies ->
-                        if (foundVacancies.first == null) {
-                            renderState(
-                                VacancySearchState.Error(Placeholder.BAD_CONNECTION, foundVacancies.second ?: "")
-                            )
+                    if (foundVacancies.first == null) {
+                        renderState(
+                            VacancySearchState.Error(Placeholder.BAD_CONNECTION, foundVacancies.second ?: "")
+                        )
+                    } else {
+                        if (foundVacancies.first!!.items.isEmpty()) {
+                            renderState(VacancySearchState.Error(Placeholder.NOTHING_FOUND))
                         } else {
-                            if (foundVacancies.first!!.items.isEmpty()) {
-                                renderState(VacancySearchState.Error(Placeholder.NOTHING_FOUND))
-                            } else {
-                                renderState(VacancySearchState.Content(foundVacancies.first!!))
-                                _page = foundVacancies.first!!.page
-                            }
+                            renderState(VacancySearchState.Content(foundVacancies.first!!))
+                            _page = foundVacancies.first!!.page
                         }
                     }
+                }
             }
         }
     }
-
 
     fun setDefaultState() {
         renderState(VacancySearchState.Default)
