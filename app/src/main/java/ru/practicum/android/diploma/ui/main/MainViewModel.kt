@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.domain.api.main.MainInteractor
+
 class MainViewModel(
     private val mainInteractor: MainInteractor,
 

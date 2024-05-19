@@ -29,7 +29,7 @@ val main = module {
     single<VacanciesConverter> {
         VacanciesConverter()
     }
-    single<VacanciesDescriptionConverter>{
+    single<VacanciesDescriptionConverter> {
         VacanciesDescriptionConverter()
     }
 
