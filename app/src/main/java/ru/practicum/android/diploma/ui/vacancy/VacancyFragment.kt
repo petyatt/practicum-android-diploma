@@ -43,25 +43,24 @@ class VacancyFragment : Fragment() {
             buttNav.setOnClickListener { findNavController().navigateUp() }
             buttFav.setOnClickListener { TODO("Обработка добавления в избранное") }
             buttShare.setOnClickListener { TODO("Обработка поделиться") }
-        }
+            viewModel.vacancyState.observe(viewLifecycleOwner) {
+                when (it) {
+                    is ScreenState.Loading -> {
+                        data.isVisible = false
+                        loading.isVisible = true
+                    }
 
-        viewModel.vacancyState.observe(viewLifecycleOwner) {
-            when (it) {
-                is ScreenState.Loading -> {
-                    TODO("Отображение индикатора загрузки")
-                }
+                    is ScreenState.Loaded -> {
+                        vacancy = it.t
+                        showVacancy()
+                    }
 
-                is ScreenState.Loaded -> {
-                    vacancy = it.t
-                    showVacancy()
-                }
-
-                else -> {
-                    TODO("Обработка ошибки")
+                    else -> {
+                        TODO("Обработка ошибки")
+                    }
                 }
             }
         }
-
         val id = requireArguments().getString(ARG_VACANCY_ID, "")
         viewModel.getVacancyState(id)
     }
@@ -112,6 +111,8 @@ class VacancyFragment : Fragment() {
                 contactPhone.isNotBlank() ||
                 contactComment.isNotBlank()
         }
+        binding.loading.isVisible = false
+        binding.data.isVisible = true
     }
 
     private fun loadLogo(uri: String) {

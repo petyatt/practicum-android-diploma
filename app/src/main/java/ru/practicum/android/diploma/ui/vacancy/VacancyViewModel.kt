@@ -27,7 +27,10 @@ class VacancyViewModel(private val vacancyInteractor: VacancyInteractor) : ViewM
             val result = vacancyInteractor.getVacancy(id).single()
             when (result) {
                 is Resource.Success -> _vacancyState.postValue(ScreenState.Loaded(result.data!!))
-                else -> _vacancyState.postValue(ScreenState.Error())
+                is Resource.Error -> {
+                    // todo - здесь будет, в зависимости от типа ошибки, передача соответствующего ScreenState
+                    _vacancyState.postValue(ScreenState.ServerError())
+                }
             }
         }
     }
