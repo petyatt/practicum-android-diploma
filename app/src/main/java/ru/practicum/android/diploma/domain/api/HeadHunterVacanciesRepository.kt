@@ -16,5 +16,5 @@ interface HeadHunterVacanciesRepository {
         onlyWithSalary: Boolean = false
     ): Flow<Resource<VacancyResponse>>
 
-    fun getVacancy(id: String): Flow<Resource<VacancyDetail>>
+    suspend fun getVacancy(id: String): Flow<Resource<VacancyDetail>>
 }

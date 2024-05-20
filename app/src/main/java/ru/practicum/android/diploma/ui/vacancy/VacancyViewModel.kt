@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.domain.api.vacancy.VacancyInteractor
@@ -22,7 +23,7 @@ class VacancyViewModel(private val vacancyInteractor: VacancyInteractor) : ViewM
     }
 
     fun getVacancyState(id: String) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val result = vacancyInteractor.getVacancy(id).single()
             when (result) {
                 is Resource.Success -> _vacancyState.postValue(ScreenState.Loaded(result.data!!))
