@@ -6,7 +6,7 @@ import ru.practicum.android.diploma.domain.models.VacancyDescription
 
 interface MainInteractor {
 
-    fun searchVacancies(vacancy: String): Flow<Pair<Vacancies?, String?>>
+    fun searchVacancies(vacancy: String, page: Int): Flow<Pair<Vacancies?, String?>>
 
     fun getVacancyDescription(vacancyId: String): Flow<Pair<VacancyDescription?, String?>>
 }

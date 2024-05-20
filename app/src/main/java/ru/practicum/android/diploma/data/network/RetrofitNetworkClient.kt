@@ -24,7 +24,7 @@ class RetrofitNetworkClient(
             try {
                 when (dto) {
                     is RequestVacancies -> {
-                        headHunterApiService.getVacancies(
+                        val result = headHunterApiService.getVacancies(
                             text = dto.text,
                             page = dto.page,
                             perPage = dto.perPage,
@@ -33,8 +33,7 @@ class RetrofitNetworkClient(
                             salary = dto.salary,
                             onlyWithSalary = dto.onlyWithSalary
                         )
-
-                        Response().apply { resultCode = ResponseCode.SUCCESS }
+                        result.apply { resultCode = ResponseCode.SUCCESS }
                     }
 
                     else -> {
