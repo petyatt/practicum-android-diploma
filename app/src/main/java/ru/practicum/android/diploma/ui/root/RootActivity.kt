@@ -2,6 +2,7 @@ package ru.practicum.android.diploma.ui.root
 
 import android.content.pm.ActivityInfo
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.navigation.NavDestination
@@ -28,6 +29,7 @@ class RootActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             bottomNavigationView.isVisible = isBottomNavigationVisible(destination)
         }
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
     }
 
     private fun isBottomNavigationVisible(destination: NavDestination): Boolean {

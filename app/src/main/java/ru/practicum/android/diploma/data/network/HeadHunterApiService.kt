@@ -5,13 +5,14 @@ import retrofit2.http.Headers
 import retrofit2.http.Query
 import ru.practicum.android.diploma.BuildConfig
 import ru.practicum.android.diploma.data.network.response.VacancyResponse
+import ru.practicum.android.diploma.data.response.VacanciesResponse
 
 interface HeadHunterApiService {
     @Headers(
         "Authorization: Bearer ${BuildConfig.HH_ACCESS_TOKEN}",
         "HH-User-Agent: DW_YP (petya.07@yandex.ru)"
     )
-    @GET("/vacancies")
+    @GET("vacancies")
     suspend fun getVacancies(
         @Query("text") text: String? = null,
         @Query("page") page: Int = 0,
@@ -22,6 +23,6 @@ interface HeadHunterApiService {
         @Query("salary") salary: Int? = null,
         @Query("only_with_salary") onlyWithSalary: Boolean = false
 
-    ): VacancyResponse
+    ): VacanciesResponse
 
 }

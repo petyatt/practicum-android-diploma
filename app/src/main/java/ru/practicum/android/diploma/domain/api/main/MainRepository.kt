@@ -5,9 +5,9 @@ import ru.practicum.android.diploma.domain.models.Vacancies
 import ru.practicum.android.diploma.domain.models.VacancyDescription
 import ru.practicum.android.diploma.util.Resource
 
-interface MainReporistory {
+interface MainRepository {
 
-    fun searchVacancies(vacancy: String): Flow<Resource<Vacancies>>
+    fun searchVacancies(vacancy: String, page: Int): Flow<Resource<Vacancies>>
 
     fun getVacancyDescription(vacancyId: String): Flow<Resource<VacancyDescription>>
 }
