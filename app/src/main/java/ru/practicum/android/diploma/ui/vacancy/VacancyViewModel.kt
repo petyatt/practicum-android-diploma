@@ -16,7 +16,7 @@ import ru.practicum.android.diploma.util.Resource
 class VacancyViewModel(
     private val vacancyInteractor: VacancyInteractor,
     private val externalNavigator: ExternalNavigator
-): ViewModel() {
+) : ViewModel() {
     private val _vacancyState = MutableLiveData<ScreenState<VacancyDetail>>()
     val vacancyState: LiveData<ScreenState<VacancyDetail>> = _vacancyState
 
