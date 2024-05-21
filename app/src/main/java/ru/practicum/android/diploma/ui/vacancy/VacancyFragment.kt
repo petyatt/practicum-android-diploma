@@ -42,7 +42,6 @@ class VacancyFragment : Fragment() {
         with(binding) {
             buttNav.setOnClickListener { findNavController().navigateUp() }
             buttFav.setOnClickListener { TODO("Обработка добавления в избранное") }
-            buttShare.setOnClickListener { TODO("Обработка поделиться") }
             viewModel.vacancyState.observe(viewLifecycleOwner) {
                 when (it) {
                     is ScreenState.Loading -> {
@@ -63,6 +62,10 @@ class VacancyFragment : Fragment() {
         }
         val id = requireArguments().getString(ARG_VACANCY_ID, "")
         viewModel.getVacancyState(id)
+
+        binding.buttShare.setOnClickListener{
+            viewModel.shareVacation(id)
+        }
     }
 
     override fun onDestroyView() {
