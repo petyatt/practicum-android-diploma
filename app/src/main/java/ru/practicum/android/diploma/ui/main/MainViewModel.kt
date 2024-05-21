@@ -4,8 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.domain.api.main.MainInteractor
+import ru.practicum.android.diploma.util.Resource
 
 class MainViewModel(
     private val mainInteractor: MainInteractor,
@@ -24,18 +26,19 @@ class MainViewModel(
             }
             renderState(VacancySearchState.Loading)
             viewModelScope.launch {
-                mainInteractor.searchVacancies(searchText, _page).collect { foundVacancies ->
-                    if (foundVacancies.first == null) {
-                        renderState(
-                            VacancySearchState.Error(Placeholder.BAD_CONNECTION, foundVacancies.second ?: "")
-                        )
-                    } else {
-                        if (foundVacancies.first!!.items.isEmpty()) {
-                            renderState(VacancySearchState.Error(Placeholder.NOTHING_FOUND))
-                        } else {
-                            renderState(VacancySearchState.Content(foundVacancies.first!!))
-                            _page = foundVacancies.first!!.page
-                        }
+                val result = mainInteractor.searchVacancies(searchText, _page).single()
+                when (result) {
+                    is Resource.NotConnection -> {
+                        // todo - обработка "Нет соединения"
+                        VacancySearchState.Error(Placeholder.BAD_CONNECTION, "todo - not connection")
+                    }
+                    is Resource.ServerError -> {
+                        // todo - обработка "Ошибка сервера"
+                        VacancySearchState.Error(Placeholder.BAD_CONNECTION, "todo - server error")
+                    }
+                    is Resource.Success -> {
+                        renderState(VacancySearchState.Content(result.data))
+                        _page = result.data.page
                     }
                 }
             }
