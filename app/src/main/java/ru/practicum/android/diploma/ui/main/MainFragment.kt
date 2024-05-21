@@ -45,6 +45,14 @@ class MainFragment : Fragment() {
         viewModel.observeState().observe(viewLifecycleOwner) { render(it) }
         viewModel.setDefaultState()
         setSearchFieldListeners()
+
+        binding.recyclerView.layoutManager = LinearLayoutManager(context)
+        binding.recyclerView.adapter = vacancyListAdapter
+
+        binding.iconClear.setOnClickListener {
+            vacancyListAdapter.vacancyList.clear()
+            vacancyListAdapter.notifyDataSetChanged()
+        }
     }
 
     override fun onDestroyView() {
@@ -82,7 +90,7 @@ class MainFragment : Fragment() {
                     val pos = (binding.recyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
                     val itemsCount = vacancyListAdapter.itemCount
                     if (pos >= itemsCount - 1) {
-                        onSearchDebounce(binding.search.toString())
+                        onSearchDebounce(binding.search.text.toString())
                     }
                 }
             }
@@ -90,7 +98,6 @@ class MainFragment : Fragment() {
     }
 
     private fun search(text: String) {
-        if (lastSearchText == text) return
         lastSearchText = text
         viewModel.sendRequest(text)
     }
@@ -163,6 +170,7 @@ class MainFragment : Fragment() {
         binding.progressBarCenter.isVisible = false
         binding.placeholderImage.isVisible = false
         binding.placeholderText.isVisible = false
+        binding.recyclerView.isVisible = true
         vacancyListAdapter.vacancyList.addAll(vacancies.items)
         vacancyListAdapter.notifyDataSetChanged()
     }

@@ -21,7 +21,7 @@ class RetrofitNetworkClient(
         return withContext(Dispatchers.IO) {
             try {
                 val response = when (dto) {
-                    is MainRequest -> headHunterApiService.getVacancies(vacancy = dto.vacancy)
+                    is MainRequest -> headHunterApiService.getVacancies(vacancy = dto.vacancy, page = dto.page)
                     else -> Response().apply { resultCode = ResponseCode.BAD_ARGUMENT }
                 }
                 response.apply { resultCode = ResponseCode.SUCCESS }

@@ -9,10 +9,14 @@ import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.domain.api.vacancy.VacancyInteractor
 import ru.practicum.android.diploma.domain.models.VacancyDetail
+import ru.practicum.android.diploma.domain.vacancy.ExternalNavigator
 import ru.practicum.android.diploma.ui.model.ScreenState
 import ru.practicum.android.diploma.util.Resource
 
-class VacancyViewModel(private val vacancyInteractor: VacancyInteractor) : ViewModel() {
+class VacancyViewModel(
+    private val vacancyInteractor: VacancyInteractor,
+    private val externalNavigator: ExternalNavigator
+) : ViewModel() {
     private val _vacancyState = MutableLiveData<ScreenState<VacancyDetail>>()
     val vacancyState: LiveData<ScreenState<VacancyDetail>> = _vacancyState
 
@@ -33,5 +37,13 @@ class VacancyViewModel(private val vacancyInteractor: VacancyInteractor) : ViewM
                 }
             }
         }
+    }
+
+    fun shareVacation(url: String) {
+        externalNavigator.shareVacation(BASE_URL + url)
+    }
+
+    companion object {
+        const val BASE_URL = "https://hh.ru/vacancy/"
     }
 }
