@@ -2,24 +2,11 @@ package ru.practicum.android.diploma.data.impl.vacancy
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import ru.practicum.android.diploma.data.network.response.VacancyResponse
 import ru.practicum.android.diploma.domain.api.HeadHunterVacanciesRepository
 import ru.practicum.android.diploma.domain.models.VacancyDetail
 import ru.practicum.android.diploma.util.Resource
 
 class HeadHunterVacanciesRepositoryImpl : HeadHunterVacanciesRepository {
-    override fun getVacancies(
-        query: String?,
-        page: Int,
-        perPage: Int,
-        salary: Int?,
-        area: Int?,
-        industry: String?,
-        onlyWithSalary: Boolean
-    ): Flow<Resource<VacancyResponse>> {
-        TODO("Not yet implemented")
-    }
-
     override suspend fun getVacancy(id: String): Flow<Resource<VacancyDetail>> {
         // todo - mock-реализация - заменить на настоящую
         return flow {

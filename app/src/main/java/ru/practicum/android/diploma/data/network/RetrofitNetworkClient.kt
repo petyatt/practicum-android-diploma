@@ -6,15 +6,13 @@ import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 import ru.practicum.android.diploma.data.dto.Response
 import ru.practicum.android.diploma.data.dto.ResponseCode
-import ru.practicum.android.diploma.data.network.request.RequestVacancies
+import ru.practicum.android.diploma.data.request.MainRequest
 import ru.practicum.android.diploma.util.isConnected
-import java.io.IOException
 
 class RetrofitNetworkClient(
     private val headHunterApiService: HeadHunterApiService,
     private val context: Context
 ) : NetworkClient {
-    @Suppress("TooGenericExceptionCaught")
     override suspend fun doRequest(dto: Any): Response {
         if (!isConnected(context)) {
             return Response().apply { resultCode = ResponseCode.NETWORK_FAILED }
@@ -22,47 +20,22 @@ class RetrofitNetworkClient(
 
         return withContext(Dispatchers.IO) {
             try {
-                when (dto) {
-                    is RequestVacancies -> {
-                        val result = headHunterApiService.getVacancies(
-                            text = dto.text,
-                            page = dto.page,
-                            perPage = dto.perPage,
-                            area = dto.area,
-                            industry = dto.industry,
-                            salary = dto.salary,
-                            onlyWithSalary = dto.onlyWithSalary
-                        )
-                        result.apply { resultCode = ResponseCode.SUCCESS }
-                    }
-
-                    else -> {
-                        Response().apply { resultCode = ResponseCode.BAD_ARGUMENT }
-                    }
+                val response = when (dto) {
+                    is MainRequest -> headHunterApiService.getVacancies(vacancy = dto.vacancy)
+                    else -> Response().apply { resultCode = ResponseCode.BAD_ARGUMENT }
                 }
-
-            } catch (e: IOException) {
-                e.printStackTrace()
-                Response().apply { resultCode = ResponseCode.NETWORK_FAILED }
+                response.apply { resultCode = ResponseCode.SUCCESS }
             } catch (e: HttpException) {
-                e.printStackTrace()
-                getHttpExceptionResponse()
-            } catch (e: RuntimeException) {
-                e.printStackTrace()
-                getRuntimeExceptionResponse()
-            } catch (e: Exception) {
-                e.printStackTrace()
+                when (e.code()) {
+                    ResponseCode.NOT_FOUND -> Response().apply { resultCode = ResponseCode.NOT_FOUND }
+                    ResponseCode.BAD_AUTHORIZATION -> Response().apply {
+                        resultCode = ResponseCode.BAD_AUTHORIZATION
+                    }
+                    else -> Response().apply { resultCode = ResponseCode.SERVER_FAILED }
+                }
+            } catch (e: Throwable) {
                 Response().apply { resultCode = ResponseCode.SERVER_FAILED }
             }
-
         }
-    }
-
-    private suspend fun getHttpExceptionResponse(): Response {
-        return Response().apply { resultCode = ResponseCode.SERVER_FAILED }
-    }
-
-    private suspend fun getRuntimeExceptionResponse(): Response {
-        return Response().apply { resultCode = ResponseCode.BAD_ARGUMENT }
     }
 }

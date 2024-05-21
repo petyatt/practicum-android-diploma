@@ -23,7 +23,7 @@ val main = module {
         MainInteractorImpl(get())
     }
     single<MainRepository> {
-        MainRepositoryImpl(get(), get(), get(), androidContext())
+        MainRepositoryImpl(get(), get(), androidContext())
     }
 
     single<VacanciesConverter> {
