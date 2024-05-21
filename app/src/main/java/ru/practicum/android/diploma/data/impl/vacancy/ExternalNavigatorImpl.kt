@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.Intent
 import ru.practicum.android.diploma.domain.vacancy.ExternalNavigator
 
-class ExternalNavigatorImpl(private val context : Context): ExternalNavigator {
+class ExternalNavigatorImpl(private val context: Context) : ExternalNavigator {
     override fun shareVacation(url: String) {
         val intentSend = Intent(Intent.ACTION_SEND)
         intentSend.type = "text/plain"
