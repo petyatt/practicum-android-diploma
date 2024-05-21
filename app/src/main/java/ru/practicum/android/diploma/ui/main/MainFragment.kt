@@ -45,6 +45,9 @@ class MainFragment : Fragment() {
         viewModel.observeState().observe(viewLifecycleOwner) { render(it) }
         viewModel.setDefaultState()
         setSearchFieldListeners()
+
+        binding.recyclerView.layoutManager = LinearLayoutManager(context)
+        binding.recyclerView.adapter = vacancyListAdapter
     }
 
     override fun onDestroyView() {
@@ -163,6 +166,7 @@ class MainFragment : Fragment() {
         binding.progressBarCenter.isVisible = false
         binding.placeholderImage.isVisible = false
         binding.placeholderText.isVisible = false
+        binding.recyclerView.isVisible = true
         vacancyListAdapter.vacancyList.addAll(vacancies.items)
         vacancyListAdapter.notifyDataSetChanged()
     }
