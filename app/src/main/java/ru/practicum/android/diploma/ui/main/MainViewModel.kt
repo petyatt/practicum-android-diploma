@@ -26,7 +26,6 @@ class MainViewModel(
                 _page = _currentPage!! + 1
             }
 
-
             renderState(VacancySearchState.Loading)
             viewModelScope.launch {
                 mainInteractor.searchVacancies(searchText, _page).collect { foundVacancies ->

@@ -159,9 +159,8 @@ class MainFragment : Fragment() {
             }
 
             Placeholder.NOTHING_FOUND -> {
-                //binding.placeholderImage.setImageResource(R.drawable.placeholder_no_vacancies)
-                //binding.placeholderText.text = getText(R.string.no_vacancies)
-                Toast.makeText(context,"try again",Toast.LENGTH_SHORT).show()
+                binding.placeholderImage.setImageResource(R.drawable.placeholder_no_vacancies)
+                binding.placeholderText.text = getText(R.string.no_vacancies)
             }
         }
     }

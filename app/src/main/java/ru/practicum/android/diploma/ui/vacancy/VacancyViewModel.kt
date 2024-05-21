@@ -14,7 +14,8 @@ import ru.practicum.android.diploma.ui.model.ScreenState
 import ru.practicum.android.diploma.util.Resource
 
 class VacancyViewModel(private val vacancyInteractor: VacancyInteractor,
-                        private val externalNavigator: ExternalNavigator) : ViewModel() {
+                       private val externalNavigator: ExternalNavigator
+) : ViewModel() {
     private val _vacancyState = MutableLiveData<ScreenState<VacancyDetail>>()
     val vacancyState: LiveData<ScreenState<VacancyDetail>> = _vacancyState
 
@@ -37,7 +38,7 @@ class VacancyViewModel(private val vacancyInteractor: VacancyInteractor,
         }
     }
 
-    fun shareVacation(url: String){
+    fun shareVacation(url: String) {
         externalNavigator.shareVacation(BASE_URL + url)
     }
 

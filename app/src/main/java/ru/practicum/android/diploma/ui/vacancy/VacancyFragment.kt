@@ -63,7 +63,7 @@ class VacancyFragment : Fragment() {
         val id = requireArguments().getString(ARG_VACANCY_ID, "")
         viewModel.getVacancyState(id)
 
-        binding.buttShare.setOnClickListener{
+        binding.buttShare.setOnClickListener {
             viewModel.shareVacation(id)
         }
     }
