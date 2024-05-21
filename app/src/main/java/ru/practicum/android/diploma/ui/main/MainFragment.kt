@@ -48,6 +48,11 @@ class MainFragment : Fragment() {
 
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
         binding.recyclerView.adapter = vacancyListAdapter
+
+        binding.iconClear.setOnClickListener {
+            vacancyListAdapter.vacancyList.clear()
+            vacancyListAdapter.notifyDataSetChanged()
+        }
     }
 
     override fun onDestroyView() {
@@ -155,8 +160,9 @@ class MainFragment : Fragment() {
             }
 
             Placeholder.NOTHING_FOUND -> {
-                binding.placeholderImage.setImageResource(R.drawable.placeholder_no_vacancies)
-                binding.placeholderText.text = getText(R.string.no_vacancies)
+                //binding.placeholderImage.setImageResource(R.drawable.placeholder_no_vacancies)
+                //binding.placeholderText.text = getText(R.string.no_vacancies)
+                Toast.makeText(context,"try again",Toast.LENGTH_SHORT).show()
             }
         }
     }

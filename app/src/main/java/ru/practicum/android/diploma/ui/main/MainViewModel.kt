@@ -11,7 +11,10 @@ class MainViewModel(
     private val mainInteractor: MainInteractor,
 ) : ViewModel() {
     private val vacancySearchStateLiveData = MutableLiveData<VacancySearchState>()
-    private var _page: Int = 0
+    private var _currentPage: Int ? = null
+    private var _page = 0
+    private var pages = 0
+
     fun observeState(): LiveData<VacancySearchState> = vacancySearchStateLiveData
     private fun renderState(state: VacancySearchState) {
         this.vacancySearchStateLiveData.postValue(state)
@@ -19,9 +22,11 @@ class MainViewModel(
 
     fun sendRequest(searchText: String) {
         if (searchText.isNotEmpty()) {
-            if (_page != 0) {
-                _page += 1
+            if (_currentPage != null) {
+                _page = _currentPage!! + 1
             }
+
+
             renderState(VacancySearchState.Loading)
             viewModelScope.launch {
                 mainInteractor.searchVacancies(searchText, _page).collect { foundVacancies ->
@@ -34,7 +39,8 @@ class MainViewModel(
                             renderState(VacancySearchState.Error(Placeholder.NOTHING_FOUND))
                         } else {
                             renderState(VacancySearchState.Content(foundVacancies.first!!))
-                            _page = foundVacancies.first!!.page
+                            _currentPage = foundVacancies.first!!.page
+                            pages = foundVacancies.first!!.pages
                         }
                     }
                 }
