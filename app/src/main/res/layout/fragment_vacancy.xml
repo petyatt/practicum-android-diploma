@@ -1,443 +1,474 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/fragment">
+    style="@style/fragment"
+    tools:context=".ui.vacancy.VacancyFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        style="@style/fragment"
-        tools:context=".ui.vacancy.VacancyFragment">
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/border_start"
-            style="@style/constraint_auxiliary"
-            android:orientation="vertical"
-            app:layout_constraintGuide_begin="@dimen/dimen_16" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/border_end"
-            style="@style/constraint_auxiliary"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.96107054" />
+    <Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dimen_16">
 
         <ImageButton
             android:id="@+id/butt_nav"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="?attr/colorSecondary"
-            android:src="@drawable/arrow_back"
-            app:layout_constraintBottom_toTopOf="@id/tool_bar_bott"
-            app:layout_constraintEnd_toStartOf="@id/text_top_bar"
-            app:layout_constraintStart_toStartOf="@id/border_start"
-            app:layout_constraintTag="butt_nav"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:src="@drawable/arrow_back" />
 
         <TextView
             android:id="@+id/text_top_bar"
             style="@style/text_top_bar"
-            android:layout_width="0dp"
-            android:text="@string/vacancy"
-            app:layout_constraintBottom_toTopOf="@id/tool_bar_bott"
-            app:layout_constraintStart_toEndOf="@id/butt_nav"
-            app:layout_constraintTag="text_top_bar"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageButton
-            android:id="@+id/butt_share"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="?attr/colorSecondary"
-            android:src="@drawable/share"
-            app:layout_constraintBottom_toBottomOf="@id/tool_bar_bott"
-            app:layout_constraintEnd_toStartOf="@id/butt_fav"
-            app:layout_constraintTag="butt_share"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:text="@string/vacancy" />
 
         <ImageButton
             android:id="@+id/butt_fav"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="end"
             android:backgroundTint="?attr/colorSecondary"
-            android:src="@drawable/favorites_off"
-            app:layout_constraintBottom_toBottomOf="@id/tool_bar_bott"
-            app:layout_constraintEnd_toEndOf="@id/border_end"
-            app:layout_constraintTag="butt_fav"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:src="@drawable/favorites_off" />
 
-        <androidx.constraintlayout.widget.Barrier
-            android:id="@+id/tool_bar_bott"
-            style="@style/constraint_auxiliary"
-            app:barrierDirection="bottom"
-            app:constraint_referenced_tags="butt_nav, text_top_bar, butt_share, butt_fav" />
-
-        <TextView
-            android:id="@+id/name"
-            style="@style/text_bold_32"
-            android:layout_width="0dp"
+        <ImageButton
+            android:id="@+id/butt_share"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dimen_16"
-            android:paddingBottom="@dimen/dimen_4"
-            app:layout_constraintTag="vacancy_name"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@id/border_start"
-            app:layout_constraintTop_toBottomOf="@id/tool_bar_bott"
-            tools:text="Android-разработчик" />
+            android:layout_gravity="end"
+            android:backgroundTint="?attr/colorSecondary"
+            android:src="@drawable/share" />
+    </Toolbar>
 
-        <TextView
-            android:id="@+id/no_salary"
-            style="@style/text_medium_22"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/no_salary"
-            app:constraint_referenced_tags="no_salary"
-            app:layout_constraintStart_toStartOf="@id/border_start"
-            app:layout_constraintTag="no_salary"
-            app:layout_constraintTop_toBottomOf="@id/name"
-            tools:visibility="invisible" />
+    <ScrollView
+        android:id="@+id/data"
+        style="@style/fragment"
+        android:visibility="gone">
 
-        <androidx.constraintlayout.widget.Group
-            android:id="@+id/salary"
-            style="@style/constraint_auxiliary"
-            app:constraint_referenced_tags="salary_min, salary_max, salary_currency" />
+        <androidx.constraintlayout.widget.ConstraintLayout
 
-        <androidx.constraintlayout.widget.Group
-            android:id="@+id/salary_min"
-            style="@style/constraint_auxiliary"
-            app:constraint_referenced_tags="salary_min_capt, salary_min_val"
-            app:layout_constraintTag="salary_min" />
+            style="@style/fragment">
 
-        <TextView
-            android:id="@+id/salary_min_capt"
-            style="@style/text_medium_22"
-            android:layout_width="0px"
-            android:layout_height="wrap_content"
-            android:text="@string/salary_from"
-            app:layout_constraintStart_toStartOf="@id/border_start"
-            app:layout_constraintTag="salary_min_capt"
-            app:layout_constraintTop_toBottomOf="@id/name" />
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/border_start"
+                style="@style/constraint_auxiliary"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="@dimen/dimen_16" />
 
-        <TextView
-            android:id="@+id/salary_min_val"
-            style="@style/text_medium_22"
-            android:layout_width="0px"
-            android:layout_height="wrap_content"
-            android:paddingHorizontal="@dimen/dimen_4"
-            app:layout_constraintStart_toEndOf="@id/salary_min_capt"
-            app:layout_constraintTag="salary_min_val"
-            app:layout_constraintTop_toBottomOf="@id/name"
-            tools:text="100 000" />
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/border_end"
+                style="@style/constraint_auxiliary"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="@dimen/dimen_16" />
 
-        <androidx.constraintlayout.widget.Group
-            android:id="@+id/salary_max"
-            style="@style/constraint_auxiliary"
-            app:constraint_referenced_tags="salary_max_capt, salary_max_val"
-            app:layout_constraintTag="salary_max"
-            tools:visibility="gone" />
+            <TextView
+                android:id="@+id/name"
+                style="@style/text_bold_32"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_16"
+                android:paddingBottom="@dimen/dimen_4"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/border_start"
+                app:layout_constraintTag="vacancy_name"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Android-разработчик" />
 
-        <TextView
-            android:id="@+id/salary_max_capt"
-            style="@style/text_medium_22"
-            android:layout_width="0px"
-            android:layout_height="wrap_content"
-            android:text="@string/salary_to"
-            app:layout_constraintStart_toEndOf="@id/salary_min_val"
-            app:layout_constraintTag="salary_max_capt"
-            app:layout_constraintTop_toBottomOf="@id/name" />
+            <TextView
+                android:id="@+id/no_salary"
+                style="@style/text_medium_22"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/no_salary"
+                app:constraint_referenced_tags="no_salary"
+                app:layout_constraintStart_toStartOf="@id/border_start"
+                app:layout_constraintTag="no_salary"
+                app:layout_constraintTop_toBottomOf="@id/name"
+                tools:visibility="invisible" />
 
-        <TextView
-            android:id="@+id/salary_max_val"
-            style="@style/text_medium_22"
-            android:layout_width="0px"
-            android:layout_height="wrap_content"
-            android:paddingHorizontal="@dimen/dimen_4"
-            app:layout_constraintStart_toEndOf="@id/salary_max_capt"
-            app:layout_constraintTag="salary_max_val"
-            app:layout_constraintTop_toBottomOf="@id/name"
-            tools:text="500 000" />
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/salary"
+                style="@style/constraint_auxiliary"
+                app:constraint_referenced_tags="salary_min, salary_max, salary_currency"
+                app:layout_constraintTag="salary" />
 
-        <TextView
-            android:id="@+id/salary_currency"
-            style="@style/text_medium_22"
-            android:layout_width="0px"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toEndOf="@id/salary_max_val"
-            app:layout_constraintTag="salary_currency"
-            app:layout_constraintTop_toBottomOf="@id/name"
-            tools:text="₽" />
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/salary_min"
+                style="@style/constraint_auxiliary"
+                app:constraint_referenced_tags="salary_min_capt, salary_min_val"
+                app:layout_constraintTag="salary_min" />
 
-        <androidx.constraintlayout.widget.Barrier
-            android:id="@+id/salary_bott"
-            style="@style/constraint_auxiliary"
-            app:barrierDirection="bottom"
-            app:constraint_referenced_tags="no_salary, salary_min_capt, salary_min_val, salary_max_capt, salary_max_val, salary_currency" />
+            <TextView
+                android:id="@+id/salary_min_capt"
+                style="@style/text_medium_22"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:text="@string/salary_from"
+                app:layout_constraintStart_toStartOf="@id/border_start"
+                app:layout_constraintTag="salary_min_capt"
+                app:layout_constraintTop_toBottomOf="@id/name" />
 
-        <View
-            android:id="@+id/company_view"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/dimen_80"
-            android:layout_marginTop="@dimen/dimen_24"
-            android:background="@drawable/vacancy_company_background"
-            app:layout_constraintEnd_toEndOf="@id/border_end"
-            app:layout_constraintStart_toStartOf="@id/border_start"
-            app:layout_constraintTop_toBottomOf="@+id/salary_bott" />
+            <TextView
+                android:id="@+id/salary_min_val"
+                style="@style/text_medium_22"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="@dimen/dimen_4"
+                app:layout_constraintStart_toEndOf="@id/salary_min_capt"
+                app:layout_constraintTag="salary_min_val"
+                app:layout_constraintTop_toBottomOf="@id/name"
+                tools:text="100 000" />
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/company_logo"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginVertical="@dimen/dimen_16"
-            android:layout_marginStart="@dimen/dimen_16"
-            android:background="@color/White"
-            android:src="@drawable/placeholder"
-            app:layout_constraintBottom_toBottomOf="@id/company_view"
-            app:layout_constraintStart_toStartOf="@+id/company_view"
-            app:layout_constraintTop_toTopOf="@id/company_view"
-            app:shapeAppearance="@style/cornered" />
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/salary_max"
+                style="@style/constraint_auxiliary"
+                app:constraint_referenced_tags="salary_max_capt, salary_max_val"
+                app:layout_constraintTag="salary_max"
+                tools:visibility="gone" />
 
-        <TextView
-            android:id="@+id/company_name"
-            style="@style/text_medium_22"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dimen_8"
-            android:layout_marginEnd="@dimen/dimen_16"
-            android:ellipsize="end"
-            android:maxLines="1"
-            app:layout_constraintBottom_toTopOf="@+id/company_address"
-            app:layout_constraintEnd_toEndOf="@id/company_view"
-            app:layout_constraintStart_toEndOf="@id/company_logo"
-            app:layout_constraintTop_toTopOf="@id/company_view"
-            app:layout_constraintVertical_chainStyle="packed"
-            tools:text="Еда" />
+            <TextView
+                android:id="@+id/salary_max_capt"
+                style="@style/text_medium_22"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:text="@string/salary_to"
+                app:layout_constraintStart_toEndOf="@id/salary_min_val"
+                app:layout_constraintTag="salary_max_capt"
+                app:layout_constraintTop_toBottomOf="@id/name" />
 
-        <TextView
-            android:id="@+id/company_address"
-            style="@style/text_regular_16"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dimen_8"
-            android:layout_marginEnd="@dimen/dimen_16"
-            android:ellipsize="end"
-            android:maxLines="1"
-            app:layout_constraintBottom_toBottomOf="@id/company_view"
-            app:layout_constraintEnd_toEndOf="@id/company_view"
-            app:layout_constraintStart_toEndOf="@id/company_logo"
-            app:layout_constraintTop_toBottomOf="@id/company_name"
-            tools:text="Москва" />
+            <TextView
+                android:id="@+id/salary_max_val"
+                style="@style/text_medium_22"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="@dimen/dimen_4"
+                app:layout_constraintStart_toEndOf="@id/salary_max_capt"
+                app:layout_constraintTag="salary_max_val"
+                app:layout_constraintTop_toBottomOf="@id/name"
+                tools:text="500 000" />
 
-        <TextView
-            android:id="@+id/experience_capt"
-            style="@style/text_medium_16"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dimen_24"
-            android:text="@string/experience"
-            app:layout_constraintEnd_toEndOf="@id/border_end"
-            app:layout_constraintStart_toStartOf="@id/border_start"
-            app:layout_constraintTop_toBottomOf="@id/company_view" />
+            <TextView
+                android:id="@+id/salary_currency"
+                style="@style/text_medium_22"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toEndOf="@id/salary_max_val"
+                app:layout_constraintTag="salary_currency"
+                app:layout_constraintTop_toBottomOf="@id/name"
+                tools:text="₽" />
 
-        <TextView
-            android:id="@+id/experience"
-            style="@style/text_regular_16"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="@id/border_end"
-            app:layout_constraintStart_toStartOf="@id/border_start"
-            app:layout_constraintTop_toBottomOf="@id/experience_capt"
-            tools:text="От 1 года до 3 лет" />
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/salary_bott"
+                style="@style/constraint_auxiliary"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_tags="no_salary, salary_min_capt, salary_min_val, salary_max_capt, salary_max_val, salary_currency" />
 
-        <TextView
-            android:id="@+id/employment"
-            style="@style/text_regular_16"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dimen_8"
-            app:layout_constraintEnd_toEndOf="@id/border_end"
-            app:layout_constraintStart_toStartOf="@id/border_start"
-            app:layout_constraintTop_toBottomOf="@id/experience"
-            tools:text="Полная занятость, Удаленная работа" />
+            <androidx.constraintlayout.widget.Group
+                style="@style/constraint_auxiliary"
+                app:constraint_referenced_tags="company_view, company_logo, company_name, company_address"
+                app:layout_constraintTag="company" />
 
-        <TextView
-            android:id="@+id/description_capt"
-            style="@style/text_medium_22"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dimen_32"
-            android:text="@string/vacancy_description"
-            app:layout_constraintEnd_toEndOf="@id/border_end"
-            app:layout_constraintStart_toStartOf="@id/border_start"
-            app:layout_constraintTop_toBottomOf="@id/employment" />
+            <View
+                android:id="@+id/company_view"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dimen_80"
+                android:layout_marginTop="@dimen/dimen_24"
+                android:background="@drawable/vacancy_company_background"
+                app:layout_constraintEnd_toEndOf="@id/border_end"
+                app:layout_constraintStart_toStartOf="@id/border_start"
+                app:layout_constraintTag="company_view"
+                app:layout_constraintTop_toBottomOf="@+id/salary_bott" />
 
-        <TextView
-            android:id="@+id/description"
-            style="@style/text_regular_16"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dimen_16"
-            app:layout_constraintEnd_toEndOf="@id/border_end"
-            app:layout_constraintStart_toStartOf="@id/border_start"
-            app:layout_constraintTop_toBottomOf="@id/description_capt"
-            tools:text="@string/tools_vacancy_description" />
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/company_logo"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginVertical="@dimen/dimen_16"
+                android:layout_marginStart="@dimen/dimen_16"
+                android:background="@color/White"
+                android:scaleType="fitCenter"
+                android:src="@drawable/placeholder"
+                app:layout_constraintBottom_toBottomOf="@id/company_view"
+                app:layout_constraintStart_toStartOf="@+id/company_view"
+                app:layout_constraintTag="company_logo"
+                app:layout_constraintTop_toTopOf="@id/company_view"
+                app:shapeAppearance="@style/cornered" />
 
-        <androidx.constraintlayout.widget.Group
-            android:id="@+id/skills"
-            style="@style/constraint_auxiliary"
-            app:constraint_referenced_tags="skills_capt, skills_list" />
+            <TextView
+                android:id="@+id/company_name"
+                style="@style/text_medium_22"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen_8"
+                android:layout_marginEnd="@dimen/dimen_16"
+                android:ellipsize="end"
+                android:maxLines="1"
+                app:layout_constraintBottom_toTopOf="@+id/company_address"
+                app:layout_constraintEnd_toEndOf="@id/company_view"
+                app:layout_constraintStart_toEndOf="@id/company_logo"
+                app:layout_constraintTag="company_name"
+                app:layout_constraintTop_toTopOf="@id/company_view"
+                app:layout_constraintVertical_chainStyle="packed"
+                tools:text="Еда" />
 
-        <TextView
-            android:id="@+id/skills_capt"
-            style="@style/text_medium_22"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dimen_24"
-            android:text="@string/skills"
-            app:layout_constraintEnd_toEndOf="@id/border_end"
-            app:layout_constraintStart_toStartOf="@id/border_start"
-            app:layout_constraintTag="skills_capt"
-            app:layout_constraintTop_toBottomOf="@id/description" />
+            <TextView
+                android:id="@+id/company_address"
+                style="@style/text_regular_16"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen_8"
+                android:layout_marginEnd="@dimen/dimen_16"
+                android:ellipsize="end"
+                android:maxLines="1"
+                app:layout_constraintBottom_toBottomOf="@id/company_view"
+                app:layout_constraintEnd_toEndOf="@id/company_view"
+                app:layout_constraintStart_toEndOf="@id/company_logo"
+                app:layout_constraintTag="company_address"
+                app:layout_constraintTop_toBottomOf="@id/company_name"
+                tools:text="Москва" />
 
-        <TextView
-            android:id="@+id/skills_list"
-            style="@style/text_regular_16"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dimen_16"
-            app:layout_constraintEnd_toEndOf="@id/border_end"
-            app:layout_constraintStart_toStartOf="@id/border_start"
-            app:layout_constraintTag="skills_list"
-            app:layout_constraintTop_toBottomOf="@id/skills_capt"
-            tools:text="@string/tools_skills" />
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/experience"
+                style="@style/constraint_auxiliary"
+                app:constraint_referenced_tags="experience_capt, experience_val"
+                app:layout_constraintTag="experience" />
 
-        <androidx.constraintlayout.widget.Group
-            android:id="@+id/contacts"
-            style="@style/constraint_auxiliary"
-            app:constraint_referenced_tags="contacts_name, contacts_phone, contacts_email, contacts_comment" />
+            <TextView
+                android:id="@+id/experience_capt"
+                style="@style/text_medium_16"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_24"
+                android:text="@string/experience"
+                app:layout_constraintEnd_toEndOf="@id/border_end"
+                app:layout_constraintStart_toStartOf="@id/border_start"
+                app:layout_constraintTag="experience_capt"
+                app:layout_constraintTop_toBottomOf="@id/company_view" />
 
-        <TextView
-            android:id="@+id/contacts_capt"
-            style="@style/text_medium_22"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dimen_24"
-            android:text="@string/contacts"
-            app:layout_constraintEnd_toEndOf="@id/border_end"
-            app:layout_constraintStart_toStartOf="@id/border_start"
-            app:layout_constraintTag="contacts_capt"
-            app:layout_constraintTop_toBottomOf="@id/skills_list" />
+            <TextView
+                android:id="@+id/experience_val"
+                style="@style/text_regular_16"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@id/border_end"
+                app:layout_constraintStart_toStartOf="@id/border_start"
+                app:layout_constraintTag="experience_val"
+                app:layout_constraintTop_toBottomOf="@id/experience_capt"
+                tools:text="От 1 года до 3 лет" />
 
-        <androidx.constraintlayout.widget.Group
-            android:id="@+id/contacts_name"
-            style="@style/constraint_auxiliary"
-            app:constraint_referenced_tags="contacts_name_capt, contacts_name_val" />
+            <TextView
+                android:id="@+id/employment"
+                style="@style/text_regular_16"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_8"
+                app:layout_constraintEnd_toEndOf="@id/border_end"
+                app:layout_constraintStart_toStartOf="@id/border_start"
+                app:layout_constraintTag="employment"
+                app:layout_constraintTop_toBottomOf="@id/experience_val"
+                tools:text="Полная занятость, Удаленная работа" />
 
-        <TextView
-            android:id="@+id/contacts_name_capt"
-            style="@style/text_medium_16"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dimen_16"
-            android:text="@string/contacts_name"
-            app:layout_constraintEnd_toEndOf="@id/border_end"
-            app:layout_constraintStart_toStartOf="@id/border_start"
-            app:layout_constraintTag="contacts_name_capt"
-            app:layout_constraintTop_toBottomOf="@id/contacts_capt" />
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/description"
+                style="@style/constraint_auxiliary"
+                app:constraint_referenced_tags="description_capt, description_val"
+                app:layout_constraintTag="description" />
 
-        <TextView
-            android:id="@+id/contacts_name_val"
-            style="@style/text_regular_16"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="@id/border_end"
-            app:layout_constraintStart_toStartOf="@id/border_start"
-            app:layout_constraintTag="contacts_name_val"
-            app:layout_constraintTop_toBottomOf="@id/contacts_name_capt"
-            tools:text="Ирина" />
+            <TextView
+                android:id="@+id/description_capt"
+                style="@style/text_medium_22"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_32"
+                android:text="@string/vacancy_description"
+                app:layout_constraintEnd_toEndOf="@id/border_end"
+                app:layout_constraintStart_toStartOf="@id/border_start"
+                app:layout_constraintTag="description_capt"
+                app:layout_constraintTop_toBottomOf="@id/employment" />
 
-        <androidx.constraintlayout.widget.Group
-            android:id="@+id/contacts_email"
-            style="@style/constraint_auxiliary"
-            app:constraint_referenced_tags="contacts_email_capt, contacts_email_val" />
+            <TextView
+                android:id="@+id/description_val"
+                style="@style/text_regular_16"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_16"
+                app:layout_constraintEnd_toEndOf="@id/border_end"
+                app:layout_constraintStart_toStartOf="@id/border_start"
+                app:layout_constraintTag="description_val"
+                app:layout_constraintTop_toBottomOf="@id/description_capt"
+                tools:text="@string/tools_vacancy_description" />
 
-        <TextView
-            android:id="@+id/contacts_email_capt"
-            style="@style/text_medium_16"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dimen_16"
-            android:text="@string/contacts_email"
-            app:layout_constraintEnd_toEndOf="@id/border_end"
-            app:layout_constraintStart_toStartOf="@id/border_start"
-            app:layout_constraintTag="contacts_email_capt"
-            app:layout_constraintTop_toBottomOf="@id/contacts_name_val" />
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/skills"
+                style="@style/constraint_auxiliary"
+                app:constraint_referenced_tags="skills_capt, skills_val"
+                app:layout_constraintTag="skills" />
 
-        <TextView
-            android:id="@+id/contacts_email_val"
-            style="@style/link"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:autoLink="email"
-            app:layout_constraintEnd_toEndOf="@id/border_end"
-            app:layout_constraintStart_toStartOf="@id/border_start"
-            app:layout_constraintTag="contacts_email_val"
-            app:layout_constraintTop_toBottomOf="@id/contacts_email_capt"
-            tools:text="i.lozgkina@yandex.ru" />
+            <TextView
+                android:id="@+id/skills_capt"
+                style="@style/text_medium_22"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_24"
+                android:text="@string/skills"
+                app:layout_constraintEnd_toEndOf="@id/border_end"
+                app:layout_constraintStart_toStartOf="@id/border_start"
+                app:layout_constraintTag="skills_capt"
+                app:layout_constraintTop_toBottomOf="@id/description_val" />
 
-        <androidx.constraintlayout.widget.Group
-            android:id="@+id/contacts_phone"
-            style="@style/constraint_auxiliary"
-            app:constraint_referenced_tags="contacts_phone_capt, contacts_phone_val" />
+            <TextView
+                android:id="@+id/skills_val"
+                style="@style/text_regular_16"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_16"
+                app:layout_constraintEnd_toEndOf="@id/border_end"
+                app:layout_constraintStart_toStartOf="@id/border_start"
+                app:layout_constraintTag="skills_val"
+                app:layout_constraintTop_toBottomOf="@id/skills_capt"
+                tools:text="@string/tools_skills" />
 
-        <TextView
-            android:id="@+id/contacts_phone_capt"
-            style="@style/text_medium_16"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dimen_16"
-            android:text="@string/contacts_phone"
-            app:layout_constraintEnd_toEndOf="@id/border_end"
-            app:layout_constraintStart_toStartOf="@id/border_start"
-            app:layout_constraintTag="contacts_phone_capt"
-            app:layout_constraintTop_toBottomOf="@id/contacts_email_val" />
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/contacts"
+                style="@style/constraint_auxiliary"
+                app:constraint_referenced_tags="contacts_name, contacts_phone, contacts_email, contacts_comment"
+                app:layout_constraintTag="contacts" />
 
-        <TextView
-            android:id="@+id/contacts_phone_val"
-            style="@style/link"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:autoLink="phone"
-            app:layout_constraintEnd_toEndOf="@id/border_end"
-            app:layout_constraintStart_toStartOf="@id/border_start"
-            app:layout_constraintTag="contacts_phone_val"
-            app:layout_constraintTop_toBottomOf="@id/contacts_phone_capt"
-            tools:text="+7 (904) 329-27-71" />
+            <TextView
+                android:id="@+id/contacts_capt"
+                style="@style/text_medium_22"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_24"
+                android:text="@string/contacts"
+                app:layout_constraintEnd_toEndOf="@id/border_end"
+                app:layout_constraintStart_toStartOf="@id/border_start"
+                app:layout_constraintTag="contacts_capt"
+                app:layout_constraintTop_toBottomOf="@id/skills_val" />
 
-        <androidx.constraintlayout.widget.Group
-            android:id="@+id/contacts_comment"
-            style="@style/constraint_auxiliary"
-            app:constraint_referenced_tags="contacts_comment_capt, contacts_comment_val" />
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/contacts_name"
+                style="@style/constraint_auxiliary"
+                app:constraint_referenced_tags="contacts_name_capt, contacts_name_val" />
 
-        <TextView
-            android:id="@+id/contacts_comment_capt"
-            style="@style/text_medium_16"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dimen_16"
-            android:text="@string/contacts_comment"
-            app:layout_constraintEnd_toEndOf="@id/border_end"
-            app:layout_constraintStart_toStartOf="@id/border_start"
-            app:layout_constraintTag="contacts_comment_capt"
-            app:layout_constraintTop_toBottomOf="@id/contacts_phone_val" />
+            <TextView
+                android:id="@+id/contacts_name_capt"
+                style="@style/text_medium_16"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_16"
+                android:text="@string/contacts_name"
+                app:layout_constraintEnd_toEndOf="@id/border_end"
+                app:layout_constraintStart_toStartOf="@id/border_start"
+                app:layout_constraintTag="contacts_name_capt"
+                app:layout_constraintTop_toBottomOf="@id/contacts_capt" />
 
-        <TextView
-            android:id="@+id/contacts_comment_val"
-            style="@style/text_regular_16"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="@id/border_end"
-            app:layout_constraintStart_toStartOf="@id/border_start"
-            app:layout_constraintTag="contacts_comment_val"
-            app:layout_constraintTop_toBottomOf="@id/contacts_comment_capt"
-            tools:text="Заполнить анкету по форме можно на нашем сайте" />
+            <TextView
+                android:id="@+id/contacts_name_val"
+                style="@style/text_regular_16"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@id/border_end"
+                app:layout_constraintStart_toStartOf="@id/border_start"
+                app:layout_constraintTag="contacts_name_val"
+                app:layout_constraintTop_toBottomOf="@id/contacts_name_capt"
+                tools:text="Ирина" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/contacts_email"
+                style="@style/constraint_auxiliary"
+                app:constraint_referenced_tags="contacts_email_capt, contacts_email_val" />
+
+            <TextView
+                android:id="@+id/contacts_email_capt"
+                style="@style/text_medium_16"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_16"
+                android:text="@string/contacts_email"
+                app:layout_constraintEnd_toEndOf="@id/border_end"
+                app:layout_constraintStart_toStartOf="@id/border_start"
+                app:layout_constraintTag="contacts_email_capt"
+                app:layout_constraintTop_toBottomOf="@id/contacts_name_val" />
+
+            <TextView
+                android:id="@+id/contacts_email_val"
+                style="@style/link"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:autoLink="email"
+                app:layout_constraintEnd_toEndOf="@id/border_end"
+                app:layout_constraintStart_toStartOf="@id/border_start"
+                app:layout_constraintTag="contacts_email_val"
+                app:layout_constraintTop_toBottomOf="@id/contacts_email_capt"
+                tools:text="i.lozgkina@yandex.ru" />
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/contacts_phone"
+                style="@style/constraint_auxiliary"
+                app:constraint_referenced_tags="contacts_phone_capt, contacts_phone_val" />
+
+            <TextView
+                android:id="@+id/contacts_phone_capt"
+                style="@style/text_medium_16"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_16"
+                android:text="@string/contacts_phone"
+                app:layout_constraintEnd_toEndOf="@id/border_end"
+                app:layout_constraintStart_toStartOf="@id/border_start"
+                app:layout_constraintTag="contacts_phone_capt"
+                app:layout_constraintTop_toBottomOf="@id/contacts_email_val" />
+
+            <TextView
+                android:id="@+id/contacts_phone_val"
+                style="@style/link"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:autoLink="phone"
+                app:layout_constraintEnd_toEndOf="@id/border_end"
+                app:layout_constraintStart_toStartOf="@id/border_start"
+                app:layout_constraintTag="contacts_phone_val"
+                app:layout_constraintTop_toBottomOf="@id/contacts_phone_capt"
+                tools:text="+7 (904) 329-27-71" />
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/contacts_comment"
+                style="@style/constraint_auxiliary"
+                app:constraint_referenced_tags="contacts_comment_capt, contacts_comment_val" />
+
+            <TextView
+                android:id="@+id/contacts_comment_capt"
+                style="@style/text_medium_16"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_16"
+                android:text="@string/contacts_comment"
+                app:layout_constraintEnd_toEndOf="@id/border_end"
+                app:layout_constraintStart_toStartOf="@id/border_start"
+                app:layout_constraintTag="contacts_comment_capt"
+                app:layout_constraintTop_toBottomOf="@id/contacts_phone_val" />
+
+            <TextView
+                android:id="@+id/contacts_comment_val"
+                style="@style/text_regular_16"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@id/border_end"
+                app:layout_constraintStart_toStartOf="@id/border_start"
+                app:layout_constraintTag="contacts_comment_val"
+                app:layout_constraintTop_toBottomOf="@id/contacts_comment_capt"
+                tools:text="Заполнить анкету по форме можно на нашем сайте" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <FrameLayout
+        android:id="@+id/loading"
+        style="@style/fragment" >
+
+        <ProgressBar
+            style="@style/progress_bar"
+            android:layout_gravity="center" />
+    </FrameLayout>
+</LinearLayout>
