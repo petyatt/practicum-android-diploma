@@ -90,7 +90,7 @@ class MainFragment : Fragment() {
                     val pos = (binding.recyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
                     val itemsCount = vacancyListAdapter.itemCount
                     if (pos >= itemsCount - 1) {
-                        onSearchDebounce(binding.search.toString())
+                        onSearchDebounce(binding.search.text.toString())
                     }
                 }
             }
@@ -98,7 +98,6 @@ class MainFragment : Fragment() {
     }
 
     private fun search(text: String) {
-        if (lastSearchText == text) return
         lastSearchText = text
         viewModel.sendRequest(text)
     }
