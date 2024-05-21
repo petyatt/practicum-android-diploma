@@ -18,7 +18,7 @@ class MainViewModel(
     private val _state = MutableLiveData<ScreenState<Vacancies>>()
     val state: LiveData<ScreenState<Vacancies>> = _state
 
-    private var _currentPage: Int ? = null
+    private var _currentPage: Int? = null
     private var _page = 0
     private var pages = 0
 
@@ -30,15 +30,13 @@ class MainViewModel(
             }
             _state.postValue(ScreenState.Loading())
             viewModelScope.launch {
-                val result = mainInteractor.searchVacancies(searchText, _page).single()
-                when (result) {
+                when (val result = mainInteractor.searchVacancies(searchText, _page).single()) {
                     is Resource.NotConnection -> _state.postValue(ScreenState.NotConnection())
                     is Resource.ServerError -> _state.postValue(ScreenState.ServerError())
                     is Resource.Success -> {
                         _state.postValue(ScreenState.Loaded(result.data))
                         _currentPage = result.data.page
                         pages = result.data.pages
-
                     }
                 }
             }
