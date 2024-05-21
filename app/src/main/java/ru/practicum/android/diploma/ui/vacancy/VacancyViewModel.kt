@@ -24,13 +24,10 @@ class VacancyViewModel(private val vacancyInteractor: VacancyInteractor) : ViewM
 
     fun getVacancyState(id: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            val result = vacancyInteractor.getVacancy(id).single()
-            when (result) {
-                is Resource.Success -> _vacancyState.postValue(ScreenState.Loaded(result.data!!))
-                is Resource.Error -> {
-                    // todo - здесь будет, в зависимости от типа ошибки, передача соответствующего ScreenState
-                    _vacancyState.postValue(ScreenState.ServerError())
-                }
+            when (val result = vacancyInteractor.getVacancy(id).single()) {
+                is Resource.Success -> _vacancyState.postValue(ScreenState.Loaded(result.data))
+                is Resource.ServerError -> _vacancyState.postValue(ScreenState.ServerError())
+                is Resource.NotConnection -> _vacancyState.postValue(ScreenState.NotConnection())
             }
         }
     }
