@@ -8,7 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
@@ -20,6 +21,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentMainBinding
 import ru.practicum.android.diploma.domain.models.Vacancies
+import ru.practicum.android.diploma.ui.model.ScreenState
 import ru.practicum.android.diploma.util.debounce
 
 class MainFragment : Fragment() {
@@ -42,14 +44,13 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.observeState().observe(viewLifecycleOwner) { render(it) }
-        viewModel.setDefaultState()
+        viewModel.state.observe(viewLifecycleOwner) { render(it) }
+        showDefaultState()
         setSearchFieldListeners()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        viewModel.setDefaultState()
         _binding = null
     }
 
@@ -67,7 +68,7 @@ class MainFragment : Fragment() {
             }
             doOnTextChanged { text, _, _, _ ->
                 if (text.isNullOrBlank()) {
-                    viewModel.setDefaultState()
+                    showDefaultState()
                 } else {
                     binding.iconSearch.isVisible = false
                     binding.iconClear.isVisible = true
@@ -95,23 +96,12 @@ class MainFragment : Fragment() {
         viewModel.sendRequest(text)
     }
 
-    private fun render(state: VacancySearchState) {
+    private fun render(state: ScreenState<Vacancies>) {
         when (state) {
-            is VacancySearchState.Default -> {
-                showDefaultState()
-            }
-
-            is VacancySearchState.Loading -> {
-                showProgressBar()
-            }
-
-            is VacancySearchState.Content -> {
-                showContent(state.vacancies)
-            }
-
-            is VacancySearchState.Error -> {
-                showPlaceholder(state.placeholder, state.errorMessage)
-            }
+            is ScreenState.Loading -> showProgressBar()
+            is ScreenState.Loaded -> showContent(state.t)
+            is ScreenState.NotConnection -> showError(R.drawable.placeholder_no_internet, R.string.bad_connection)
+            is ScreenState.ServerError -> showError(R.drawable.placeholder_no_vacancies, R.string.no_vacancies)
         }
     }
 
@@ -131,30 +121,14 @@ class MainFragment : Fragment() {
         binding.placeholderText.isVisible = false
     }
 
-    private fun showPlaceholder(placeholder: Placeholder, errorMessage: String) {
-        binding.progressBarCenter.isVisible = false
-        binding.placeholderImage.isVisible = true
-        binding.placeholderText.isVisible = true
+    private fun showError(@DrawableRes image: Int, @StringRes text: Int) {
+        with(binding) {
+            progressBarCenter.isVisible = false
+            placeholderImage.isVisible = true
+            placeholderText.isVisible = true
 
-        when (placeholder) {
-            Placeholder.BAD_CONNECTION -> {
-                binding.placeholderImage.setImageResource(R.drawable.placeholder_no_internet)
-                binding.placeholderText.text = getText(R.string.bad_connection)
-                if (errorMessage != "") {
-                    Toast
-                        .makeText(
-                            requireContext(),
-                            getString(R.string.error_message, errorMessage),
-                            Toast.LENGTH_SHORT
-                        )
-                        .show()
-                }
-            }
-
-            Placeholder.NOTHING_FOUND -> {
-                binding.placeholderImage.setImageResource(R.drawable.placeholder_no_vacancies)
-                binding.placeholderText.text = getText(R.string.no_vacancies)
-            }
+            placeholderImage.setImageResource(image)
+            placeholderText.text = getText(text)
         }
     }
 
