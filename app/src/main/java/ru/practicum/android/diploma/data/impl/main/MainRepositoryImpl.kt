@@ -15,7 +15,7 @@ class MainRepositoryImpl(private val networkClient: NetworkClient, private val v
     MainRepository {
 
     override fun searchVacancies(vacancy: String, page: Int): Flow<Resource<Vacancies>> = flow {
-        val response = networkClient.doRequest(MainRequest(vacancy = vacancy))
+        val response = networkClient.doRequest(MainRequest(vacancy = vacancy, page))
         when (response.resultCode) {
             ResponseCode.NETWORK_FAILED -> {
                 emit(Resource.NotConnection())
