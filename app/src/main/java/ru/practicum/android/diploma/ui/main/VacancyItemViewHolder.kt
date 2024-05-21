@@ -15,7 +15,7 @@ class VacancyItemViewHolder(private val binding: ItemVacancyListBinding) : Recyc
         binding.companyTitle.text = vacancy.employer?.name ?: "Работодатель не указан"
         binding.vacancySalary.text = getSalaryString(vacancy.salary)
         Glide.with(binding.root)
-            .load(vacancy.employer?.logoUrls)
+            .load(vacancy.employer?.logoUrls?.original)
             .placeholder(R.drawable.placeholder)
             .fitCenter()
             .transform(RoundedCorners(itemView.resources.getDimensionPixelSize(R.dimen.corner_radius_small_2)))
