@@ -38,7 +38,9 @@ class MainFragment : Fragment() {
     private val viewModel by viewModel<MainViewModel>()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
         _binding = FragmentMainBinding.inflate(inflater, container, false)
         return binding.root
@@ -155,7 +157,9 @@ class MainFragment : Fragment() {
             return resources.getString(R.string.not_find_vacancies)
         }
         return resources.getQuantityString(
-            R.plurals.founded_vacancies, count, count
+            R.plurals.founded_vacancies,
+            count,
+            count
         )
     }
 
