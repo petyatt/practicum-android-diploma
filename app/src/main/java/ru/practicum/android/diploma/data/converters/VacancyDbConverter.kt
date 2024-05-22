@@ -5,7 +5,7 @@ import ru.practicum.android.diploma.data.db.entity.VacancyEntity
 import ru.practicum.android.diploma.domain.models.VacancyDetail
 
 class VacancyDbConverter {
-    fun convertFromEntity(vacancyEntity: VacancyEntity) = with(vacancyEntity) {
+    fun convert(vacancyEntity: VacancyEntity) = with(vacancyEntity) {
         VacancyDetail(
             id = id,
             name = name,
@@ -48,7 +48,7 @@ class VacancyDbConverter {
     }
 
     fun convert(listVacancyEntity: List<VacancyEntity>) = listVacancyEntity.map { vacancyEntity ->
-        convertFromEntity(vacancyEntity)
+        convert(vacancyEntity)
     }
 
     private fun fromJsonArray(json: JSONArray): List<String> {
