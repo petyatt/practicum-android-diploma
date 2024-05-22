@@ -1,18 +1,30 @@
 package ru.practicum.android.diploma.ui.main
 
-import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import ru.practicum.android.diploma.databinding.ItemVacancyListBinding
 import ru.practicum.android.diploma.domain.models.Vacancy
 
-class VacancyListAdapter(var vacancyList: MutableList<Vacancy>) : RecyclerView.Adapter<VacancyItemViewHolder>() {
+class VacancyListAdapter(
+    private val clickListener: VacancyClickListener
+) : RecyclerView.Adapter<VacancyItemViewHolder>() {
+
+    var vacancyList = ArrayList<Vacancy>()
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VacancyItemViewHolder {
-        val layoutInspector = LayoutInflater.from(parent.context)
-        return VacancyItemViewHolder(ItemVacancyListBinding.inflate(layoutInspector, parent, false))
+        return VacancyItemViewHolder(parent, clickListener)
     }
     override fun getItemCount() = vacancyList.size
     override fun onBindViewHolder(holder: VacancyItemViewHolder, position: Int) {
         holder.bind(vacancyList[position])
+    }
+
+    fun interface VacancyClickListener {
+        fun onClick(vacancy: Vacancy)
+    }
+
+    fun setData(vacancy: List<Vacancy>) {
+        vacancyList.clear()
+        vacancyList.addAll(vacancy)
+        notifyDataSetChanged()
     }
 }

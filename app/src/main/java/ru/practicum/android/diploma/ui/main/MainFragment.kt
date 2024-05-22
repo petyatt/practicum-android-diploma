@@ -14,6 +14,7 @@ import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.OnScrollListener
@@ -26,7 +27,13 @@ import ru.practicum.android.diploma.util.debounce
 
 class MainFragment : Fragment() {
     private var _binding: FragmentMainBinding? = null
-    private var vacancyListAdapter = VacancyListAdapter(ArrayList())
+    private val vacancyListAdapter = VacancyListAdapter { vacancy ->
+        if (viewModel.clickDebounce()) {
+            val args = Bundle()
+            args.putSerializable("vacancy", vacancy)
+            findNavController().navigate(R.id.action_mainFragment_to_vacancyFragment, args)
+        }
+    }
     private val binding get() = _binding!!
     private val onSearchDebounce = debounce<String>(SEARCH_DEBOUNCE_DELAY, lifecycleScope, true) { search(it) }
     private var lastSearchText: String = ""
