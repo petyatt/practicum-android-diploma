@@ -35,30 +35,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/top_bar" />
 
-    <ImageView
-        android:id="@+id/icon_search"
-        style="@style/edit_search"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:src="@drawable/icon_search"
-        app:layout_constraintBottom_toBottomOf="@+id/search"
-        app:layout_constraintEnd_toEndOf="@+id/search"
-        app:layout_constraintTop_toTopOf="@+id/search" />
-
-    <ImageView
-        android:id="@+id/icon_clear"
-        style="@style/edit_search"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:src="@drawable/icon_close"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/search"
-        app:layout_constraintEnd_toEndOf="@+id/search"
-        app:layout_constraintTop_toTopOf="@+id/search"
-        tools:visibility="gone"/>
-
     <TextView
         android:id="@+id/tv_number_vacancies"
         style="@style/text_regular_16"

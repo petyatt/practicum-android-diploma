@@ -10,6 +10,7 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
@@ -23,16 +24,13 @@ import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentMainBinding
 import ru.practicum.android.diploma.domain.models.Vacancies
 import ru.practicum.android.diploma.ui.model.ScreenState
+import ru.practicum.android.diploma.ui.vacancy.VacancyFragment.Companion.ARG_VACANCY_ID
 import ru.practicum.android.diploma.util.debounce
 
 class MainFragment : Fragment() {
     private var _binding: FragmentMainBinding? = null
-    private val vacancyListAdapter = VacancyListAdapter { vacancy ->
-        if (viewModel.clickDebounce()) {
-            val args = Bundle()
-            args.putSerializable("vacancy", vacancy)
-            findNavController().navigate(R.id.action_mainFragment_to_vacancyFragment, args)
-        }
+    private var vacancyListAdapter = VacancyListAdapter(ArrayList()) {
+        findNavController().navigate(R.id.action_mainFragment_to_vacancyFragment, bundleOf(ARG_VACANCY_ID to it))
     }
     private val binding get() = _binding!!
     private val onSearchDebounce = debounce<String>(SEARCH_DEBOUNCE_DELAY, lifecycleScope, true) { search(it) }
@@ -57,11 +55,6 @@ class MainFragment : Fragment() {
 
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
         binding.recyclerView.adapter = vacancyListAdapter
-
-        binding.iconClear.setOnClickListener {
-            vacancyListAdapter.vacancyList.clear()
-            vacancyListAdapter.notifyDataSetChanged()
-        }
     }
 
     override fun onDestroyView() {
@@ -83,10 +76,10 @@ class MainFragment : Fragment() {
             }
             doOnTextChanged { text, _, _, _ ->
                 if (text.isNullOrBlank()) {
+                    vacancyListAdapter.vacancyList.clear()
+                    vacancyListAdapter.notifyDataSetChanged()
                     showDefaultState()
                 } else {
-                    binding.iconSearch.isVisible = false
-                    binding.iconClear.isVisible = true
                     onSearchDebounce(text.toString())
                 }
             }
@@ -125,8 +118,6 @@ class MainFragment : Fragment() {
         binding.placeholderImage.setImageResource(R.drawable.placeholder_search)
         binding.placeholderText.isVisible = false
         binding.search.text?.clear()
-        binding.iconSearch.isVisible = true
-        binding.iconClear.isVisible = false
     }
 
     private fun showProgressBar() {
