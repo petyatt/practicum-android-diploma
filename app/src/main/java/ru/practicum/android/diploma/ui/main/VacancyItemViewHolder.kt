@@ -11,10 +11,8 @@ import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.domain.models.Salary
 import ru.practicum.android.diploma.domain.models.Vacancy
 
-class VacancyItemViewHolder(
-    parent: ViewGroup,
-    private val clickListener: VacancyListAdapter.VacancyClickListener,
-) : RecyclerView.ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_vacancy_list, parent, false)) {
+class VacancyItemViewHolder(parent: ViewGroup) :
+    RecyclerView.ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_vacancy_list, parent, false)) {
 
     private val vacancyTitle = itemView.findViewById<TextView>(R.id.vacancy_title)
     private val companyTitle = itemView.findViewById<TextView>(R.id.company_title)
@@ -31,10 +29,6 @@ class VacancyItemViewHolder(
             .fitCenter()
             .transform(RoundedCorners(itemView.resources.getDimensionPixelSize(R.dimen.corner_radius_small_2)))
             .into(imageCompany)
-
-        itemView.setOnClickListener {
-            clickListener.onClick(vacancy)
-        }
     }
 
     private fun getSalaryString(salary: Salary?): CharSequence {
