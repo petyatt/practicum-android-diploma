@@ -4,7 +4,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ru.practicum.android.diploma.domain.models.Vacancy
 
-class VacancyListAdapter(val vacancyList: MutableList<Vacancy>, val onClick: (String) -> Unit = { _ -> {} }) :
+class VacancyListAdapter(val vacancyList: MutableList<Vacancy>, val onClick: (String) -> Unit = { _ -> run {} }) :
     RecyclerView.Adapter<VacancyItemViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = VacancyItemViewHolder(parent)
 

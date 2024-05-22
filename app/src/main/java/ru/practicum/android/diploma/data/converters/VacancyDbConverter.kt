@@ -1,46 +1,59 @@
 package ru.practicum.android.diploma.data.converters
 
-import androidx.room.TypeConverter
-import ru.practicum.android.diploma.data.converters.AreaDbConverter.fromAreaEntity
-import ru.practicum.android.diploma.data.converters.AreaDbConverter.toAreaEntity
-import ru.practicum.android.diploma.data.converters.EmployerDbConverter.fromEmployerEntity
-import ru.practicum.android.diploma.data.converters.EmployerDbConverter.toEmployerEntity
-import ru.practicum.android.diploma.data.converters.EmploymentDbConverter.fromEmploymentEntity
-import ru.practicum.android.diploma.data.converters.EmploymentDbConverter.toEmploymentEntity
-import ru.practicum.android.diploma.data.converters.SalaryDbConverter.fromSalaryEntity
-import ru.practicum.android.diploma.data.converters.SalaryDbConverter.toSalaryEntity
+import org.json.JSONArray
 import ru.practicum.android.diploma.data.db.entity.VacancyEntity
 import ru.practicum.android.diploma.domain.models.Vacancy
 
 class VacancyDbConverter {
-    @TypeConverter
-    fun convertFromEntity(vacancyEntity: VacancyEntity): Vacancy {
-        return Vacancy(
-            id = vacancyEntity.id,
-            name = vacancyEntity.name,
-            salary = fromSalaryEntity(vacancyEntity.salary),
-            employer = fromEmployerEntity(vacancyEntity.employer),
-            area = fromAreaEntity(vacancyEntity.area),
-            employment = fromEmploymentEntity(vacancyEntity.employment)
+    fun convert(vacancyEntity: VacancyEntity) = with(vacancyEntity) {
+        Vacancy(
+            id = id,
+            name = name,
+            salaryMin = salaryMin,
+            salaryMax = salaryMax,
+            currency = currency,
+            companyName = companyName,
+            companyAddress = companyAddress,
+            companyLogo = companyLogo,
+            experience = experience,
+            description = description,
+            employment = employment,
+            skills = fromJsonArray(JSONArray(skills)),
+            contactName = companyName,
+            contactEmail = contactEmail,
+            contactPhone = contactPhone,
+            contactComment = contactComment
         )
     }
 
-    @TypeConverter
-    fun convertToEntity(vacancy: Vacancy): VacancyEntity {
-        return VacancyEntity(
-            id = vacancy.id,
-            name = vacancy.name,
-            salary = toSalaryEntity(vacancy.salary),
-            employer = toEmployerEntity(vacancy.employer),
-            area = toAreaEntity(vacancy.area),
-            employment = toEmploymentEntity(vacancy.employment)
+    fun convert(vacancy: Vacancy): VacancyEntity = with(vacancy) {
+        VacancyEntity(
+            id = id,
+            name = name,
+            salaryMin = salaryMin,
+            salaryMax = salaryMax,
+            currency = currency,
+            companyName = companyName,
+            companyAddress = companyAddress,
+            companyLogo = companyLogo,
+            experience = experience,
+            description = description,
+            employment = employment,
+            skills = JSONArray(skills).toString(),
+            contactName = companyName,
+            contactEmail = contactEmail,
+            contactPhone = contactPhone,
+            contactComment = contactComment
         )
     }
 
-    @TypeConverter
-    fun convert(listVacancyEntity: List<VacancyEntity>): List<Vacancy> {
-        return listVacancyEntity.map { vacancyEntity ->
-            convertFromEntity(vacancyEntity)
-        }
+    fun convert(listVacancyEntity: List<VacancyEntity>) = listVacancyEntity.map { vacancyEntity ->
+        convert(vacancyEntity)
+    }
+
+    private fun fromJsonArray(json: JSONArray): List<String> {
+        val result = mutableListOf<String>()
+        for (i in 1..<json.length()) result.add(json[i].toString())
+        return result.toList()
     }
 }

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
 import androidx.core.view.isVisible
@@ -14,8 +15,10 @@ import com.bumptech.glide.Glide
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentVacancyBinding
-import ru.practicum.android.diploma.domain.models.VacancyDetail
+import ru.practicum.android.diploma.domain.models.Vacancy
+import ru.practicum.android.diploma.ui.model.CURRENCY_SYMBOLS
 import ru.practicum.android.diploma.ui.model.ScreenState
+import java.util.Locale
 
 class VacancyFragment : Fragment() {
 
@@ -24,7 +27,7 @@ class VacancyFragment : Fragment() {
     private var _binding: FragmentVacancyBinding? = null
     private val binding get() = _binding!!
 
-    private var vacancy: VacancyDetail? = null
+    private var vacancy: Vacancy? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -86,10 +89,10 @@ class VacancyFragment : Fragment() {
         with(vacancy!!) {
             binding.name.text = name
             binding.salaryMin.isVisible = salaryMin != null
-            binding.salaryMinVal.text = salaryMin?.toString()
+            binding.salaryMinVal.text = String.format(Locale.forLanguageTag("ru"), "%,d", salaryMin)
             binding.salaryMax.isVisible = salaryMax != null
-            binding.salaryMaxVal.text = salaryMax?.toString()
-            binding.salaryCurrency.text = currency
+            binding.salaryMaxVal.text = String.format(Locale.forLanguageTag("ru"), "%,d", salaryMax)
+            binding.salaryCurrency.text = CURRENCY_SYMBOLS[currency] ?: ""
             binding.salaryCurrency.isVisible = salaryMin != null || salaryMax != null
             binding.noSalary.isVisible = salaryMin == null && salaryMax == null
 
@@ -127,9 +130,9 @@ class VacancyFragment : Fragment() {
 
     private fun renderFavorite(favorite: Boolean) {
         if (favorite) {
-            binding.buttFav.setImageDrawable(requireContext().getDrawable(R.drawable.favorites_on_))
+            binding.buttFav.setImageDrawable(AppCompatResources.getDrawable(requireContext(), R.drawable.favorites_on_))
         } else {
-            binding.buttFav.setImageDrawable(requireContext().getDrawable(R.drawable.favorites_off))
+            binding.buttFav.setImageDrawable(AppCompatResources.getDrawable(requireContext(), R.drawable.favorites_off))
         }
     }
 

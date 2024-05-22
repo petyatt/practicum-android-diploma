@@ -61,18 +61,7 @@ class FavoritesFragment : Fragment() {
             recyclerView.isVisible = true
         }
 
-        adapter.vacancyList.addAll(
-            favourites.map {
-                Vacancy(
-                    it.id,
-                    it.name,
-                    it.area,
-                    it.employer,
-                    it.employment,
-                    it.salary
-                )
-            }
-        )
+        adapter.vacancyList.addAll(favourites)
     }
 
     private fun showEmpty() {
