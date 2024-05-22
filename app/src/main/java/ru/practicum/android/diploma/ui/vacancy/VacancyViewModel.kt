@@ -30,7 +30,7 @@ class VacancyViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             when (val result = vacancyInteractor.getVacancy(id).single()) {
                 is Resource.Success -> _vacancyState.postValue(ScreenState.Loaded(result.data))
-                is Resource.ServerError -> _vacancyState.postValue(ScreenState.ServerError())
+                is Resource.Failed -> _vacancyState.postValue(ScreenState.ServerError())
                 is Resource.NotConnection -> _vacancyState.postValue(ScreenState.NotConnection())
             }
         }

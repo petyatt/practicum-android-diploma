@@ -17,8 +17,9 @@ data class VacancyResponse(
     val area: AreaResponse,
     val employer: EmployerResponse,
     val department: DepartmentResponse?,
+    val description: String?,
     val salary: SalaryResponse?
-)
+) : Response()
 
 data class AreaResponse(
     val id: String,
@@ -30,7 +31,7 @@ data class EmployerResponse(
     @SerializedName("alternate_url") val alternateUrl: String?,
     val id: String?,
     @SerializedName("logo_urls") val logoUrls: LogoUrlsResponse?,
-    val name: String?,
+    val name: String,
     val url: String?
 )
 

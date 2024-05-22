@@ -6,10 +6,10 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.practicum.android.diploma.data.converters.VacanciesConverter
 import ru.practicum.android.diploma.data.converters.VacanciesDescriptionConverter
-import ru.practicum.android.diploma.data.impl.main.MainRepositoryImpl
+import ru.practicum.android.diploma.data.impl.main.VacanciesRepositoryImpl
 import ru.practicum.android.diploma.data.network.HeadHunterApiService
 import ru.practicum.android.diploma.domain.api.main.MainInteractor
-import ru.practicum.android.diploma.domain.api.main.MainRepository
+import ru.practicum.android.diploma.domain.api.VacanciesRepository
 import ru.practicum.android.diploma.domain.impl.MainInteractorImpl
 import ru.practicum.android.diploma.ui.main.MainViewModel
 
@@ -21,8 +21,8 @@ val main = module {
     single<MainInteractor> {
         MainInteractorImpl(get())
     }
-    single<MainRepository> {
-        MainRepositoryImpl(get(), get())
+    single<VacanciesRepository> {
+        VacanciesRepositoryImpl(get(), get())
     }
 
     single<VacanciesConverter> {

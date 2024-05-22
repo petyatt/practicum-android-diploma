@@ -32,7 +32,7 @@ class MainViewModel(
             viewModelScope.launch {
                 when (val result = mainInteractor.searchVacancies(searchText, _page).single()) {
                     is Resource.NotConnection -> _state.postValue(ScreenState.NotConnection())
-                    is Resource.ServerError -> _state.postValue(ScreenState.ServerError())
+                    is Resource.Failed -> _state.postValue(ScreenState.ServerError())
                     is Resource.Success -> {
                         _state.postValue(ScreenState.Loaded(result.data))
                         _currentPage = result.data.page

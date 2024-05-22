@@ -14,9 +14,31 @@ import ru.practicum.android.diploma.domain.models.LogoUrls
 import ru.practicum.android.diploma.domain.models.Salary
 import ru.practicum.android.diploma.domain.models.Vacancies
 import ru.practicum.android.diploma.domain.models.Vacancy
+import ru.practicum.android.diploma.domain.models.VacancyDetail
 
 class VacanciesConverter {
-
+    fun convert(dto: VacancyResponse): VacancyDetail {
+        with (dto) {
+            return VacancyDetail(
+                id = id,
+                name = name,
+                salaryMin = salary?.from,
+                salaryMax = salary?.to,
+                currency = salary?.currency ?: "",
+                companyName = employer.name,
+                companylogo = employer.logoUrls?.original ?: "",
+                companyAddress = "", // todo,
+                experience = "", // todo-
+                description = description ?: "",
+                employment = "", // todo-
+                skills = emptyList(), // todo-,
+                contactName = "", //todo-
+                contactEmail = "", //todo-
+                contactPhone = "", //todo-
+                contactComment = "" //todo-
+            )
+        }
+    }
     fun convert(response: VacanciesResponse): Vacancies {
         return with(response) {
             Vacancies(
