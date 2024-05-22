@@ -28,14 +28,14 @@ class VacanciesConverter {
                 companyName = employer.name,
                 companylogo = employer.logoUrls?.original ?: "",
                 companyAddress = "", // todo -,
-                experience = "", // todo -
+                experience = experience?.name ?: "",
                 description = description ?: "",
-                employment = "", // todo -
-                skills = emptyList(), // todo -,
-                contactName = "", // todo -
-                contactEmail = "", // todo -
-                contactPhone = "", // todo -
-                contactComment = "" // todo -
+                employment = employment?.name ?: "",
+                skills = keySkills?.mapNotNull { it.name } ?: emptyList(),
+                contactName = contacts?.name ?: "",
+                contactEmail = contacts?.email ?: "",
+                contactPhone = contacts?.phones?.firstOrNull()?.number ?: "",
+                contactComment = contacts?.phones?.firstOrNull()?.comment ?: ""
             )
         }
     }
