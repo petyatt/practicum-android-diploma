@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
 import androidx.core.view.isVisible
@@ -127,9 +128,9 @@ class VacancyFragment : Fragment() {
 
     private fun renderFavorite(favorite: Boolean) {
         if (favorite) {
-            binding.buttFav.setImageDrawable(requireContext().getDrawable(R.drawable.favorites_on_))
+            binding.buttFav.setImageDrawable(AppCompatResources.getDrawable(requireContext(), R.drawable.favorites_on_))
         } else {
-            binding.buttFav.setImageDrawable(requireContext().getDrawable(R.drawable.favorites_off))
+            binding.buttFav.setImageDrawable(AppCompatResources.getDrawable(requireContext(), R.drawable.favorites_off))
         }
     }
 
