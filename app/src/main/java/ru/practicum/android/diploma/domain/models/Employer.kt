@@ -5,9 +5,6 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Employer(
-    val alternateUrl: String?,
-    val id: String?,
     val logoUrls: LogoUrls?,
-    val name: String?,
-    val url: String?
+    val name: String?
 ) : Parcelable

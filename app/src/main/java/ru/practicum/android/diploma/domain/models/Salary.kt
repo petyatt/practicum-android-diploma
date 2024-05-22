@@ -7,6 +7,5 @@ import kotlinx.parcelize.Parcelize
 data class Salary(
     val currency: String?,
     val from: Int?,
-    val gross: Boolean?,
     val to: Int?
 ) : Parcelable

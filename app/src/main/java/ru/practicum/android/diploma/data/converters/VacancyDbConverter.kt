@@ -1,39 +1,43 @@
 package ru.practicum.android.diploma.data.converters
 
 import androidx.room.TypeConverter
-import ru.practicum.android.diploma.data.converters.AreaDbConverter.fromAreaEntity
-import ru.practicum.android.diploma.data.converters.AreaDbConverter.toAreaEntity
-import ru.practicum.android.diploma.data.converters.EmployerDbConverter.fromEmployerEntity
-import ru.practicum.android.diploma.data.converters.EmployerDbConverter.toEmployerEntity
-import ru.practicum.android.diploma.data.converters.EmploymentDbConverter.fromEmploymentEntity
-import ru.practicum.android.diploma.data.converters.EmploymentDbConverter.toEmploymentEntity
-import ru.practicum.android.diploma.data.converters.SalaryDbConverter.fromSalaryEntity
-import ru.practicum.android.diploma.data.converters.SalaryDbConverter.toSalaryEntity
+import org.json.JSONArray
 import ru.practicum.android.diploma.data.db.entity.VacancyEntity
+import ru.practicum.android.diploma.domain.models.Area
+import ru.practicum.android.diploma.domain.models.Employer
+import ru.practicum.android.diploma.domain.models.Employment
+import ru.practicum.android.diploma.domain.models.LogoUrls
+import ru.practicum.android.diploma.domain.models.Salary
 import ru.practicum.android.diploma.domain.models.Vacancy
 
 class VacancyDbConverter {
-    @TypeConverter
-    fun convertFromEntity(vacancyEntity: VacancyEntity): Vacancy {
-        return Vacancy(
+    fun convertFromEntity(vacancyEntity: VacancyEntity): Vacancy = Vacancy(
             id = vacancyEntity.id,
             name = vacancyEntity.name,
-            salary = fromSalaryEntity(vacancyEntity.salary),
-            employer = fromEmployerEntity(vacancyEntity.employer),
-            area = fromAreaEntity(vacancyEntity.area),
-            employment = fromEmploymentEntity(vacancyEntity.employment)
+            salary = Salary(vacancyEntity.currency, vacancyEntity.salaryMin, vacancyEntity.salaryMax),
+            employer = Employer(LogoUrls(vacancyEntity.companyLogo), vacancyEntity.companyName),
+            area = Area(vacancyEntity.companyAddress),
+            employment = Employment(vacancyEntity.employment)
         )
-    }
 
-    @TypeConverter
     fun convertToEntity(vacancy: Vacancy): VacancyEntity {
         return VacancyEntity(
             id = vacancy.id,
             name = vacancy.name,
-            salary = toSalaryEntity(vacancy.salary),
-            employer = toEmployerEntity(vacancy.employer),
-            area = toAreaEntity(vacancy.area),
-            employment = toEmploymentEntity(vacancy.employment)
+            salaryMin = vacancy.salary?.from,
+            salaryMax = vacancy.salary?.to,
+            currency = vacancy.salary?.currency ?: "",
+            companyName = vacancy.employer?.name ?: "",
+            companyAddress = vacancy.area.name,
+            companyLogo = vacancy.employer?.logoUrls?.original ?: "",
+            experience = "", // todo -
+            description = "", // todo -
+            employment = vacancy.employment?.name ?: "",
+            skills = JSONArray(emptyList<String>()).toString(),
+            contactName = "", // todo -
+            contactEmail = "", // todo -
+            contactPhone = "", // todo -
+            contactComment = "" // todo -
         )
     }
 

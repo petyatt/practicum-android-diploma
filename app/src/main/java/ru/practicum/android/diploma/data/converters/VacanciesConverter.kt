@@ -78,20 +78,13 @@ class VacanciesConverter {
     }
 
     private fun convertArea(area: AreaResponse): Area {
-        return Area(
-            id = area.id,
-            name = area.name,
-            url = area.url
-        )
+        return Area(area.name)
     }
 
     private fun convertEmployer(employer: EmployerResponse): Employer {
         return Employer(
-            alternateUrl = employer.alternateUrl,
-            id = employer.id,
             logoUrls = convertLogoUrls(employer.logoUrls),
             name = employer.name,
-            url = employer.url
         )
     }
 
@@ -101,10 +94,7 @@ class VacanciesConverter {
 
     private fun convertDepartment(department: DepartmentResponse?): Employment? {
         return department?.let {
-            Employment(
-                id = it.id,
-                name = department.name
-            )
+            Employment(department.name)
         }
     }
 
@@ -113,7 +103,6 @@ class VacanciesConverter {
             Salary(
                 currency = salary.currency,
                 from = salary.from,
-                gross = salary.gross,
                 to = salary.to
             )
         }
