@@ -16,7 +16,9 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentVacancyBinding
 import ru.practicum.android.diploma.domain.models.Vacancy
+import ru.practicum.android.diploma.ui.model.CURRENCY_SYMBOLS
 import ru.practicum.android.diploma.ui.model.ScreenState
+import java.util.Locale
 
 class VacancyFragment : Fragment() {
 
@@ -87,10 +89,10 @@ class VacancyFragment : Fragment() {
         with(vacancy!!) {
             binding.name.text = name
             binding.salaryMin.isVisible = salaryMin != null
-            binding.salaryMinVal.text = salaryMin?.toString()
+            binding.salaryMinVal.text = String.format(Locale.forLanguageTag("ru"), "%,d", salaryMin)
             binding.salaryMax.isVisible = salaryMax != null
-            binding.salaryMaxVal.text = salaryMax?.toString()
-            binding.salaryCurrency.text = currency
+            binding.salaryMaxVal.text = String.format(Locale.forLanguageTag("ru"), "%,d", salaryMax)
+            binding.salaryCurrency.text = CURRENCY_SYMBOLS[currency] ?: ""
             binding.salaryCurrency.isVisible = salaryMin != null || salaryMax != null
             binding.noSalary.isVisible = salaryMin == null && salaryMax == null
 

@@ -11,6 +11,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.domain.models.Vacancy
+import ru.practicum.android.diploma.ui.model.CURRENCY_SYMBOLS
+import java.util.Locale
 
 class VacancyItemViewHolder(parent: ViewGroup) :
     RecyclerView.ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_vacancy_list, parent, false)) {
@@ -37,11 +39,11 @@ class VacancyItemViewHolder(parent: ViewGroup) :
             .into(imageCompany)
 
         salaryMin.isVisible = vacancy.salaryMin != null
-        salaryMinVal.text = vacancy.salaryMin?.toString()
+        salaryMinVal.text = String.format(Locale.forLanguageTag("ru"), "%,d", vacancy.salaryMin)
         salaryMax.isVisible = vacancy.salaryMax != null
-        salaryMaxVal.text = vacancy.salaryMax?.toString()
+        salaryMaxVal.text = String.format(Locale.forLanguageTag("ru"), "%,d", vacancy.salaryMax)
         currency.isVisible = vacancy.salaryMin != null || salaryMax != null
-        currency.text = vacancy.currency
+        currency.text = CURRENCY_SYMBOLS[vacancy.currency] ?: ""
         noSalary.isVisible = vacancy.salaryMin == null && salaryMax == null
     }
 }
