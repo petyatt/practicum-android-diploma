@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.domain.api.favorites.FavoritesInteractor
-import ru.practicum.android.diploma.domain.models.VacancyDetail
+import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.util.CLICK_DEBOUNCE_DELAY
 
 class FavoritesViewModel(private val favoritesInteractor: FavoritesInteractor) : ViewModel() {
@@ -35,7 +35,7 @@ class FavoritesViewModel(private val favoritesInteractor: FavoritesInteractor) :
         return current
     }
 
-    private fun renderState(vacancy: List<VacancyDetail>) {
+    private fun renderState(vacancy: List<Vacancy>) {
         if (vacancy.isEmpty()) {
             _favouriteVacancies.postValue(FavoritesState.Empty)
         } else {

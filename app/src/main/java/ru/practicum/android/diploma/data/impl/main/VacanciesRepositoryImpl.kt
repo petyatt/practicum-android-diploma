@@ -11,7 +11,7 @@ import ru.practicum.android.diploma.data.response.VacanciesResponse
 import ru.practicum.android.diploma.data.response.VacancyResponse
 import ru.practicum.android.diploma.domain.api.VacanciesRepository
 import ru.practicum.android.diploma.domain.models.Vacancies
-import ru.practicum.android.diploma.domain.models.VacancyDetail
+import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.util.Resource
 
 class VacanciesRepositoryImpl(
@@ -32,7 +32,7 @@ class VacanciesRepositoryImpl(
         }
     }
 
-    override suspend fun getVacancy(id: String): Flow<Resource<VacancyDetail>> = flow {
+    override suspend fun getVacancy(id: String): Flow<Resource<Vacancy>> = flow {
         val response = networkClient.doRequest(VacancyRequest(id = id))
         when (response.resultCode) {
             ResponseCode.SUCCESS -> {

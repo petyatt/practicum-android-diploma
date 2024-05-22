@@ -6,12 +6,12 @@ import ru.practicum.android.diploma.data.dto.IdNameDto
 import ru.practicum.android.diploma.data.response.VacanciesResponse
 import ru.practicum.android.diploma.data.response.VacancyResponse
 import ru.practicum.android.diploma.domain.models.Vacancies
-import ru.practicum.android.diploma.domain.models.VacancyDetail
+import ru.practicum.android.diploma.domain.models.Vacancy
 
 class VacanciesConverter {
 
     fun convert(dto: VacancyResponse) = with(dto) {
-        VacancyDetail(
+        Vacancy(
             id = id,
             name = name,
             salaryMin = salary?.from,

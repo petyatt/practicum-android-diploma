@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentFavoritesBinding
-import ru.practicum.android.diploma.domain.models.VacancyDetail
+import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.ui.favorites.viewmodel.FavoritesState
 import ru.practicum.android.diploma.ui.favorites.viewmodel.FavoritesViewModel
 import ru.practicum.android.diploma.ui.main.VacancyListAdapter
@@ -55,7 +55,7 @@ class FavoritesFragment : Fragment() {
         }
     }
 
-    private fun showFavourites(favourites: List<VacancyDetail>) {
+    private fun showFavourites(favourites: List<Vacancy>) {
         binding.apply {
             ivPlaceholder.isVisible = false
             recyclerView.isVisible = true

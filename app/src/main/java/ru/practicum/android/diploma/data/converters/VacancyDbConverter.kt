@@ -2,11 +2,11 @@ package ru.practicum.android.diploma.data.converters
 
 import org.json.JSONArray
 import ru.practicum.android.diploma.data.db.entity.VacancyEntity
-import ru.practicum.android.diploma.domain.models.VacancyDetail
+import ru.practicum.android.diploma.domain.models.Vacancy
 
 class VacancyDbConverter {
     fun convert(vacancyEntity: VacancyEntity) = with(vacancyEntity) {
-        VacancyDetail(
+        Vacancy(
             id = id,
             name = name,
             salaryMin = salaryMin,
@@ -26,7 +26,7 @@ class VacancyDbConverter {
         )
     }
 
-    fun convert(vacancy: VacancyDetail): VacancyEntity = with(vacancy) {
+    fun convert(vacancy: Vacancy): VacancyEntity = with(vacancy) {
         VacancyEntity(
             id = id,
             name = name,

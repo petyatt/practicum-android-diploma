@@ -14,7 +14,7 @@ import com.bumptech.glide.Glide
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentVacancyBinding
-import ru.practicum.android.diploma.domain.models.VacancyDetail
+import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.ui.model.ScreenState
 
 class VacancyFragment : Fragment() {
@@ -24,7 +24,7 @@ class VacancyFragment : Fragment() {
     private var _binding: FragmentVacancyBinding? = null
     private val binding get() = _binding!!
 
-    private var vacancy: VacancyDetail? = null
+    private var vacancy: Vacancy? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,

@@ -9,7 +9,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.domain.models.Salary
-import ru.practicum.android.diploma.domain.models.VacancyDetail
+import ru.practicum.android.diploma.domain.models.Vacancy
 
 class VacancyItemViewHolder(parent: ViewGroup) :
     RecyclerView.ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_vacancy_list, parent, false)) {
@@ -19,7 +19,7 @@ class VacancyItemViewHolder(parent: ViewGroup) :
     private val vacancySalary = itemView.findViewById<TextView>(R.id.vacancy_salary)
     private val imageCompany = itemView.findViewById<ImageView>(R.id.image_company)
 
-    fun bind(vacancy: VacancyDetail) {
+    fun bind(vacancy: Vacancy) {
         vacancyTitle.text = vacancy.name
         companyTitle.text = vacancy.companyName
         vacancySalary.text = ""// todo - getSalaryString(vacancy.salary)

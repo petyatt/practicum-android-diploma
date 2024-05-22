@@ -2,9 +2,9 @@ package ru.practicum.android.diploma.ui.main
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import ru.practicum.android.diploma.domain.models.VacancyDetail
+import ru.practicum.android.diploma.domain.models.Vacancy
 
-class VacancyListAdapter(val vacancyList: MutableList<VacancyDetail>, val onClick: (String) -> Unit = { _ -> run {} }) :
+class VacancyListAdapter(val vacancyList: MutableList<Vacancy>, val onClick: (String) -> Unit = { _ -> run {} }) :
     RecyclerView.Adapter<VacancyItemViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = VacancyItemViewHolder(parent)
 
