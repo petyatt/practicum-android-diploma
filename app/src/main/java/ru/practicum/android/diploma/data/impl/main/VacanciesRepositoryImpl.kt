@@ -3,11 +3,9 @@ package ru.practicum.android.diploma.data.impl.main
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import ru.practicum.android.diploma.data.converters.VacanciesConverter
-import ru.practicum.android.diploma.data.dto.Response
 import ru.practicum.android.diploma.data.dto.ResponseCode
 import ru.practicum.android.diploma.data.network.NetworkClient
 import ru.practicum.android.diploma.data.request.MainRequest
-import ru.practicum.android.diploma.data.request.Request
 import ru.practicum.android.diploma.data.request.VacancyRequest
 import ru.practicum.android.diploma.data.response.VacanciesResponse
 import ru.practicum.android.diploma.data.response.VacancyResponse

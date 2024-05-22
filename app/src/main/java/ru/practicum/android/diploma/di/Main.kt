@@ -8,8 +8,8 @@ import ru.practicum.android.diploma.data.converters.VacanciesConverter
 import ru.practicum.android.diploma.data.converters.VacanciesDescriptionConverter
 import ru.practicum.android.diploma.data.impl.main.VacanciesRepositoryImpl
 import ru.practicum.android.diploma.data.network.HeadHunterApiService
-import ru.practicum.android.diploma.domain.api.main.MainInteractor
 import ru.practicum.android.diploma.domain.api.VacanciesRepository
+import ru.practicum.android.diploma.domain.api.main.MainInteractor
 import ru.practicum.android.diploma.domain.impl.MainInteractorImpl
 import ru.practicum.android.diploma.ui.main.MainViewModel
 

@@ -10,10 +10,12 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.OnScrollListener
@@ -22,11 +24,14 @@ import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentMainBinding
 import ru.practicum.android.diploma.domain.models.Vacancies
 import ru.practicum.android.diploma.ui.model.ScreenState
+import ru.practicum.android.diploma.ui.vacancy.VacancyFragment.Companion.ARG_VACANCY_ID
 import ru.practicum.android.diploma.util.debounce
 
 class MainFragment : Fragment() {
     private var _binding: FragmentMainBinding? = null
-    private var vacancyListAdapter = VacancyListAdapter(ArrayList())
+    private var vacancyListAdapter = VacancyListAdapter(ArrayList()) {
+        findNavController().navigate(R.id.action_mainFragment_to_vacancyFragment, bundleOf(ARG_VACANCY_ID to it))
+    }
     private val binding get() = _binding!!
     private val onSearchDebounce = debounce<String>(SEARCH_DEBOUNCE_DELAY, lifecycleScope, true) { search(it) }
     private var lastSearchText: String = ""

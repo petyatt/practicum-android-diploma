@@ -22,7 +22,6 @@ class MainViewModel(
     private var _page = 0
     private var pages = 0
 
-
     fun sendRequest(searchText: String) {
         if (searchText.isNotEmpty()) {
             if (_currentPage != null) {

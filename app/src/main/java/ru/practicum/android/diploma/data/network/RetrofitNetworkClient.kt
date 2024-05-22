@@ -30,7 +30,7 @@ class RetrofitNetworkClient(
                 }
                 response.apply { resultCode = ResponseCode.SUCCESS }
             } catch (e: HttpException) {
-                Log.e("NetworkClientHttpException",e.message.toString(), e)
+                Log.e("NetworkClientHttpException", e.message.toString(), e)
                 Response().apply { resultCode = ResponseCode.FAILED }
             }
         }

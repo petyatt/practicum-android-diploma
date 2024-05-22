@@ -18,7 +18,7 @@ import ru.practicum.android.diploma.domain.models.VacancyDetail
 
 class VacanciesConverter {
     fun convert(dto: VacancyResponse): VacancyDetail {
-        with (dto) {
+        with(dto) {
             return VacancyDetail(
                 id = id,
                 name = name,
@@ -27,18 +27,19 @@ class VacanciesConverter {
                 currency = salary?.currency ?: "",
                 companyName = employer.name,
                 companylogo = employer.logoUrls?.original ?: "",
-                companyAddress = "", // todo,
-                experience = "", // todo-
+                companyAddress = "", // todo -,
+                experience = "", // todo -
                 description = description ?: "",
-                employment = "", // todo-
-                skills = emptyList(), // todo-,
-                contactName = "", //todo-
-                contactEmail = "", //todo-
-                contactPhone = "", //todo-
-                contactComment = "" //todo-
+                employment = "", // todo -
+                skills = emptyList(), // todo -,
+                contactName = "", // todo -
+                contactEmail = "", // todo -
+                contactPhone = "", // todo -
+                contactComment = "" // todo -
             )
         }
     }
+
     fun convert(response: VacanciesResponse): Vacancies {
         return with(response) {
             Vacancies(

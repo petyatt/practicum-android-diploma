@@ -45,9 +45,7 @@
         style="@style/fragment"
         android:visibility="gone">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-
-            style="@style/fragment">
+        <androidx.constraintlayout.widget.ConstraintLayout style="@style/fragment">
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/border_start"
@@ -465,7 +463,7 @@
 
     <FrameLayout
         android:id="@+id/loading"
-        style="@style/fragment" >
+        style="@style/fragment">
 
         <ProgressBar
             style="@style/progress_bar"
