@@ -38,9 +38,7 @@ class MainFragment : Fragment() {
     private val viewModel by viewModel<MainViewModel>()
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentMainBinding.inflate(inflater, container, false)
         return binding.root
@@ -68,8 +66,7 @@ class MainFragment : Fragment() {
             setOnEditorActionListener { v, actionId, _ ->
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     search(v.text.toString())
-                    val imm = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE)
-                        as InputMethodManager
+                    val imm = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                     imm.hideSoftInputFromWindow(v.windowToken, 0)
                 }
                 false
@@ -152,15 +149,13 @@ class MainFragment : Fragment() {
         vacancyListAdapter.notifyDataSetChanged()
     }
 
-   private fun getStringOfVacancies(count: Int): String {
-       if (count == 0) {
-           showError(R.drawable.placeholder_no_vacancies, R.string.no_vacancies)
-           return resources.getString(R.string.not_find_vacancies)
-       }
-       return resources.getQuantityString(
-            R.plurals.founded_vacancies,
-            count,
-            count
+    private fun getStringOfVacancies(count: Int): String {
+        if (count == 0) {
+            showError(R.drawable.placeholder_no_vacancies, R.string.no_vacancies)
+            return resources.getString(R.string.not_find_vacancies)
+        }
+        return resources.getQuantityString(
+            R.plurals.founded_vacancies, count, count
         )
     }
 
