@@ -14,7 +14,7 @@ import ru.practicum.android.diploma.data.converters.ExperienceDbConverter
 import ru.practicum.android.diploma.data.converters.SalaryDbConverter
 import ru.practicum.android.diploma.data.converters.ScheduleDbConverter
 import ru.practicum.android.diploma.data.converters.VacancyDbConverter
-import ru.practicum.android.diploma.data.db.entity.VacancyDescriptionEntity
+import ru.practicum.android.diploma.data.db.entity.VacancyEntity
 
 @Dao
 @TypeConverters(
@@ -24,14 +24,14 @@ import ru.practicum.android.diploma.data.db.entity.VacancyDescriptionEntity
 )
 interface VacancyDao {
     @Query("SELECT * FROM vacancy_table")
-    suspend fun getAllVacancies(): List<VacancyDescriptionEntity>
+    suspend fun getAllVacancies(): List<VacancyEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun addVacancy(vacancyDescriptionEntity: VacancyDescriptionEntity)
+    suspend fun addVacancy(vacancyEntity: VacancyEntity)
 
     @Query("DELETE FROM vacancy_table WHERE id = :vacancyId")
     suspend fun removeVacancy(vacancyId: String)
 
     @Query("SELECT * FROM vacancy_table WHERE id = :vacancyId")
-    suspend fun getVacancyById(vacancyId: String): VacancyDescriptionEntity?
+    suspend fun getVacancyById(vacancyId: String): VacancyEntity?
 }

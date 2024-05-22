@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/favoritesFragment"
-        android:name="ru.practicum.android.diploma.ui.favorites.FavoritesFragment"
+        android:name="ru.practicum.android.diploma.ui.favorites.fragment.FavoritesFragment"
         android:label="FavoritesFragment"
         tools:layout="@layout/fragment_favorites">
         <action

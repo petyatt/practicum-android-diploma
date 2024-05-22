@@ -21,7 +21,7 @@ val vacancy = module {
     }
 
     viewModel {
-        VacancyViewModel(vacancyInteractor = get(), get())
+        VacancyViewModel(vacancyInteractor = get(), get(), get())
     }
 
     single<ExternalNavigator> {

@@ -7,18 +7,12 @@ import ru.practicum.android.diploma.data.converters.VacancyDbConverter
 
 @Entity(tableName = "vacancy_table")
 @TypeConverters(VacancyDbConverter::class)
-data class VacancyDescriptionEntity(
+data class VacancyEntity(
     @PrimaryKey
     val id: String,
     val name: String,
-    val salary: String,
-    val employer: String,
     val area: String,
-    val url: String,
-    val address: String,
-    val experience: String,
-    val employment: String,
-    val schedule: String,
-    val contacts: String,
-    val description: String,
+    val employer: String?,
+    val employment: String?,
+    val salary: String?
 )

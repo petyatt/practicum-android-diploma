@@ -12,7 +12,7 @@ object EmployerDbConverter {
     }
 
     @TypeConverter
-    fun toEmployerEntity(employer: Employer?): String {
+    fun toEmployerEntity(employer: Employer?): String? {
         return Gson().toJson(employer)
     }
 }

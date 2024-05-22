@@ -1,25 +1,40 @@
 package ru.practicum.android.diploma.ui.main
 
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import ru.practicum.android.diploma.R
-import ru.practicum.android.diploma.databinding.ItemVacancyListBinding
 import ru.practicum.android.diploma.domain.models.Salary
 import ru.practicum.android.diploma.domain.models.Vacancy
 
-class VacancyItemViewHolder(private val binding: ItemVacancyListBinding) : RecyclerView.ViewHolder(binding.root) {
+class VacancyItemViewHolder(
+    parent: ViewGroup,
+    private val clickListener: VacancyListAdapter.VacancyClickListener,
+) : RecyclerView.ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_vacancy_list, parent, false)) {
+
+    private val vacancyTitle = itemView.findViewById<TextView>(R.id.vacancy_title)
+    private val companyTitle = itemView.findViewById<TextView>(R.id.company_title)
+    private val vacancySalary = itemView.findViewById<TextView>(R.id.vacancy_salary)
+    private val imageCompany = itemView.findViewById<ImageView>(R.id.image_company)
 
     fun bind(vacancy: Vacancy) {
-        binding.vacancyTitle.text = vacancy.name
-        binding.companyTitle.text = vacancy.employer?.name ?: "Работодатель не указан"
-        binding.vacancySalary.text = getSalaryString(vacancy.salary)
-        Glide.with(binding.root)
+        vacancyTitle.text = vacancy.name
+        companyTitle.text = vacancy.employer?.name ?: "Работодатель не указан"
+        vacancySalary.text = getSalaryString(vacancy.salary)
+        Glide.with(itemView)
             .load(vacancy.employer?.logoUrls?.original)
             .placeholder(R.drawable.placeholder)
             .fitCenter()
             .transform(RoundedCorners(itemView.resources.getDimensionPixelSize(R.dimen.corner_radius_small_2)))
-            .into(binding.imageCompany)
+            .into(imageCompany)
+
+        itemView.setOnClickListener {
+            clickListener.onClick(vacancy)
+        }
     }
 
     private fun getSalaryString(salary: Salary?): CharSequence {
