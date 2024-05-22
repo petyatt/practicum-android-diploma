@@ -93,7 +93,7 @@ class VacancyFragment : Fragment() {
             binding.salaryCurrency.isVisible = salaryMin != null || salaryMax != null
             binding.noSalary.isVisible = salaryMin == null && salaryMax == null
 
-            loadLogo(companylogo)
+            loadLogo(companyLogo)
             binding.companyName.text = companyName
             binding.companyAddress.text = companyAddress
 
