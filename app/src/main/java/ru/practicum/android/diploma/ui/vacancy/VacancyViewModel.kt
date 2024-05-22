@@ -9,7 +9,6 @@ import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.domain.api.favorites.FavoritesInteractor
 import ru.practicum.android.diploma.domain.api.vacancy.VacancyInteractor
-import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.domain.models.VacancyDetail
 import ru.practicum.android.diploma.domain.vacancy.ExternalNavigator
 import ru.practicum.android.diploma.ui.model.ScreenState
@@ -21,7 +20,7 @@ class VacancyViewModel(
     private val favoritesInteractor: FavoritesInteractor
 ) : ViewModel() {
 
-    private var vacancy: Vacancy? = null
+    private var vacancy: VacancyDetail? = null
 
     private val _vacancyState = MutableLiveData<ScreenState<VacancyDetail>>()
     val vacancyState: LiveData<ScreenState<VacancyDetail>> = _vacancyState
@@ -44,7 +43,7 @@ class VacancyViewModel(
             val favorite = _isFavorite.value ?: false
             if (vacancy != null) {
                 if (favorite) {
-                    favoritesInteractor.removeVacancy(vacancy!!)
+                    favoritesInteractor.removeVacancy(vacancy!!.id)
                 } else {
                     favoritesInteractor.addVacancy(vacancy!!)
                 }

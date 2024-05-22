@@ -10,6 +10,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.domain.models.Salary
 import ru.practicum.android.diploma.domain.models.Vacancy
+import ru.practicum.android.diploma.domain.models.VacancyDetail
 
 class VacancyItemViewHolder(parent: ViewGroup) :
     RecyclerView.ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_vacancy_list, parent, false)) {
@@ -19,12 +20,12 @@ class VacancyItemViewHolder(parent: ViewGroup) :
     private val vacancySalary = itemView.findViewById<TextView>(R.id.vacancy_salary)
     private val imageCompany = itemView.findViewById<ImageView>(R.id.image_company)
 
-    fun bind(vacancy: Vacancy) {
+    fun bind(vacancy: VacancyDetail) {
         vacancyTitle.text = vacancy.name
-        companyTitle.text = vacancy.employer?.name ?: "Работодатель не указан"
-        vacancySalary.text = getSalaryString(vacancy.salary)
+        companyTitle.text = vacancy.companyName
+        vacancySalary.text = ""// todo - getSalaryString(vacancy.salary)
         Glide.with(itemView)
-            .load(vacancy.employer?.logoUrls?.original)
+            .load(vacancy.companyLogo)
             .placeholder(R.drawable.placeholder)
             .fitCenter()
             .transform(RoundedCorners(itemView.resources.getDimensionPixelSize(R.dimen.corner_radius_small_2)))
