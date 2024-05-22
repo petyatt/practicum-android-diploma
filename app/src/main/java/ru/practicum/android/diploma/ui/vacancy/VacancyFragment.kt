@@ -41,7 +41,7 @@ class VacancyFragment : Fragment() {
 
         with(binding) {
             buttNav.setOnClickListener { findNavController().navigateUp() }
-            buttFav.setOnClickListener { TODO("Обработка добавления в избранное") }
+            buttFav.setOnClickListener { viewModel.changeFavourite() }
             viewModel.vacancyState.observe(viewLifecycleOwner) {
                 when (it) {
                     is ScreenState.Loading -> {
@@ -63,9 +63,16 @@ class VacancyFragment : Fragment() {
         val id = requireArguments().getString(ARG_VACANCY_ID, "")
         viewModel.getVacancyState(id)
 
+        viewModel.isFavorite.observe(viewLifecycleOwner, ::renderFavorite)
+
         binding.buttShare.setOnClickListener {
             viewModel.shareVacation(id)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.checkFavorite()
     }
 
     override fun onDestroyView() {
@@ -116,6 +123,14 @@ class VacancyFragment : Fragment() {
         }
         binding.loading.isVisible = false
         binding.data.isVisible = true
+    }
+
+    private fun renderFavorite(favorite: Boolean) {
+        if (favorite) {
+            binding.buttFav.setImageDrawable(requireContext().getDrawable(R.drawable.favorites_on_))
+        } else {
+            binding.buttFav.setImageDrawable(requireContext().getDrawable(R.drawable.favorites_off))
+        }
     }
 
     private fun loadLogo(uri: String) {
