@@ -55,11 +55,6 @@ class MainFragment : Fragment() {
 
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
         binding.recyclerView.adapter = vacancyListAdapter
-
-        binding.iconClear.setOnClickListener {
-            vacancyListAdapter.vacancyList.clear()
-            vacancyListAdapter.notifyDataSetChanged()
-        }
     }
 
     override fun onDestroyView() {
@@ -81,10 +76,10 @@ class MainFragment : Fragment() {
             }
             doOnTextChanged { text, _, _, _ ->
                 if (text.isNullOrBlank()) {
+                    vacancyListAdapter.vacancyList.clear()
+                    vacancyListAdapter.notifyDataSetChanged()
                     showDefaultState()
                 } else {
-                    binding.iconSearch.isVisible = false
-                    binding.iconClear.isVisible = true
                     onSearchDebounce(text.toString())
                 }
             }
@@ -123,8 +118,6 @@ class MainFragment : Fragment() {
         binding.placeholderImage.setImageResource(R.drawable.placeholder_search)
         binding.placeholderText.isVisible = false
         binding.search.text?.clear()
-        binding.iconSearch.isVisible = true
-        binding.iconClear.isVisible = false
     }
 
     private fun showProgressBar() {
