@@ -68,8 +68,7 @@ class MainFragment : Fragment() {
             setOnEditorActionListener { v, actionId, _ ->
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     search(v.text.toString())
-                    val imm = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE)
-                        as InputMethodManager
+                    val imm = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                     imm.hideSoftInputFromWindow(v.windowToken, 0)
                 }
                 false
@@ -91,6 +90,7 @@ class MainFragment : Fragment() {
                     val pos = (binding.recyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
                     val itemsCount = vacancyListAdapter.itemCount
                     if (pos >= itemsCount - 1) {
+                        binding.progressBarBottom.isVisible = true
                         onSearchDebounce(binding.search.text.toString())
                     }
                 }
@@ -116,6 +116,7 @@ class MainFragment : Fragment() {
         binding.progressBarCenter.isVisible = false
         binding.placeholderImage.isVisible = true
         binding.placeholderImage.setImageResource(R.drawable.placeholder_search)
+        binding.tvNumberVacancies.isVisible = false
         binding.placeholderText.isVisible = false
         binding.search.text?.clear()
     }
@@ -131,7 +132,7 @@ class MainFragment : Fragment() {
             progressBarCenter.isVisible = false
             placeholderImage.isVisible = true
             placeholderText.isVisible = true
-
+            tvNumberVacancies.isVisible = true
             placeholderImage.setImageResource(image)
             placeholderText.text = getText(text)
         }
@@ -143,8 +144,23 @@ class MainFragment : Fragment() {
         binding.placeholderImage.isVisible = false
         binding.placeholderText.isVisible = false
         binding.recyclerView.isVisible = true
+        binding.progressBarBottom.isVisible = false
+        binding.tvNumberVacancies.isVisible = true
+        binding.tvNumberVacancies.text = getStringOfVacancies(vacancies.found)
         vacancyListAdapter.vacancyList.addAll(vacancies.items)
         vacancyListAdapter.notifyDataSetChanged()
+    }
+
+    private fun getStringOfVacancies(count: Int): String {
+        if (count == 0) {
+            showError(R.drawable.placeholder_no_vacancies, R.string.no_vacancies)
+            return resources.getString(R.string.not_find_vacancies)
+        }
+        return resources.getQuantityString(
+            R.plurals.founded_vacancies,
+            count,
+            count
+        )
     }
 
     companion object {
