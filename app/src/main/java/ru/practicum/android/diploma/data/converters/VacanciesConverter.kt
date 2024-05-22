@@ -1,5 +1,7 @@
 package ru.practicum.android.diploma.data.converters
 
+import ru.practicum.android.diploma.data.dto.ContactsDto
+import ru.practicum.android.diploma.data.dto.IdNameDto
 import ru.practicum.android.diploma.data.response.AreaResponse
 import ru.practicum.android.diploma.data.response.DepartmentResponse
 import ru.practicum.android.diploma.data.response.EmployerResponse
@@ -17,28 +19,30 @@ import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.domain.models.VacancyDetail
 
 class VacanciesConverter {
-    fun convert(dto: VacancyResponse): VacancyDetail {
-        with(dto) {
-            return VacancyDetail(
-                id = id,
-                name = name,
-                salaryMin = salary?.from,
-                salaryMax = salary?.to,
-                currency = salary?.currency ?: "",
-                companyName = employer.name,
-                companylogo = employer.logoUrls?.original ?: "",
-                companyAddress = "", // todo -,
-                experience = experience?.name ?: "",
-                description = description ?: "",
-                employment = employment?.name ?: "",
-                skills = keySkills?.mapNotNull { it.name } ?: emptyList(),
-                contactName = contacts?.name ?: "",
-                contactEmail = contacts?.email ?: "",
-                contactPhone = contacts?.phones?.firstOrNull()?.number ?: "",
-                contactComment = contacts?.phones?.firstOrNull()?.comment ?: ""
-            )
-        }
+    fun convert(dto: VacancyResponse) = with(dto) {
+        VacancyDetail(
+            id = id,
+            name = name,
+            salaryMin = salary?.from,
+            salaryMax = salary?.to,
+            currency = salary?.currency ?: "",
+            companyName = employer.name,
+            companylogo = employer.logoUrls?.original ?: "",
+            companyAddress = "", // todo -,
+            experience = experience?.name ?: "",
+            description = description ?: "",
+            employment = employment?.name ?: "",
+            skills = getSkills(keySkills),
+            contactName = contacts?.name ?: "",
+            contactEmail = contacts?.email ?: "",
+            contactPhone = getPhone(contacts),
+            contactComment = getComment(contacts)
+        )
     }
+
+    private fun getSkills(list: List<IdNameDto>?) = list?.mapNotNull { it.name } ?: emptyList()
+    private fun getPhone(contacts: ContactsDto?) = contacts?.phones?.firstOrNull()?.number ?: ""
+    private fun getComment(contacts: ContactsDto?) = contacts?.phones?.firstOrNull()?.comment ?: ""
 
     fun convert(response: VacanciesResponse): Vacancies {
         return with(response) {

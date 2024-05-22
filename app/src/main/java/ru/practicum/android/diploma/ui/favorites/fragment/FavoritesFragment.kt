@@ -20,7 +20,7 @@ class FavoritesFragment : Fragment() {
     private var _binding: FragmentFavoritesBinding? = null
     private val binding get() = _binding!!
     private val viewModel by viewModel<FavoritesViewModel>()
-    private val adapter = VacancyListAdapter (mutableListOf()){ vacancy ->
+    private val adapter = VacancyListAdapter(mutableListOf()) { vacancy ->
         if (viewModel.clickDebounce()) {
             val args = Bundle()
             args.putSerializable("vacancy", vacancy)
