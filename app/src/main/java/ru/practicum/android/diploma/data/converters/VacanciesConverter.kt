@@ -1,5 +1,6 @@
 package ru.practicum.android.diploma.data.converters
 
+import ru.practicum.android.diploma.data.dto.AddressDto
 import ru.practicum.android.diploma.data.dto.ContactsDto
 import ru.practicum.android.diploma.data.dto.IdNameDto
 import ru.practicum.android.diploma.data.response.AreaResponse
@@ -19,6 +20,7 @@ import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.domain.models.VacancyDetail
 
 class VacanciesConverter {
+
     fun convert(dto: VacancyResponse) = with(dto) {
         VacancyDetail(
             id = id,
@@ -27,8 +29,8 @@ class VacanciesConverter {
             salaryMax = salary?.to,
             currency = salary?.currency ?: "",
             companyName = employer.name,
-            companylogo = employer.logoUrls?.original ?: "",
-            companyAddress = "", // todo -,
+            companyLogo = employer.logoUrls?.original ?: "",
+            companyAddress = getAddress(address).ifEmpty { area.name },
             experience = experience?.name ?: "",
             description = description ?: "",
             employment = employment?.name ?: "",
@@ -36,13 +38,19 @@ class VacanciesConverter {
             contactName = contacts?.name ?: "",
             contactEmail = contacts?.email ?: "",
             contactPhone = getPhone(contacts),
-            contactComment = getComment(contacts)
+            contactComment = getComment(contacts),
         )
     }
 
     private fun getSkills(list: List<IdNameDto>?) = list?.mapNotNull { it.name } ?: emptyList()
     private fun getPhone(contacts: ContactsDto?) = contacts?.phones?.firstOrNull()?.number ?: ""
     private fun getComment(contacts: ContactsDto?) = contacts?.phones?.firstOrNull()?.comment ?: ""
+
+    private fun getAddress(dto: AddressDto?): String {
+        return with(dto ?: return "") {
+            listOfNotNull(city, street, building).joinToString(", ")
+        }
+    }
 
     fun convert(response: VacanciesResponse): Vacancies {
         return with(response) {

@@ -329,7 +329,7 @@
             <androidx.constraintlayout.widget.Group
                 android:id="@+id/contacts"
                 style="@style/constraint_auxiliary"
-                app:constraint_referenced_tags="contacts_name, contacts_phone, contacts_email, contacts_comment"
+                app:constraint_referenced_tags="contacts_capt, contacts_name, contacts_phone, contacts_email, contacts_comment"
                 app:layout_constraintTag="contacts" />
 
             <TextView

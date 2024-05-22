@@ -5,7 +5,6 @@ import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.practicum.android.diploma.data.converters.VacanciesConverter
-import ru.practicum.android.diploma.data.converters.VacanciesDescriptionConverter
 import ru.practicum.android.diploma.data.impl.main.VacanciesRepositoryImpl
 import ru.practicum.android.diploma.data.network.HeadHunterApiService
 import ru.practicum.android.diploma.domain.api.VacanciesRepository
@@ -27,9 +26,6 @@ val main = module {
 
     single<VacanciesConverter> {
         VacanciesConverter()
-    }
-    single<VacanciesDescriptionConverter> {
-        VacanciesDescriptionConverter()
     }
 
     single<HeadHunterApiService> {

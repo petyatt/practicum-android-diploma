@@ -8,7 +8,7 @@ data class VacancyDetail(
     val currency: String,
     val companyName: String,
     val companyAddress: String,
-    val companylogo: String,
+    val companyLogo: String,
     val experience: String,
     val description: String,
     val employment: String,
