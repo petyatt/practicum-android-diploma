@@ -54,11 +54,11 @@ class MainFragment : Fragment() {
         vacancyListAdapter = VacancyListAdapter(
             vacancyList = ArrayList(),
             onClickVacancy = {
-                val bundle = Bundle()
-                bundle.putParcelable("vacancy", it)
-                findNavController().navigate(R.id.vacancyFragment, bundle)
+                findNavController().navigate(
+                    R.id.action_mainFragment_to_vacancyFragment,
+                    bundleOf(ARG_VACANCY_ID to it.id)
+                )
             })
-
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
         binding.recyclerView.adapter = vacancyListAdapter
     }

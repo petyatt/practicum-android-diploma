@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -15,17 +16,17 @@ import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.ui.favorites.viewmodel.FavoritesState
 import ru.practicum.android.diploma.ui.favorites.viewmodel.FavoritesViewModel
 import ru.practicum.android.diploma.ui.main.VacancyListAdapter
+import ru.practicum.android.diploma.ui.vacancy.VacancyFragment.Companion.ARG_VACANCY_ID
 
 class FavoritesFragment : Fragment() {
     private var _binding: FragmentFavoritesBinding? = null
     private val binding get() = _binding!!
     private val viewModel by viewModel<FavoritesViewModel>()
-    private val adapter = VacancyListAdapter(mutableListOf()) { vacancy ->
-        if (viewModel.clickDebounce()) {
-            val args = Bundle()
-            args.putParcelable("vacancy", vacancy)
-            findNavController().navigate(R.id.vacancyFragment, args)
-        }
+    private val adapter = VacancyListAdapter(mutableListOf()) {
+        findNavController().navigate(
+            R.id.action_favoritesFragment_to_vacancyFragment,
+            bundleOf(ARG_VACANCY_ID to it.id)
+        )
     }
 
     override fun onCreateView(

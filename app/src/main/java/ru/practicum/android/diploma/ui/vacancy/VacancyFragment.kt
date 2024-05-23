@@ -44,7 +44,6 @@ class VacancyFragment : Fragment() {
 
         with(binding) {
             buttNav.setOnClickListener { findNavController().navigateUp() }
-            buttFav.setOnClickListener { viewModel.changeFavourite() }
             viewModel.vacancyState.observe(viewLifecycleOwner) {
                 when (it) {
                     is ScreenState.Loading -> {
@@ -64,21 +63,16 @@ class VacancyFragment : Fragment() {
             }
         }
 
-        @Suppress("DEPRECATION")
-        val vacancy = requireArguments().getParcelable<Vacancy>("vacancy")!!
-        viewModel.getVacancyState(vacancy.id)
-        viewModel.vacancy = vacancy
-
-        viewModel.isFavorite.observe(viewLifecycleOwner, ::renderFavorite)
+        val id = requireArguments().getString(ARG_VACANCY_ID, "")
+        if (id.isBlank()) {
+            findNavController().navigateUp()
+            return
+        }
+        viewModel.getVacancyState(id)
 
         binding.buttShare.setOnClickListener {
-            viewModel.shareVacation(vacancy.id)
+            viewModel.shareVacation(id)
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.checkFavorite()
     }
 
     override fun onDestroyView() {

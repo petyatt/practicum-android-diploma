@@ -20,45 +20,12 @@ class VacancyViewModel(
     private val favoritesInteractor: FavoritesInteractor
 ) : ViewModel() {
 
-    var vacancy: Vacancy? = null
-
     private val _vacancyState = MutableLiveData<ScreenState<Vacancy>>()
     val vacancyState: LiveData<ScreenState<Vacancy>> = _vacancyState
-
-    private val _isFavorite = MutableLiveData<Boolean>()
-    val isFavorite: LiveData<Boolean> = _isFavorite
 
     init {
         viewModelScope.launch {
             _vacancyState.postValue(ScreenState.Loading())
-        }
-    }
-
-    private fun renderFavorite(favorite: Boolean) {
-        _isFavorite.postValue(favorite)
-    }
-
-    fun changeFavourite() {
-        viewModelScope.launch {
-            val favorite = _isFavorite.value ?: false
-            if (vacancy != null) {
-                if (favorite) {
-                    favoritesInteractor.removeVacancy(vacancy!!.id)
-                } else {
-                    favoritesInteractor.addVacancy(vacancy!!)
-                }
-                renderFavorite(!favorite)
-            }
-        }
-    }
-
-    fun checkFavorite() {
-        viewModelScope.launch {
-            if (vacancy != null) {
-                favoritesInteractor.checkVacancy(vacancy!!.id).collect {
-                    renderFavorite(it)
-                }
-            }
         }
     }
 
