@@ -17,7 +17,7 @@ val vacancy = module {
     }
 
     single<VacancyInteractor> {
-        VacancyInteractorImpl(repository = get())
+        VacancyInteractorImpl(vacancies = get(), favorites = get())
     }
 
     viewModel {

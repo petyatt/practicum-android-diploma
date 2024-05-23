@@ -16,6 +16,11 @@ class FavoritesRepositoryImpl(
         emit(vacancyDbConverter.convert(vacancies))
     }
 
+    override suspend fun get(id: String): Vacancy? {
+        val entity = appDatabase.vacancyDao().getVacancyById(id) ?: return null
+        return vacancyDbConverter.convert(entity)
+    }
+
     override suspend fun addVacancy(vacancy: Vacancy) {
         appDatabase.vacancyDao().addVacancy(vacancyDbConverter.convert(vacancy))
     }
