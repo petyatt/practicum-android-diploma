@@ -50,17 +50,19 @@ class VacancyFragment : Fragment() {
                         data.isVisible = false
                         loading.isVisible = true
                     }
-
                     is ScreenState.Loaded -> {
                         vacancy = it.t
                         showVacancy()
+                        viewModel.getIsFavorite(it.t.id)
                     }
-
+                    is ScreenState.IsFavorite -> renderFavorite(it.value)
                     else -> {
                         TODO("Обработка ошибки")
                     }
                 }
             }
+
+            buttFav.setOnClickListener { if (vacancy != null) viewModel.changeIsFavorite(vacancy!!) }
         }
 
         val id = requireArguments().getString(ARG_VACANCY_ID, "")

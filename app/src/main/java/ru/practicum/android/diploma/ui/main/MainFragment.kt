@@ -115,6 +115,7 @@ class MainFragment : Fragment() {
             is ScreenState.Loaded -> showContent(state.t)
             is ScreenState.NotConnection -> showError(R.drawable.placeholder_no_internet, R.string.bad_connection)
             is ScreenState.ServerError -> showError(R.drawable.placeholder_no_vacancies, R.string.no_vacancies)
+            else -> {}
         }
     }
 
