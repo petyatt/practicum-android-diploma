@@ -1,7 +1,5 @@
 package ru.practicum.android.diploma.data.impl.main
 
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import ru.practicum.android.diploma.data.converters.VacanciesConverter
 import ru.practicum.android.diploma.data.dto.ResponseCode
 import ru.practicum.android.diploma.data.network.NetworkClient
@@ -21,12 +19,13 @@ class VacanciesRepositoryImpl(
     VacanciesRepository {
 
     override suspend fun searchVacancies(vacancy: String, page: Int): Resource<Vacancies> {
-        val response = networkClient.doRequest(MainRequest(vacancy = vacancy, page))
+        val response = networkClient.doRequest(MainRequest(vacancy, page))
         return when (response.resultCode) {
             ResponseCode.SUCCESS -> {
                 val data = vacanciesConverter.convert(response as VacanciesResponse)
                 Resource.Success(data)
             }
+
             ResponseCode.NOT_CONNECTION -> Resource.NotConnection()
             else -> Resource.Failed()
         }
@@ -39,6 +38,7 @@ class VacanciesRepositoryImpl(
                 val data = vacanciesConverter.convert(response as VacancyResponse)
                 Resource.Success(data)
             }
+
             ResponseCode.NOT_CONNECTION -> Resource.NotConnection()
             else -> Resource.Failed()
         }

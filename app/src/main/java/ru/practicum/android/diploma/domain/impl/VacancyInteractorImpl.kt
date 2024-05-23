@@ -7,7 +7,8 @@ import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.util.Resource
 
 class VacancyInteractorImpl(
-    private val vacancies: VacanciesRepository, private val favorites: FavoritesRepository
+    private val vacancies: VacanciesRepository,
+    private val favorites: FavoritesRepository
 ) : VacancyInteractor {
 
     override suspend fun get(id: String): Resource<Vacancy> {
