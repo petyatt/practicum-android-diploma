@@ -55,7 +55,7 @@ class MainFragment : Fragment() {
             vacancyList = ArrayList(),
             onClickVacancy = {
                 val bundle = Bundle()
-                bundle.putParcelable("vacancy",it)
+                bundle.putParcelable("vacancy", it)
                 findNavController().navigate(R.id.vacancyFragment, bundle)
             })
 
