@@ -10,7 +10,6 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
@@ -24,23 +23,19 @@ import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentMainBinding
 import ru.practicum.android.diploma.domain.models.Vacancies
 import ru.practicum.android.diploma.ui.model.ScreenState
-import ru.practicum.android.diploma.ui.vacancy.VacancyFragment.Companion.ARG_VACANCY_ID
 import ru.practicum.android.diploma.util.debounce
 
 class MainFragment : Fragment() {
     private var _binding: FragmentMainBinding? = null
-    private var vacancyListAdapter = VacancyListAdapter(ArrayList()) {
-        findNavController().navigate(R.id.action_mainFragment_to_vacancyFragment, bundleOf(ARG_VACANCY_ID to it))
-    }
+    private lateinit var vacancyListAdapter: VacancyListAdapter
+
     private val binding get() = _binding!!
     private val onSearchDebounce = debounce<String>(SEARCH_DEBOUNCE_DELAY, lifecycleScope, true) { search(it) }
     private var lastSearchText: String = ""
     private val viewModel by viewModel<MainViewModel>()
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentMainBinding.inflate(inflater, container, false)
         return binding.root
@@ -54,7 +49,15 @@ class MainFragment : Fragment() {
         setSearchFieldListeners()
 
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
+        vacancyListAdapter = VacancyListAdapter(
+            vacancyList = ArrayList(),
+            onClickVacancy = {
+            val bundle = Bundle()
+            bundle.putParcelable("vacancy", it)
+            findNavController().navigate(R.id.vacancyFragment, bundle)
+        })
         binding.recyclerView.adapter = vacancyListAdapter
+
     }
 
     override fun onDestroyView() {
@@ -68,8 +71,7 @@ class MainFragment : Fragment() {
             setOnEditorActionListener { v, actionId, _ ->
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     search(v.text.toString())
-                    val imm = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE)
-                        as InputMethodManager
+                    val imm = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                     imm.hideSoftInputFromWindow(v.windowToken, 0)
                 }
                 false

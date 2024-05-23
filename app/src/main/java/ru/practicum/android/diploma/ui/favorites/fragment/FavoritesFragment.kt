@@ -1,6 +1,8 @@
 package ru.practicum.android.diploma.ui.favorites.fragment
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,18 +22,10 @@ class FavoritesFragment : Fragment() {
     private var _binding: FragmentFavoritesBinding? = null
     private val binding get() = _binding!!
     private val viewModel by viewModel<FavoritesViewModel>()
-    private val adapter = VacancyListAdapter(mutableListOf()) { vacancy ->
-        if (viewModel.clickDebounce()) {
-            val args = Bundle()
-            args.putSerializable("vacancy", vacancy)
-            findNavController().navigate(R.id.action_favoritesFragment_to_vacancyFragment, args)
-        }
-    }
+    private lateinit var adapter: VacancyListAdapter
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentFavoritesBinding.inflate(inflater, container, false)
         return binding.root
@@ -41,6 +35,13 @@ class FavoritesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        adapter = VacancyListAdapter(mutableListOf()) { vacancy ->
+            if (viewModel.clickDebounce()) {
+                val args = Bundle()
+                args.putParcelable("vacancy", vacancy)
+                findNavController().navigate(R.id.vacancyFragment, args)
+            }
+        }
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = adapter
 
@@ -55,24 +56,20 @@ class FavoritesFragment : Fragment() {
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun showFavourites(favourites: List<Vacancy>) {
-        binding.apply {
-            ivPlaceholder.isVisible = false
-            recyclerView.isVisible = true
-        }
 
-        adapter.vacancyList.addAll(
-            favourites.map {
-                Vacancy(
-                    it.id,
-                    it.name,
-                    it.area,
-                    it.employer,
-                    it.employment,
-                    it.salary
-                )
-            }
-        )
+        binding.ivPlaceholder.isVisible = false
+        binding.recyclerView.isVisible = true
+
+        Log.d("SIZE_FAV", favourites.size.toString())
+        adapter.vacancyList.clear()
+        adapter.vacancyList.addAll(favourites.map {
+            Vacancy(
+                it.id, it.name, it.area, it.employer, it.employment, it.salary
+            )
+        })
+        adapter.notifyDataSetChanged()
     }
 
     private fun showEmpty() {
@@ -84,11 +81,21 @@ class FavoritesFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        Log.d("SIZE", adapter.vacancyList.size.toString())
         viewModel.getVacancies()
     }
+
+    @SuppressLint("NotifyDataSetChanged")
+    override fun onPause() {
+        adapter.vacancyList.clear()
+        binding.recyclerView.adapter?.notifyDataSetChanged()
+        super.onPause()
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        adapter.vacancyList.clear()
     }
 }

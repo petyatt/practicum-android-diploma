@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentVacancyBinding
+import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.domain.models.VacancyDetail
 import ru.practicum.android.diploma.ui.model.ScreenState
 
@@ -60,13 +61,16 @@ class VacancyFragment : Fragment() {
                 }
             }
         }
-        val id = requireArguments().getString(ARG_VACANCY_ID, "")
-        viewModel.getVacancyState(id)
+        @Suppress("DEPRECATION")
+        val vacancy = requireArguments().getParcelable<Vacancy>("vacancy")!!
+        viewModel.getVacancyState(vacancy.id)
+
+        viewModel.vacancy = vacancy
 
         viewModel.isFavorite.observe(viewLifecycleOwner, ::renderFavorite)
 
         binding.buttShare.setOnClickListener {
-            viewModel.shareVacation(id)
+            viewModel.shareVacation(vacancy.id)
         }
     }
 

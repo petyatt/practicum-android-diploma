@@ -21,7 +21,10 @@ class VacancyViewModel(
     private val favoritesInteractor: FavoritesInteractor
 ) : ViewModel() {
 
-    private var vacancy: Vacancy? = null
+    var vacancy: Vacancy? = null
+        set(value){
+            field = value
+        }
 
     private val _vacancyState = MutableLiveData<ScreenState<VacancyDetail>>()
     val vacancyState: LiveData<ScreenState<VacancyDetail>> = _vacancyState
