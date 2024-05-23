@@ -29,9 +29,7 @@ import ru.practicum.android.diploma.util.debounce
 
 class MainFragment : Fragment() {
     private var _binding: FragmentMainBinding? = null
-    private var vacancyListAdapter = VacancyListAdapter(ArrayList()) {
-        findNavController().navigate(R.id.action_mainFragment_to_vacancyFragment, bundleOf(ARG_VACANCY_ID to it))
-    }
+    private var vacancyListAdapter: VacancyListAdapter? = null
     private val binding get() = _binding!!
     private val onSearchDebounce = debounce<String>(SEARCH_DEBOUNCE_DELAY, lifecycleScope, true) { search(it) }
     private var lastSearchText: String = ""
@@ -52,6 +50,14 @@ class MainFragment : Fragment() {
         viewModel.state.observe(viewLifecycleOwner) { render(it) }
         showDefaultState()
         setSearchFieldListeners()
+
+        vacancyListAdapter = VacancyListAdapter(
+            vacancyList = ArrayList(),
+            onClickVacancy = {
+                val bundle = Bundle()
+                bundle.putParcelable("vacancy",it)
+                findNavController().navigate(R.id.vacancyFragment, bundle)
+            })
 
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
         binding.recyclerView.adapter = vacancyListAdapter
@@ -75,8 +81,8 @@ class MainFragment : Fragment() {
             }
             doOnTextChanged { text, _, _, _ ->
                 if (text.isNullOrBlank()) {
-                    vacancyListAdapter.vacancyList.clear()
-                    vacancyListAdapter.notifyDataSetChanged()
+                    vacancyListAdapter?.vacancyList?.clear()
+                    vacancyListAdapter?.notifyDataSetChanged()
                     showDefaultState()
                 } else {
                     onSearchDebounce(text.toString())
@@ -88,7 +94,7 @@ class MainFragment : Fragment() {
                 super.onScrolled(recyclerView, dx, dy)
                 if (dy > 0) {
                     val pos = (binding.recyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
-                    val itemsCount = vacancyListAdapter.itemCount
+                    val itemsCount = vacancyListAdapter!!.itemCount
                     if (pos >= itemsCount - 1) {
                         binding.progressBarBottom.isVisible = true
                         onSearchDebounce(binding.search.text.toString())
@@ -147,8 +153,8 @@ class MainFragment : Fragment() {
         binding.progressBarBottom.isVisible = false
         binding.tvNumberVacancies.isVisible = true
         binding.tvNumberVacancies.text = getStringOfVacancies(vacancies.found)
-        vacancyListAdapter.vacancyList.addAll(vacancies.items)
-        vacancyListAdapter.notifyDataSetChanged()
+        vacancyListAdapter?.vacancyList?.addAll(vacancies.items)
+        vacancyListAdapter?.notifyDataSetChanged()
     }
 
     private fun getStringOfVacancies(count: Int): String {

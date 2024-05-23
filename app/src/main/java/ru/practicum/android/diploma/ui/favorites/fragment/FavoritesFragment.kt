@@ -23,8 +23,8 @@ class FavoritesFragment : Fragment() {
     private val adapter = VacancyListAdapter(mutableListOf()) { vacancy ->
         if (viewModel.clickDebounce()) {
             val args = Bundle()
-            args.putSerializable("vacancy", vacancy)
-            findNavController().navigate(R.id.action_favoritesFragment_to_vacancyFragment, args)
+            args.putParcelable("vacancy", vacancy)
+            findNavController().navigate(R.id.vacancyFragment, args)
         }
     }
 
@@ -60,7 +60,7 @@ class FavoritesFragment : Fragment() {
             ivPlaceholder.isVisible = false
             recyclerView.isVisible = true
         }
-
+        adapter.vacancyList.clear()
         adapter.vacancyList.addAll(favourites)
     }
 

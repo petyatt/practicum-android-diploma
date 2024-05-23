@@ -63,13 +63,16 @@ class VacancyFragment : Fragment() {
                 }
             }
         }
-        val id = requireArguments().getString(ARG_VACANCY_ID, "")
-        viewModel.getVacancyState(id)
+
+        @Suppress("DEPRECATION")
+        val vacancy = requireArguments().getParcelable<Vacancy>("vacancy")!!
+        viewModel.getVacancyState(vacancy.id)
+        viewModel.vacancy = vacancy
 
         viewModel.isFavorite.observe(viewLifecycleOwner, ::renderFavorite)
 
         binding.buttShare.setOnClickListener {
-            viewModel.shareVacation(id)
+            viewModel.shareVacation(vacancy.id)
         }
     }
 
