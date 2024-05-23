@@ -59,16 +59,13 @@ class FavoritesFragment : Fragment() {
     @SuppressLint("NotifyDataSetChanged")
     private fun showFavourites(favourites: List<Vacancy>) {
 
+
         binding.ivPlaceholder.isVisible = false
         binding.recyclerView.isVisible = true
 
         Log.d("SIZE_FAV", favourites.size.toString())
         adapter.vacancyList.clear()
-        adapter.vacancyList.addAll(favourites.map {
-            Vacancy(
-                it.id, it.name, it.area, it.employer, it.employment, it.salary
-            )
-        })
+        adapter.vacancyList.addAll(favourites)
         adapter.notifyDataSetChanged()
     }
 

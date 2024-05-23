@@ -7,6 +7,7 @@ import ru.practicum.android.diploma.domain.models.Vacancy
 class VacancyListAdapter(
     val vacancyList: MutableList<Vacancy>, val onClickVacancy: VacancyClick
 ) : RecyclerView.Adapter<VacancyItemViewHolder>() {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = VacancyItemViewHolder(parent)
 
     override fun getItemCount() = vacancyList.size
