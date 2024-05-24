@@ -1,91 +1,38 @@
 package ru.practicum.android.diploma.data.network
 
 import android.content.Context
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
+import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 import ru.practicum.android.diploma.data.dto.Response
-import ru.practicum.android.diploma.data.network.request.RequestVacancies
-import java.io.IOException
+import ru.practicum.android.diploma.data.dto.ResponseCode
+import ru.practicum.android.diploma.data.request.MainRequest
+import ru.practicum.android.diploma.data.request.Request
+import ru.practicum.android.diploma.data.request.VacancyRequest
+import ru.practicum.android.diploma.util.isConnected
 
 class RetrofitNetworkClient(
     private val headHunterApiService: HeadHunterApiService,
     private val context: Context
 ) : NetworkClient {
-    @Suppress("TooGenericExceptionCaught")
-    override suspend fun doRequest(dto: Any): Response {
-        if (!isConnected()) {
-            return Response().apply { resultCode = NO_INTERNET_ERROR }
+    override suspend fun doRequest(dto: Request): Response {
+        if (!isConnected(context)) {
+            return Response().apply { resultCode = ResponseCode.NOT_CONNECTION }
         }
 
         return withContext(Dispatchers.IO) {
             try {
-                when (dto) {
-                    is RequestVacancies -> {
-                        headHunterApiService.getVacancies(
-                            text = dto.text,
-                            page = dto.page,
-                            perPage = dto.perPage,
-                            area = dto.area,
-                            industry = dto.industry,
-                            salary = dto.salary,
-                            onlyWithSalary = dto.onlyWithSalary
-                        )
-
-                        Response().apply { resultCode = SUCCESS }
-                    }
-
-                    else -> {
-                        Response().apply { resultCode = CLIENT_ERROR }
-                    }
+                val response = when (dto) {
+                    is MainRequest -> headHunterApiService.getVacancies(vacancy = dto.vacancy, page = dto.page)
+                    is VacancyRequest -> headHunterApiService.getVacancy(id = dto.id)
+                    else -> Response().apply { resultCode = ResponseCode.FAILED }
                 }
-
-            } catch (e: IOException) {
-                e.printStackTrace()
-                Response().apply { resultCode = NO_INTERNET_ERROR }
+                response.apply { resultCode = ResponseCode.SUCCESS }
             } catch (e: HttpException) {
-                e.printStackTrace()
-                getHttpExceptionResponse()
-            } catch (e: RuntimeException) {
-                e.printStackTrace()
-                getRuntimeExceptionResponse()
-            } catch (e: Exception) {
-                e.printStackTrace()
-                Response().apply { resultCode = SERVER_ERROR }
-            }
-
-        }
-    }
-
-    private fun isConnected(): Boolean {
-        val connectivityManager = context.getSystemService(
-            Context.CONNECTIVITY_SERVICE
-        ) as ConnectivityManager
-        val capabilities = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
-        if (capabilities != null) {
-            when {
-                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) or capabilities.hasTransport(
-                    NetworkCapabilities.TRANSPORT_WIFI
-                ) -> return true
+                Log.e("NetworkClientHttpException", e.message.toString(), e)
+                Response().apply { resultCode = ResponseCode.FAILED }
             }
         }
-        return false
-    }
-
-    private suspend fun getHttpExceptionResponse(): Response {
-        return Response().apply { resultCode = SERVER_ERROR }
-    }
-
-    private suspend fun getRuntimeExceptionResponse(): Response {
-        return Response().apply { resultCode = CLIENT_ERROR }
-    }
-
-    companion object {
-        private const val CLIENT_ERROR = 400
-        private const val SERVER_ERROR = 500
-        private const val NO_INTERNET_ERROR = -1
-        private const val SUCCESS = 200
     }
 }

@@ -5,10 +5,42 @@
     <string name="team">Команда</string>
     <string name="filter">Настройки вакансий</string>
     <string name="vacancies_search">Поиск вакансий</string>
+
     <string name="vacancy">Вакансия</string>
+    <string name="salary_from">от</string>
+    <string name="salary_to">до</string>
+    <string name="no_salary">зарплата не указана</string>
+    <string name="experience">Требуемый опыт</string>
+    <string name="vacancy_description">Описание вакансии</string>
+    <string name="skills">Ключевые навыки</string>
+    <string name="contacts">Контакты</string>
+    <string name="contacts_name">Контактное лицо</string>
+    <string name="contacts_email">E-mail</string>
+    <string name="contacts_phone">Телефон</string>
+    <string name="contacts_comment">Комментарий</string>
+
+    <string name="tools_vacancy_description">
+        <b>Обязанности</b>\n
+        \t• Разрабатывать новую функциональность\n
+        \t• Помогать с интеграцией\n
+        \t• Проектировать большие новые модули\n
+        \t• Писать UI- и unit-тесты\n
+        \t• Следить за работоспособностью сервиса
+    </string>
+
+    <string name="tools_skills">
+        \t• Знание классических алгоритмов\n
+        \t• Программирование для Android больше года\n
+        \t• Знание WebRTC
+    </string>
 
     <string name="team_title">Над приложением работали</string>
     <string name="team_list">Михаил Павлов\nНиколай Михайлов\nПетр Ткаченко\nАлексей Муренков</string>
     
     <string name="main_search_hint">Введите запрос</string>
+    <string name="bad_connection">Нет интернета</string>
+    <string name="server_error">Ошибка сервера</string>
+    <string name="no_vacancies">Не удалось получить\nсписок вакансий</string>
+    <string name="error_message">ОШИБКА: %1$s</string>
+    <string name="not_find_vacancies">Таких вакансий нет</string>
 </resources>

@@ -6,7 +6,7 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.context.startKoin
 import ru.practicum.android.diploma.di.favorites
 import ru.practicum.android.diploma.di.filter
-import ru.practicum.android.diploma.di.team
+import ru.practicum.android.diploma.di.main
 import ru.practicum.android.diploma.di.vacancy
 
 class App : Application(), KoinComponent {
@@ -18,7 +18,7 @@ class App : Application(), KoinComponent {
             modules(
                 favorites,
                 filter,
-                team,
+                main,
                 vacancy
             )
         }
