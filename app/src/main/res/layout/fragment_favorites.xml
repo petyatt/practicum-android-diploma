@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     style="@style/fragment"
     tools:context=".ui.favorites.fragment.FavoritesFragment">
 
@@ -15,11 +15,18 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/layout_marginTop_16dp"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_favorite" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/placeholder"
+        style="@style/constraint_auxiliary"
+        android:visibility="invisible"
+        app:constraint_referenced_tags="placeholder_image, placeholder_text" />
 
     <ImageView
         android:id="@+id/iv_placeholder"
@@ -30,7 +37,8 @@
         android:src="@drawable/placeholder_empty_list"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerView" />
+        app:layout_constraintTag="placeholder_image"
+        app:layout_constraintTop_toBottomOf="@+id/tv_favorite" />
 
     <TextView
         android:id="@+id/tv_placeholder"
@@ -40,8 +48,18 @@
         android:layout_marginStart="@dimen/layout_marginStart_46dp"
         android:layout_marginTop="@dimen/layout_marginTop_16dp"
         android:layout_marginEnd="@dimen/layout_marginEnd_46dp"
+        android:text="@string/empty_list"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv_placeholder"
-        tools:text="Список пуст"/>
+        app:layout_constraintTag="placeholder_text"
+        app:layout_constraintTop_toBottomOf="@+id/iv_placeholder" />
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        style="@style/progress_bar"
+        app:layout_constraintTop_toBottomOf="@id/tv_favorite"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

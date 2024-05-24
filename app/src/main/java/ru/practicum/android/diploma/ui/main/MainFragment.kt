@@ -23,17 +23,22 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentMainBinding
 import ru.practicum.android.diploma.domain.models.Vacancies
+import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.ui.model.ScreenState
 import ru.practicum.android.diploma.ui.vacancy.VacancyFragment.Companion.ARG_VACANCY_ID
 import ru.practicum.android.diploma.util.debounce
 
 class MainFragment : Fragment() {
     private var _binding: FragmentMainBinding? = null
-    private var vacancyListAdapter = VacancyListAdapter(ArrayList()) {
-        findNavController().navigate(R.id.action_mainFragment_to_vacancyFragment, bundleOf(ARG_VACANCY_ID to it))
-    }
+    private var vacancyListAdapter: VacancyListAdapter? = null
     private val binding get() = _binding!!
     private val onSearchDebounce = debounce<String>(SEARCH_DEBOUNCE_DELAY, lifecycleScope, true) { search(it) }
+    private val onVacancyClickDebounce = debounce<Vacancy>(VACANCY_CLICK_DEBOUNCE_DELAY, lifecycleScope, false) {
+        findNavController().navigate(
+            R.id.action_mainFragment_to_vacancyFragment,
+            bundleOf(ARG_VACANCY_ID to it.id)
+        )
+    }
     private var lastSearchText: String = ""
     private val viewModel by viewModel<MainViewModel>()
 
@@ -53,6 +58,7 @@ class MainFragment : Fragment() {
         showDefaultState()
         setSearchFieldListeners()
 
+        vacancyListAdapter = VacancyListAdapter(mutableListOf(), onVacancyClickDebounce)
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
         binding.recyclerView.adapter = vacancyListAdapter
     }
@@ -75,8 +81,8 @@ class MainFragment : Fragment() {
             }
             doOnTextChanged { text, _, _, _ ->
                 if (text.isNullOrBlank()) {
-                    vacancyListAdapter.vacancyList.clear()
-                    vacancyListAdapter.notifyDataSetChanged()
+                    vacancyListAdapter?.vacancyList?.clear()
+                    vacancyListAdapter?.notifyDataSetChanged()
                     showDefaultState()
                 } else {
                     onSearchDebounce(text.toString())
@@ -88,7 +94,7 @@ class MainFragment : Fragment() {
                 super.onScrolled(recyclerView, dx, dy)
                 if (dy > 0) {
                     val pos = (binding.recyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
-                    val itemsCount = vacancyListAdapter.itemCount
+                    val itemsCount = vacancyListAdapter!!.itemCount
                     if (pos >= itemsCount - 1) {
                         binding.progressBarBottom.isVisible = true
                         onSearchDebounce(binding.search.text.toString())
@@ -109,6 +115,7 @@ class MainFragment : Fragment() {
             is ScreenState.Loaded -> showContent(state.t)
             is ScreenState.NotConnection -> showError(R.drawable.placeholder_no_internet, R.string.bad_connection)
             is ScreenState.ServerError -> showError(R.drawable.placeholder_no_vacancies, R.string.no_vacancies)
+            else -> {}
         }
     }
 
@@ -147,8 +154,8 @@ class MainFragment : Fragment() {
         binding.progressBarBottom.isVisible = false
         binding.tvNumberVacancies.isVisible = true
         binding.tvNumberVacancies.text = getStringOfVacancies(vacancies.found)
-        vacancyListAdapter.vacancyList.addAll(vacancies.items)
-        vacancyListAdapter.notifyDataSetChanged()
+        vacancyListAdapter?.vacancyList?.addAll(vacancies.items)
+        vacancyListAdapter?.notifyDataSetChanged()
     }
 
     private fun getStringOfVacancies(count: Int): String {
@@ -165,5 +172,6 @@ class MainFragment : Fragment() {
 
     companion object {
         private const val SEARCH_DEBOUNCE_DELAY = 2000L
+        private const val VACANCY_CLICK_DEBOUNCE_DELAY = 500L
     }
 }

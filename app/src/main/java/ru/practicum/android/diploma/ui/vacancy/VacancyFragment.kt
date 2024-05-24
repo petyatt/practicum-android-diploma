@@ -44,38 +44,37 @@ class VacancyFragment : Fragment() {
 
         with(binding) {
             buttNav.setOnClickListener { findNavController().navigateUp() }
-            buttFav.setOnClickListener { viewModel.changeFavourite() }
             viewModel.vacancyState.observe(viewLifecycleOwner) {
                 when (it) {
                     is ScreenState.Loading -> {
                         data.isVisible = false
                         loading.isVisible = true
                     }
-
                     is ScreenState.Loaded -> {
                         vacancy = it.t
                         showVacancy()
+                        viewModel.getIsFavorite(it.t.id)
                     }
-
+                    is ScreenState.IsFavorite -> renderFavorite(it.value)
                     else -> {
                         TODO("Обработка ошибки")
                     }
                 }
             }
-        }
-        val id = requireArguments().getString(ARG_VACANCY_ID, "")
-        viewModel.getVacancyState(id)
 
-        viewModel.isFavorite.observe(viewLifecycleOwner, ::renderFavorite)
+            buttFav.setOnClickListener { if (vacancy != null) viewModel.changeIsFavorite(vacancy!!) }
+        }
+
+        val id = requireArguments().getString(ARG_VACANCY_ID, "")
+        if (id.isBlank()) {
+            findNavController().navigateUp()
+            return
+        }
+        viewModel.getVacancyState(id)
 
         binding.buttShare.setOnClickListener {
             viewModel.shareVacation(id)
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.checkFavorite()
     }
 
     override fun onDestroyView() {
