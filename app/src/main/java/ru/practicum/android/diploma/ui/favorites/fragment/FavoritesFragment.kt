@@ -39,7 +39,6 @@ class FavoritesFragment : Fragment() {
     ): View {
         _binding = FragmentFavoritesBinding.inflate(inflater, container, false)
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -47,19 +46,17 @@ class FavoritesFragment : Fragment() {
 
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         viewModel.favouriteVacancies.observe(viewLifecycleOwner, ::renderState)
-
     }
 
     private fun renderState(favourites: List<Vacancy>) {
-        if (favourites.isNotEmpty()) {
-            binding.apply {
-                ivPlaceholder.isVisible = false
+        with(binding) {
+            progressBar.isVisible = false
+            if (favourites.isNotEmpty()) {
+                placeholder.isVisible = false
                 recyclerView.isVisible = true
                 recyclerView.adapter = VacancyListAdapter(favourites.toMutableList(), onVacancyClickDebounce)
-            }
-        } else {
-            binding.apply {
-                ivPlaceholder.isVisible = true
+            } else {
+                placeholder.isVisible = true
                 recyclerView.isVisible = false
             }
         }
@@ -72,6 +69,11 @@ class FavoritesFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        with(binding) {
+            progressBar.isVisible = true
+            placeholder.isVisible = false
+            recyclerView.isVisible = false
+        }
         _binding = null
     }
 

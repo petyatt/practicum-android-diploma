@@ -2,6 +2,8 @@
     <string name="app_name">Practicum-Android-Diploma</string>
     <string name="main">Главная</string>
     <string name="favorites">Избранное</string>
+    <string name="empty_list">Список пуст</string>
+
     <string name="team">Команда</string>
     <string name="filter">Настройки вакансий</string>
     <string name="vacancies_search">Поиск вакансий</string>
