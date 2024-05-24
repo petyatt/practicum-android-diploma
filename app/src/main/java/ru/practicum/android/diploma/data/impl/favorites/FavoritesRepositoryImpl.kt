@@ -28,9 +28,4 @@ class FavoritesRepositoryImpl(
     override suspend fun removeVacancy(id: String) {
         appDatabase.vacancyDao().removeVacancy(id)
     }
-
-    override fun checkVacancy(id: String) = flow {
-        val answer = appDatabase.vacancyDao().getVacancyById(id) != null
-        emit(answer)
-    }
 }
