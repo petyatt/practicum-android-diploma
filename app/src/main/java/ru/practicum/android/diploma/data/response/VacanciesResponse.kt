@@ -4,7 +4,6 @@ import com.google.gson.annotations.SerializedName
 import ru.practicum.android.diploma.data.dto.AddressDto
 import ru.practicum.android.diploma.data.dto.ContactsDto
 import ru.practicum.android.diploma.data.dto.IdNameDto
-import ru.practicum.android.diploma.data.dto.Response
 
 data class VacanciesResponse(
     val found: Int,

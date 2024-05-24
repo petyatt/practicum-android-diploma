@@ -91,6 +91,7 @@ dependencies {
     // Библиотека для работы с сетью Retrofit
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
+    implementation(libs.headers)
 
     // Библиотека для загрузки изображений Glide
     implementation(libs.glide)

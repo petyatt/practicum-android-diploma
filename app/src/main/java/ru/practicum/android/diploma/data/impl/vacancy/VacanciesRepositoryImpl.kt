@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.data.impl.main
+package ru.practicum.android.diploma.data.impl.vacancy
 
 import ru.practicum.android.diploma.data.converters.VacanciesConverter
 import ru.practicum.android.diploma.data.dto.ResponseCode
