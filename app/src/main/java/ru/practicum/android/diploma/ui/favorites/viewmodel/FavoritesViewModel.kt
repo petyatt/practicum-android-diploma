@@ -10,20 +10,12 @@ import ru.practicum.android.diploma.domain.models.Vacancy
 
 class FavoritesViewModel(private val favoritesInteractor: FavoritesInteractor) : ViewModel() {
 
-    private val _favouriteVacancies = MutableLiveData<FavoritesState>()
-    val favouriteVacancies: LiveData<FavoritesState> = _favouriteVacancies
+    private val _favouriteVacancies = MutableLiveData<List<Vacancy>>()
+    val favouriteVacancies: LiveData<List<Vacancy>> = _favouriteVacancies
 
     fun getVacancies() {
         viewModelScope.launch {
-            favoritesInteractor.getAllVacancies().collect(::renderState)
-        }
-    }
-
-    private fun renderState(vacancy: List<Vacancy>) {
-        if (vacancy.isEmpty()) {
-            _favouriteVacancies.postValue(FavoritesState.Empty)
-        } else {
-            _favouriteVacancies.postValue(FavoritesState.Content(vacancy))
+            favoritesInteractor.getAllVacancies().collect { _favouriteVacancies.postValue(it) }
         }
     }
 }

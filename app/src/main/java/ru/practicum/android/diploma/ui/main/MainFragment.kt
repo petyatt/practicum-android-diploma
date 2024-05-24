@@ -53,7 +53,7 @@ class MainFragment : Fragment() {
 
         vacancyListAdapter = VacancyListAdapter(
             vacancyList = ArrayList(),
-            onClickVacancy = {
+            onClick = {
                 findNavController().navigate(
                     R.id.action_mainFragment_to_vacancyFragment,
                     bundleOf(ARG_VACANCY_ID to it.id)

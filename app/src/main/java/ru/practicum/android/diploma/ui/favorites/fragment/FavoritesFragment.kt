@@ -13,7 +13,6 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentFavoritesBinding
 import ru.practicum.android.diploma.domain.models.Vacancy
-import ru.practicum.android.diploma.ui.favorites.viewmodel.FavoritesState
 import ru.practicum.android.diploma.ui.favorites.viewmodel.FavoritesViewModel
 import ru.practicum.android.diploma.ui.main.VacancyListAdapter
 import ru.practicum.android.diploma.ui.vacancy.VacancyFragment.Companion.ARG_VACANCY_ID
@@ -21,8 +20,10 @@ import ru.practicum.android.diploma.ui.vacancy.VacancyFragment.Companion.ARG_VAC
 class FavoritesFragment : Fragment() {
     private var _binding: FragmentFavoritesBinding? = null
     private val binding get() = _binding!!
+
     private val viewModel by viewModel<FavoritesViewModel>()
-    private val adapter = VacancyListAdapter(mutableListOf()) {
+
+    private val vacancyClickListener: (Vacancy) -> Unit = {
         findNavController().navigate(
             R.id.action_favoritesFragment_to_vacancyFragment,
             bundleOf(ARG_VACANCY_ID to it.id)
@@ -43,32 +44,22 @@ class FavoritesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        binding.recyclerView.adapter = adapter
-
         viewModel.favouriteVacancies.observe(viewLifecycleOwner, ::renderState)
 
     }
 
-    private fun renderState(state: FavoritesState) {
-        when (state) {
-            is FavoritesState.Content -> showFavourites(state.data)
-            is FavoritesState.Empty -> showEmpty()
-        }
-    }
-
-    private fun showFavourites(favourites: List<Vacancy>) {
-        binding.apply {
-            ivPlaceholder.isVisible = false
-            recyclerView.isVisible = true
-        }
-        adapter.vacancyList.clear()
-        adapter.vacancyList.addAll(favourites)
-    }
-
-    private fun showEmpty() {
-        binding.apply {
-            ivPlaceholder.isVisible = true
-            recyclerView.isVisible = false
+    private fun renderState(favourites: List<Vacancy>) {
+        if (favourites.isNotEmpty()) {
+            binding.apply {
+                ivPlaceholder.isVisible = false
+                recyclerView.isVisible = true
+                recyclerView.adapter = VacancyListAdapter(favourites.toMutableList(), vacancyClickListener)
+            }
+        } else {
+            binding.apply {
+                ivPlaceholder.isVisible = true
+                recyclerView.isVisible = false
+            }
         }
     }
 
