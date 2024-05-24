@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -16,6 +17,7 @@ import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.ui.favorites.viewmodel.FavoritesViewModel
 import ru.practicum.android.diploma.ui.main.VacancyListAdapter
 import ru.practicum.android.diploma.ui.vacancy.VacancyFragment.Companion.ARG_VACANCY_ID
+import ru.practicum.android.diploma.util.debounce
 
 class FavoritesFragment : Fragment() {
     private var _binding: FragmentFavoritesBinding? = null
@@ -23,7 +25,7 @@ class FavoritesFragment : Fragment() {
 
     private val viewModel by viewModel<FavoritesViewModel>()
 
-    private val vacancyClickListener: (Vacancy) -> Unit = {
+    private val onVacancyClickDebounce = debounce<Vacancy>(VACANCY_CLICK_DEBOUNCE_DELAY, lifecycleScope, false) {
         findNavController().navigate(
             R.id.action_favoritesFragment_to_vacancyFragment,
             bundleOf(ARG_VACANCY_ID to it.id)
@@ -53,7 +55,7 @@ class FavoritesFragment : Fragment() {
             binding.apply {
                 ivPlaceholder.isVisible = false
                 recyclerView.isVisible = true
-                recyclerView.adapter = VacancyListAdapter(favourites.toMutableList(), vacancyClickListener)
+                recyclerView.adapter = VacancyListAdapter(favourites.toMutableList(), onVacancyClickDebounce)
             }
         } else {
             binding.apply {
@@ -71,5 +73,9 @@ class FavoritesFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    companion object {
+        private const val VACANCY_CLICK_DEBOUNCE_DELAY = 500L
     }
 }

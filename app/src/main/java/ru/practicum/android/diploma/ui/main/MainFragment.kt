@@ -23,6 +23,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentMainBinding
 import ru.practicum.android.diploma.domain.models.Vacancies
+import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.ui.model.ScreenState
 import ru.practicum.android.diploma.ui.vacancy.VacancyFragment.Companion.ARG_VACANCY_ID
 import ru.practicum.android.diploma.util.debounce
@@ -32,6 +33,12 @@ class MainFragment : Fragment() {
     private var vacancyListAdapter: VacancyListAdapter? = null
     private val binding get() = _binding!!
     private val onSearchDebounce = debounce<String>(SEARCH_DEBOUNCE_DELAY, lifecycleScope, true) { search(it) }
+    private val onVacancyClickDebounce = debounce<Vacancy>(VACANCY_CLICK_DEBOUNCE_DELAY, lifecycleScope, false) {
+        findNavController().navigate(
+            R.id.action_mainFragment_to_vacancyFragment,
+            bundleOf(ARG_VACANCY_ID to it.id)
+        )
+    }
     private var lastSearchText: String = ""
     private val viewModel by viewModel<MainViewModel>()
 
@@ -51,14 +58,7 @@ class MainFragment : Fragment() {
         showDefaultState()
         setSearchFieldListeners()
 
-        vacancyListAdapter = VacancyListAdapter(
-            vacancyList = ArrayList(),
-            onClick = {
-                findNavController().navigate(
-                    R.id.action_mainFragment_to_vacancyFragment,
-                    bundleOf(ARG_VACANCY_ID to it.id)
-                )
-            })
+        vacancyListAdapter = VacancyListAdapter(mutableListOf(), onVacancyClickDebounce)
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
         binding.recyclerView.adapter = vacancyListAdapter
     }
@@ -172,5 +172,6 @@ class MainFragment : Fragment() {
 
     companion object {
         private const val SEARCH_DEBOUNCE_DELAY = 2000L
+        private const val VACANCY_CLICK_DEBOUNCE_DELAY = 500L
     }
 }
