@@ -1,19 +1,25 @@
 package ru.practicum.android.diploma.ui.filter.industry
 
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.clearFragmentResultListener
+import androidx.fragment.app.setFragmentResult
+import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.databinding.FragmentIndustryBinding
+import ru.practicum.android.diploma.domain.models.Industry
 import ru.practicum.android.diploma.util.debounce
 
 class IndustryFragment : Fragment() {
@@ -33,10 +39,17 @@ class IndustryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val currentIndustry = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            arguments?.getParcelable(ARG_INDUSTRY, Industry::class.java)
+        } else {
+            arguments?.getParcelable(ARG_INDUSTRY) as? Industry
+        }
+
         with(binding) {
             buttNav.setOnClickListener { findNavController().navigateUp() }
             viewModel.industries.observe(viewLifecycleOwner) {
                 industries.adapter = IndustryAdapter(it) { select.isVisible = true }
+                (industries.adapter as IndustryAdapter).currentIndustry = currentIndustry
                 industries.isVisible = true
                 loading.isVisible = false
             }
@@ -48,6 +61,14 @@ class IndustryFragment : Fragment() {
                     imm.hideSoftInputFromWindow(v.windowToken, 0)
                 }
                 false
+            }
+            select.isVisible = currentIndustry != null
+            select.setOnClickListener {
+                setFragmentResult(
+                    REQUEST_KEY,
+                    bundleOf(RES_INDUSTRY to (industries.adapter as IndustryAdapter).currentIndustry)
+                )
+                findNavController().navigateUp()
             }
             search()
         }
@@ -66,7 +87,27 @@ class IndustryFragment : Fragment() {
     }
 
     companion object {
-        private const val SEARCH_DEBOUNCE_DELAY = 2000L
-    }
+        private const val ARG_INDUSTRY = "arg_industry"
+        private const val REQUEST_KEY = "industry_fragment_request_key"
 
+        private const val RES_INDUSTRY = "res_industry"
+        private const val SEARCH_DEBOUNCE_DELAY = 2000L
+
+        fun createArgument(arg: Industry?): Bundle? {
+            val bundle = bundleOf(ARG_INDUSTRY to (arg ?: return null))
+            return bundle
+        }
+
+        fun createResultListener(fragment: Fragment, onResponse: (Industry) -> Unit) {
+            fragment.setFragmentResultListener(REQUEST_KEY) { _, bundle ->
+                val industry = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    bundle.getParcelable(RES_INDUSTRY, Industry::class.java)
+                } else {
+                    bundle.getParcelable(RES_INDUSTRY) as? Industry
+                }
+                if (industry != null) onResponse.invoke(industry)
+                fragment.clearFragmentResultListener(REQUEST_KEY)
+            }
+        }
+    }
 }

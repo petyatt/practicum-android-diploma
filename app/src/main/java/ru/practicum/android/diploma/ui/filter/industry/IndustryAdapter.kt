@@ -11,17 +11,19 @@ class IndustryAdapter(private val industries: List<Industry>, private val onChan
 
     private val industriesMap = mutableMapOf<Industry, IndustryViewHolder>()
     var currentIndustry: Industry? = null
-        private set
+        set(value) {
+            val holder = industriesMap[field]
+            if (value != field) {
+                field = value
+                holder?.isChecked = false
+            }
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IndustryViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.industry_item, parent, false)
         return IndustryViewHolder(view) {
-            val holder = industriesMap[currentIndustry]
-            if (currentIndustry != it) {
-                currentIndustry = it
-                holder?.isChecked = false
-                onChange.invoke(it)
-            }
+            currentIndustry = it
+            onChange.invoke(it)
         }
     }
 
