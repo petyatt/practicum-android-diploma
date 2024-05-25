@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.filter.industry.IndustryFragment"
-    style="@style/fragment">
+    style="@style/fragment"
+    tools:context=".ui.filter.industry.IndustryFragment">
 
     <Toolbar
         android:layout_width="match_parent"
@@ -40,11 +40,25 @@
         android:layout_marginHorizontal="@dimen/dimen_16"
         android:layout_weight="1"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:visibility="gone"
         tools:itemCount="5"
         tools:listitem="@layout/industry_item" />
+
+    <FrameLayout
+        android:id="@+id/loading"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <ProgressBar
+            style="@style/progress_bar"
+            android:layout_gravity="center" />
+    </FrameLayout>
+
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/select"
         style="@style/confirm_button"
-        android:text="@string/select" />
+        android:text="@string/select"
+        android:visibility="gone" />
 </LinearLayout>

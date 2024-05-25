@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -34,7 +35,11 @@ class IndustryFragment : Fragment() {
 
         with(binding) {
             buttNav.setOnClickListener { findNavController().navigateUp() }
-            viewModel.industries.observe(viewLifecycleOwner) { industries.adapter = IndustryAdapter(it) {} }
+            viewModel.industries.observe(viewLifecycleOwner) {
+                industries.adapter = IndustryAdapter(it) { select.isVisible = true }
+                industries.isVisible = true
+                loading.isVisible = false
+            }
             search.doOnTextChanged { text, _, _, _ -> onSearchDebounce(text.toString()) }
             search.setOnEditorActionListener { v, actionId, _ ->
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
@@ -55,6 +60,8 @@ class IndustryFragment : Fragment() {
 
     private fun search(text: String = "") {
         lastSearchText = text
+        binding.industries.isVisible = false
+        binding.loading.isVisible = true
         viewModel.getIndustries(text)
     }
 
