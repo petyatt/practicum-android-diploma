@@ -3,7 +3,6 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("ru.practicum.android.diploma.plugins.developproperties")
-    id("kotlin-parcelize")
 }
 
 android {
@@ -91,6 +90,7 @@ dependencies {
     // Библиотека для работы с сетью Retrofit
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
+    implementation(libs.headers)
 
     // Библиотека для загрузки изображений Glide
     implementation(libs.glide)

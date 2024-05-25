@@ -43,7 +43,7 @@ class VacanciesConverter {
 
     private fun getSkills(list: List<IdNameDto>?) = list?.mapNotNull { it.name } ?: emptyList()
     private fun getPhone(contacts: ContactsDto?) = contacts?.phones?.firstOrNull()?.formatted ?: ""
-    private fun getComment(contacts: ContactsDto?) = contacts?.phones?.firstOrNull()?.formatted ?: ""
+    private fun getComment(contacts: ContactsDto?) = contacts?.phones?.firstOrNull()?.comment ?: ""
 
     private fun getAddress(dto: AddressDto?): String {
         return with(dto ?: return "") {
