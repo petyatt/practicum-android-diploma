@@ -5,6 +5,7 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 import ru.practicum.android.diploma.data.dto.CountryDto
 import ru.practicum.android.diploma.data.dto.IndustryDto
+import ru.practicum.android.diploma.data.response.AreasResponse
 import ru.practicum.android.diploma.data.response.VacanciesResponse
 import ru.practicum.android.diploma.data.response.VacancyResponse
 
@@ -20,4 +21,7 @@ interface HeadHunterApiService {
 
     @GET("/areas/countries")
     suspend fun getCountries(): List<CountryDto>
+
+    @GET("/areas/{parent_id}")
+    suspend fun getAreas(@Path("parent_id") parentId: String): AreasResponse
 }

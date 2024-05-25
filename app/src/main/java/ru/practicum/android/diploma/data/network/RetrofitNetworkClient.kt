@@ -6,6 +6,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 import ru.practicum.android.diploma.data.dto.ResponseCode
+import ru.practicum.android.diploma.data.request.AreasRequest
 import ru.practicum.android.diploma.data.request.CountriesRequest
 import ru.practicum.android.diploma.data.request.IndustriesRequest
 import ru.practicum.android.diploma.data.request.MainRequest
@@ -31,6 +32,7 @@ class RetrofitNetworkClient(
                     is VacancyRequest -> headHunterApiService.getVacancy(id = dto.id)
                     is IndustriesRequest -> ListResponse(headHunterApiService.getIndustries())
                     is CountriesRequest -> ListResponse(headHunterApiService.getCountries())
+                    is AreasRequest -> headHunterApiService.getAreas(parentId = dto.parentId)
                     else -> Response().apply { resultCode = ResponseCode.FAILED }
                 }
                 response.apply { resultCode = ResponseCode.SUCCESS }
