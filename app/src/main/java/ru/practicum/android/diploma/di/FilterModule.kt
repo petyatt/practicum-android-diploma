@@ -7,13 +7,20 @@ import ru.practicum.android.diploma.data.converters.IndustriesConverter
 import ru.practicum.android.diploma.data.impl.filters.AreasRepositoryImpl
 import ru.practicum.android.diploma.data.impl.filters.IndustriesRepositoryImpl
 import ru.practicum.android.diploma.domain.api.filters.AreasRepository
+import ru.practicum.android.diploma.domain.api.filters.IndustriesInteractor
 import ru.practicum.android.diploma.domain.api.filters.IndustriesRepository
+import ru.practicum.android.diploma.domain.impl.IndustriesInteractorImpl
 import ru.practicum.android.diploma.ui.filter.FilterViewModel
+import ru.practicum.android.diploma.ui.filter.industry.IndustryViewModel
 
 val filter = module {
 
     viewModel {
         FilterViewModel()
+    }
+
+    single<IndustriesInteractor> {
+        IndustriesInteractorImpl(repository = get())
     }
 
     single<IndustriesRepository> {
@@ -22,5 +29,9 @@ val filter = module {
 
     single<AreasRepository> {
         AreasRepositoryImpl(networkClient = get(), converter = AreasConverter())
+    }
+
+    viewModel {
+        IndustryViewModel(interactor = get())
     }
 }
