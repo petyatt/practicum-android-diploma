@@ -94,12 +94,6 @@
         <item name="placeholderTextColor">?attr/colorOnSurface</item>
     </style>
 
-    <style name="expected_salary_textInputLayout" parent="textInputLayout">
-        <item name="hintEnabled">true</item>
-        <item name="cursorColor">@color/Blue</item>
-        <item name="hintTextColor">@color/Blue</item>
-    </style>
-
     <style name="place_work_inputLayout" parent="textInputLayout">
         <item name="android:paddingStart">16dp</item>
         <item name="android:paddingTop">6dp</item>
@@ -110,8 +104,6 @@
         <item name="expandedHintEnabled">true</item>
         <item name="hintEnabled">true</item>
     </style>
-
-    <style name="expected_salary_textInputEditText" parent="textInputEditText"></style>
 
     <style name="textInputEditText">
         <item name="android:textAppearance">@style/text_regular_16</item>
