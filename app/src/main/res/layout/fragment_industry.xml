@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/fragment">
+
+    <Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dimen_16">
+
+        <ImageButton
+            android:id="@+id/butt_nav"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="?attr/colorSecondary"
+            android:src="@drawable/arrow_back" />
+
+        <TextView
+            android:id="@+id/text_top_bar"
+            style="@style/text_top_bar"
+            android:layout_width="wrap_content"
+            android:text="@string/select_industry" />
+    </Toolbar>
+
+    <ru.practicum.android.diploma.ui.main.SearchEditText
+        android:id="@+id/search"
+        style="@style/edit_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dimen_16"
+        android:layout_marginVertical="@dimen/dimen_8"
+        android:hint="@string/industry_search_hint" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/industries"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="@dimen/dimen_16"
+        android:layout_weight="1"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/select"
+        style="@style/confirm_button"
+        android:text="@string/select" />
+</LinearLayout>
