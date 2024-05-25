@@ -3,7 +3,6 @@ package ru.practicum.android.diploma.ui.main
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -175,7 +174,6 @@ class MainFragment : Fragment() {
     private fun showContent(vacancies: Vacancies) {
         with(binding) {
             recyclerView.layoutParams = (recyclerView.layoutParams as ConstraintLayout.LayoutParams).apply {
-                Log.w("TestPaging", vacancies.page.toString())
                 topToBottom = R.id.tv_number_vacancies
             }
             progressBarCenter.isVisible = false
