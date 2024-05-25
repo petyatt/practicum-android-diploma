@@ -10,6 +10,7 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
@@ -102,7 +103,7 @@ class MainFragment : Fragment() {
                     val pos = (binding.recyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
                     val itemsCount = vacancyListAdapter!!.itemCount
                     if (pos >= itemsCount - 1) {
-                        binding.progressBarBottom.isVisible = true
+                        showProgressBarBottom()
                         onSearchDebounce(binding.search.text.toString())
                     }
                 }
@@ -117,7 +118,7 @@ class MainFragment : Fragment() {
 
     private fun render(state: ScreenState<Vacancies>) {
         when (state) {
-            is ScreenState.Loading -> showProgressBar()
+            is ScreenState.Loading -> showProgressBarCenter()
             is ScreenState.Loaded -> showContent(state.t)
             is ScreenState.NotConnection -> showError(R.drawable.placeholder_no_internet, R.string.bad_connection)
             is ScreenState.ServerError -> showError(R.drawable.placeholder_cat, R.string.no_vacancies)
@@ -126,21 +127,39 @@ class MainFragment : Fragment() {
     }
 
     private fun showDefaultState() {
-        binding.progressBarCenter.isVisible = false
-        binding.placeholderImage.isVisible = true
-        binding.placeholderImage.setImageResource(R.drawable.placeholder_search)
-        binding.tvNumberVacancies.isVisible = false
-        binding.placeholderText.isVisible = false
-        binding.search.text?.clear()
+        with(binding) {
+            progressBarCenter.isVisible = false
+            placeholderImage.isVisible = true
+            placeholderImage.setImageResource(R.drawable.placeholder_search)
+            tvNumberVacancies.isVisible = false
+            placeholderText.isVisible = false
+            search.text?.clear()
+        }
+
     }
 
-    private fun showProgressBar() {
-        binding.progressBarCenter.isVisible = true
-        binding.placeholderImage.isVisible = false
-        binding.placeholderText.isVisible = false
+    private fun showProgressBarCenter() {
+        with(binding) {
+            progressBarCenter.isVisible = true
+            placeholderImage.isVisible = false
+            placeholderText.isVisible = false
+        }
+    }
+
+    private fun showProgressBarBottom() {
+        with(binding) {
+            progressBarBottom.isVisible = true
+            placeholderImage.isVisible = false
+            placeholderText.isVisible = false
+            recyclerView.layoutParams = (recyclerView.layoutParams as ConstraintLayout.LayoutParams).apply {
+                topToBottom = R.id.search
+            }
+        }
     }
 
     private fun showError(@DrawableRes image: Int, @StringRes text: Int) {
+        vacancyListAdapter?.vacancyList?.clear()
+        vacancyListAdapter?.notifyDataSetChanged()
         with(binding) {
             progressBarCenter.isVisible = false
             placeholderImage.isVisible = true
@@ -153,13 +172,18 @@ class MainFragment : Fragment() {
 
     @SuppressLint("NotifyDataSetChanged")
     private fun showContent(vacancies: Vacancies) {
-        binding.progressBarCenter.isVisible = false
-        binding.placeholderImage.isVisible = false
-        binding.placeholderText.isVisible = false
-        binding.recyclerView.isVisible = true
-        binding.progressBarBottom.isVisible = false
-        binding.tvNumberVacancies.isVisible = true
-        binding.tvNumberVacancies.text = getStringOfVacancies(vacancies.found)
+        with(binding) {
+            recyclerView.layoutParams = (recyclerView.layoutParams as ConstraintLayout.LayoutParams).apply {
+                topToBottom = R.id.tv_number_vacancies
+            }
+            progressBarCenter.isVisible = false
+            placeholderImage.isVisible = false
+            placeholderText.isVisible = false
+            recyclerView.isVisible = true
+            progressBarBottom.isVisible = false
+            tvNumberVacancies.isVisible = true
+            tvNumberVacancies.text = getStringOfVacancies(vacancies.found)
+        }
         vacancyListAdapter?.vacancyList?.addAll(vacancies.items)
         vacancyListAdapter?.notifyDataSetChanged()
     }
