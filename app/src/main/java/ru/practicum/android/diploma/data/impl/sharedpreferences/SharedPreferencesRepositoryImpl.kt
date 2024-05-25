@@ -9,7 +9,7 @@ import ru.practicum.android.diploma.util.KEY_FILTER_SHAREDPREFENCES
 
 class SharedPreferencesRepositoryImpl(
     context: Context,
-): SharedpreferencesRepository {
+) : SharedpreferencesRepository {
     private val gson = Gson()
     private var sharedPreferences = context.getSharedPreferences(
         KEY_FILTER_SHAREDPREFENCES,
