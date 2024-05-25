@@ -6,6 +6,7 @@
     <dimen name="dimen_20">20dp</dimen>
     <dimen name="dimen_24">24dp</dimen>
     <dimen name="dimen_32">32dp</dimen>
+    <dimen name="dimen_52">52dp</dimen>
     <dimen name="dimen_56">56dp</dimen>
     <dimen name="dimen_60">60dp</dimen>
     <dimen name="dimen_64">64dp</dimen>
@@ -27,4 +28,7 @@
     <dimen name="layout_marginStart_46dp">46dp</dimen>
     <dimen name="layout_marginEnd_46dp">46dp</dimen>
     <dimen name="corner_radius_small_2">2dp</dimen>
+    <dimen name="_16dp">16dp</dimen>
+    <dimen name="_12dp">12dp</dimen>
+    <dimen name="_0dp">0dp</dimen>
 </resources>

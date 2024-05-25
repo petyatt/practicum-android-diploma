@@ -16,7 +16,7 @@ import ru.practicum.android.diploma.ui.filter.industry.IndustryViewModel
 val filter = module {
 
     viewModel {
-        FilterViewModel()
+        FilterViewModel(get())
     }
 
     single<IndustriesInteractor> {
