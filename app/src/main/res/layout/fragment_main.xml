@@ -5,6 +5,18 @@
     style="@style/fragment"
     tools:context=".ui.main.MainFragment">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/dimen_12"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_number_vacancies"
+        tools:itemCount="15"
+        tools:listitem="@layout/item_vacancy_list"
+        tools:visibility="visible" />
+
     <TextView
         android:id="@+id/top_bar"
         style="@style/text_top_bar"
@@ -52,19 +64,6 @@
         app:layout_constraintTop_toBottomOf="@+id/search"
         tools:text="найдено 286 вакансий"
         tools:visibility="visible" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top"
-        android:layout_marginVertical="@dimen/dimen_12"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_number_vacancies"
-        tools:itemCount="5"
-        tools:listitem="@layout/item_vacancy_list"
-        tools:visibility="visible"/>
 
     <ProgressBar
         android:id="@+id/progressBar_center"
