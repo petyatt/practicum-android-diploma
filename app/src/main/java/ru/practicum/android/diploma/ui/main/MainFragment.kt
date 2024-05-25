@@ -120,7 +120,7 @@ class MainFragment : Fragment() {
             is ScreenState.Loading -> showProgressBar()
             is ScreenState.Loaded -> showContent(state.t)
             is ScreenState.NotConnection -> showError(R.drawable.placeholder_no_internet, R.string.bad_connection)
-            is ScreenState.ServerError -> showError(R.drawable.placeholder_no_vacancies, R.string.no_vacancies)
+            is ScreenState.ServerError -> showError(R.drawable.placeholder_cat, R.string.no_vacancies)
             else -> {}
         }
     }
@@ -166,7 +166,7 @@ class MainFragment : Fragment() {
 
     private fun getStringOfVacancies(count: Int): String {
         if (count == 0) {
-            showError(R.drawable.placeholder_no_vacancies, R.string.no_vacancies)
+            showError(R.drawable.placeholder_cat, R.string.no_vacancies)
             return resources.getString(R.string.not_find_vacancies)
         }
         return resources.getQuantityString(

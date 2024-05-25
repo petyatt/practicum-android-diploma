@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.ui.filter
+package ru.practicum.android.diploma.ui.filter.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,10 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import ru.practicum.android.diploma.databinding.FragmentFilterBinding
+import ru.practicum.android.diploma.databinding.FragmentRegionBinding
 
-class FilterFragment : Fragment() {
-    private var _binding: FragmentFilterBinding? = null
+class RegionFragment : Fragment() {
+    private var _binding: FragmentRegionBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -17,14 +17,14 @@ class FilterFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentFilterBinding.inflate(inflater, container, false)
+        _binding = FragmentRegionBinding.inflate(inflater, container, false)
         return binding.root
 
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.ivFilterBackButton.setOnClickListener {
+        binding.backButton.setOnClickListener {
             findNavController().popBackStack()
         }
     }

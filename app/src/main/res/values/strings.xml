@@ -50,4 +50,14 @@
     <string name="industry">Отрасль</string>
     <string name="expected_salary">Ожидаемая зарплата</string>
     <string name="enter_amount">Введите сумму</string>
+    <string name="place_of_work_selection">Выбор места работы</string>
+    <string name="country">Страна</string>
+    <string name="region">Регион</string>
+    <string name="Select">Выбрать</string>
+    <string name="country_selection">Выбор страны</string>
+    <string name="region_selection">Выбор региона</string>
+    <string name="region_search_hint">Введите регион</string>
+    <string name="no_region">Такого региона нет</string>
+    <string name="no_region_list">Не удалось получить\n список</string>
+    <string name="filter_settings">Настройки фильтрации</string>
 </resources>
