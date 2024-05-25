@@ -6,6 +6,7 @@
     <dimen name="dimen_20">20dp</dimen>
     <dimen name="dimen_24">24dp</dimen>
     <dimen name="dimen_32">32dp</dimen>
+    <dimen name="dimen_52">52dp</dimen>
     <dimen name="dimen_56">56dp</dimen>
     <dimen name="dimen_64">64dp</dimen>
     <dimen name="dimen_80">80dp</dimen>
