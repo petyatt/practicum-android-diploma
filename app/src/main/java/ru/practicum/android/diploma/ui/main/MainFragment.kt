@@ -158,7 +158,6 @@ class MainFragment : Fragment() {
         }
     }
 
-
     private fun showError(@DrawableRes image: Int, @StringRes text: Int) {
         vacancyListAdapter?.vacancyList?.clear()
         vacancyListAdapter?.notifyDataSetChanged()
@@ -176,7 +175,7 @@ class MainFragment : Fragment() {
     private fun showContent(vacancies: Vacancies) {
         with(binding) {
             recyclerView.layoutParams = (recyclerView.layoutParams as ConstraintLayout.LayoutParams).apply {
-                Log.w("TestPaging",vacancies.page.toString())
+                Log.w("TestPaging", vacancies.page.toString())
                 topToBottom = R.id.tv_number_vacancies
             }
             progressBarCenter.isVisible = false
