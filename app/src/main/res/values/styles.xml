@@ -72,4 +72,56 @@
         <item name="android:indeterminateTint">@color/Blue</item>
     </style>
 
+    <style name="textInputLayout">
+        <item name="android:paddingHorizontal">16dp</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:textColorHint">?attr/colorOnSurface</item>
+        <item name="boxBackgroundColor">?attr/colorSurface</item>
+        <item name="boxBackgroundMode">filled</item>
+        <item name="boxCornerRadiusBottomEnd">12dp</item>
+        <item name="boxCornerRadiusBottomStart">12dp</item>
+        <item name="boxCornerRadiusTopEnd">12dp</item>
+        <item name="boxCornerRadiusTopStart">12dp</item>
+        <item name="boxStrokeWidth">0dp</item>
+        <item name="boxStrokeWidthFocused">0dp</item>
+        <item name="cursorColor">@color/Blue</item>
+        <item name="endIconTint">@color/Black</item>
+        <item name="expandedHintEnabled">false</item>
+        <item name="hintEnabled">false</item>
+        <item name="hintTextAppearance">@style/text_regular_12</item>
+        <item name="placeholderTextAppearance">@style/text_regular_16</item>
+        <item name="placeholderTextColor">?attr/colorOnSurface</item>
+    </style>
+
+    <style name="expected_salary_textInputLayout" parent="textInputLayout">
+        <item name="hintEnabled">true</item>
+        <item name="cursorColor">@color/Blue</item>
+        <item name="hintTextColor">@color/Blue</item>
+    </style>
+
+    <style name="place_work_inputLayout" parent="textInputLayout">
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingTop">6dp</item>
+        <item name="android:paddingEnd">4dp</item>
+        <item name="android:paddingBottom">6dp</item>
+        <item name="boxBackgroundColor">?attr/colorSecondary</item>
+        <item name="endIconTint">?attr/colorPrimary</item>
+        <item name="expandedHintEnabled">true</item>
+        <item name="hintEnabled">true</item>
+    </style>
+
+    <style name="expected_salary_textInputEditText" parent="textInputEditText"></style>
+
+    <style name="textInputEditText">
+        <item name="android:textAppearance">@style/text_regular_16</item>
+        <item name="android:textColor">?attr/colorSecondary</item>
+    </style>
+
+    <style name="place_work_textInputEditText" parent="textInputEditText">
+        <item name="android:focusable">false</item>
+        <item name="android:cursorVisible">false</item>
+        <item name="android:paddingStart">0dp</item>
+    </style>
+
 </resources>
