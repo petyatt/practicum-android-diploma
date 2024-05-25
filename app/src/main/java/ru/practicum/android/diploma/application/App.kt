@@ -7,6 +7,7 @@ import org.koin.core.context.startKoin
 import ru.practicum.android.diploma.di.favorites
 import ru.practicum.android.diploma.di.filter
 import ru.practicum.android.diploma.di.main
+import ru.practicum.android.diploma.di.sharedPreferences
 import ru.practicum.android.diploma.di.vacancy
 
 class App : Application(), KoinComponent {
@@ -19,7 +20,8 @@ class App : Application(), KoinComponent {
                 favorites,
                 filter,
                 main,
-                vacancy
+                vacancy,
+                sharedPreferences
             )
         }
     }

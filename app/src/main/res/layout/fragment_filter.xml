@@ -5,12 +5,34 @@
     style="@style/fragment"
     tools:context=".ui.filter.FilterFragment">
 
-    <TextView
-        android:id="@+id/tv_filtering_settings"
-        style="@style/text_top_bar"
-        android:text="@string/filter"
+    <LinearLayout
+        android:id="@+id/container_filter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingVertical="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/iv_filter_back_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:padding="12dp"
+            android:src="@drawable/arrow_back" />
+
+        <TextView
+            android:id="@+id/tv_filtering_settings"
+            style="@style/text_medium_22"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="Настройки фильтрации"
+            android:textColor="?attr/colorPrimary" />
+    </LinearLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/place_work"
@@ -22,7 +44,7 @@
         app:endIconMode="custom"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_filtering_settings">
+        app:layout_constraintTop_toBottomOf="@id/container_filter">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_place_work"

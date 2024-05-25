@@ -2,12 +2,12 @@ package ru.practicum.android.diploma.data.impl.sharedpreferences
 
 import android.content.Context
 import com.google.gson.Gson
-import ru.practicum.android.diploma.domain.api.sharedpreferences.SharedpreferencesRepository
+import ru.practicum.android.diploma.domain.api.sharedpreferences.SharedPreferencesRepository
 import ru.practicum.android.diploma.domain.models.Filter
 
 class SharedPreferencesRepositoryImpl(
     context: Context,
-) : SharedpreferencesRepository {
+) : SharedPreferencesRepository {
     private val gson = Gson()
     private var sharedPreferences = context.getSharedPreferences(
         KEY_FILTER_SHAREDPREF,

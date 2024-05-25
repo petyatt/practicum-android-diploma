@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import ru.practicum.android.diploma.databinding.FragmentFilterBinding
 
 class FilterFragment : Fragment() {
@@ -20,6 +21,14 @@ class FilterFragment : Fragment() {
         return binding.root
 
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.ivFilterBackButton.setOnClickListener {
+            findNavController().popBackStack()
+        }
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
