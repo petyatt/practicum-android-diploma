@@ -13,7 +13,7 @@ import ru.practicum.android.diploma.ui.filter.FilterViewModel
 val filter = module {
 
     viewModel {
-        FilterViewModel()
+        FilterViewModel(get())
     }
 
     single<IndustriesRepository> {
