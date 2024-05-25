@@ -61,6 +61,12 @@ class MainFragment : Fragment() {
         vacancyListAdapter = VacancyListAdapter(mutableListOf(), onVacancyClickDebounce)
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
         binding.recyclerView.adapter = vacancyListAdapter
+
+        binding.ivFilter.setOnClickListener {
+            findNavController().navigate(
+                R.id.action_mainFragment_to_filterFragment
+            )
+        }
     }
 
     override fun onDestroyView() {

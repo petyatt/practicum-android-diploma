@@ -5,7 +5,7 @@
     <string name="empty_list">Список пуст</string>
 
     <string name="team">Команда</string>
-    <string name="filter">Настройки вакансий</string>
+    <string name="filter">Настройки фильтрации</string>
     <string name="vacancies_search">Поиск вакансий</string>
 
     <string name="vacancy">Вакансия</string>
@@ -44,4 +44,10 @@
     <string name="server_error">Ошибка сервера</string>
     <string name="no_vacancies">Не удалось получить\nсписок вакансий</string>
     <string name="not_find_vacancies">Таких вакансий нет</string>
+    <string name="reset">Сбросить</string>
+    <string name="do_not_show_without_salary">Не показывать без зарплаты</string>
+    <string name="place_work">Место работы</string>
+    <string name="industry">Отрасль</string>
+    <string name="expected_salary">Ожидаемая зарплата</string>
+    <string name="enter_amount">Введите сумму</string>
 </resources>
