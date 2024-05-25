@@ -48,6 +48,7 @@ class VacancyFragment : Fragment() {
                 when (it) {
                     is ScreenState.Loading -> {
                         data.isVisible = false
+                        error.isVisible = false
                         loading.isVisible = true
                     }
                     is ScreenState.Loaded -> {
@@ -57,7 +58,9 @@ class VacancyFragment : Fragment() {
                     }
                     is ScreenState.IsFavorite -> renderFavorite(it.value)
                     else -> {
-                        TODO("Обработка ошибки")
+                        data.isVisible = false
+                        loading.isVisible = false
+                        error.isVisible = true
                     }
                 }
             }
@@ -73,7 +76,7 @@ class VacancyFragment : Fragment() {
         viewModel.getVacancyState(id)
 
         binding.buttShare.setOnClickListener {
-            viewModel.shareVacation(id)
+            if (vacancy != null) viewModel.shareVacation(id)
         }
     }
 
@@ -125,6 +128,7 @@ class VacancyFragment : Fragment() {
         }
         binding.loading.isVisible = false
         binding.data.isVisible = true
+        binding.error.isVisible = false
     }
 
     private fun renderFavorite(favorite: Boolean) {
