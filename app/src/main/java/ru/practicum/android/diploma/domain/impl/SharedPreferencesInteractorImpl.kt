@@ -4,7 +4,7 @@ import ru.practicum.android.diploma.domain.api.sharedpreferences.SharedPreferenc
 import ru.practicum.android.diploma.domain.api.sharedpreferences.SharedpreferencesRepository
 import ru.practicum.android.diploma.domain.models.Filter
 
-class SHaredPreferencesInteractorImpl(
+class SharedPreferencesInteractorImpl(
     private var sharedpreferencesRepository: SharedpreferencesRepository
 ) : SharedPreferencesInteractor {
     override suspend fun save(filter: Filter?) {

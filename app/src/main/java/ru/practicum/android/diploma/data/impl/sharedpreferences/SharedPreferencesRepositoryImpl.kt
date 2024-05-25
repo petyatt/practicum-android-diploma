@@ -4,15 +4,13 @@ import android.content.Context
 import com.google.gson.Gson
 import ru.practicum.android.diploma.domain.api.sharedpreferences.SharedpreferencesRepository
 import ru.practicum.android.diploma.domain.models.Filter
-import ru.practicum.android.diploma.util.FILTER_KEY
-import ru.practicum.android.diploma.util.KEY_FILTER_SHAREDPREFENCES
 
 class SharedPreferencesRepositoryImpl(
     context: Context,
 ) : SharedpreferencesRepository {
     private val gson = Gson()
     private var sharedPreferences = context.getSharedPreferences(
-        KEY_FILTER_SHAREDPREFENCES,
+        KEY_FILTER_SHAREDPREF,
         Context.MODE_PRIVATE
     )
 
@@ -31,5 +29,10 @@ class SharedPreferencesRepositoryImpl(
 
     override suspend fun clear() {
         sharedPreferences.edit().remove(FILTER_KEY).apply()
+    }
+
+    companion object {
+        const val KEY_FILTER_SHAREDPREF = "key_filter_sharedPref"
+        const val FILTER_KEY = "filter_key"
     }
 }
