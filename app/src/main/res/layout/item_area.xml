@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/area"
+        style="@style/text_regular_16"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorSecondary"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:paddingVertical="@dimen/dimen_16"
+        app:drawableRightCompat="@drawable/arrow_forward"
+        tools:text="Россия" />
+
+</androidx.cardview.widget.CardView>

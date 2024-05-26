@@ -25,6 +25,10 @@
     <string name="industry_search_hint">Введите отрасль</string>
     <string name="industry_not_found">Такой отрасли нет</string>
 
+    <string name="country_title">Выбор страны</string>
+    <string name="country_search_hint">Введите страну</string>
+    <string name="country_not_found">Такой страны нет</string>
+
     <string name="list_error">Не удалось получить\nсписок</string>
     <string name="select">Выбрать</string>
 

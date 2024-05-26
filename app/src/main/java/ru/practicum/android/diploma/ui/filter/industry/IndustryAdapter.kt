@@ -20,7 +20,7 @@ class IndustryAdapter(private val industries: List<Industry>, private val onChan
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IndustryViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.industry_item, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_industry, parent, false)
         return IndustryViewHolder(view) {
             currentIndustry = it
             onChange.invoke(it)

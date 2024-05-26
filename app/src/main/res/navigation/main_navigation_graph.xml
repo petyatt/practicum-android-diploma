@@ -62,9 +62,9 @@
     </fragment>
     <fragment
         android:id="@+id/countryFragment"
-        android:name="ru.practicum.android.diploma.ui.filter.fragment.CountryFragment"
+        android:name="ru.practicum.android.diploma.ui.filter.area.CountryFragment"
         android:label="CountryFragment"
-        tools:layout="@layout/fragment_country"/>
+        tools:layout="@layout/fragment_search"/>
     <fragment
         android:id="@+id/regionFragment"
         android:name="ru.practicum.android.diploma.ui.filter.fragment.RegionFragment"
