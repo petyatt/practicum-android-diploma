@@ -19,6 +19,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.databinding.FragmentIndustryBinding
+import ru.practicum.android.diploma.domain.models.Filter
 import ru.practicum.android.diploma.domain.models.Industry
 import ru.practicum.android.diploma.ui.model.ScreenState
 import ru.practicum.android.diploma.util.debounce
@@ -67,10 +68,9 @@ class IndustryFragment : Fragment() {
             }
             select.isVisible = currentIndustry != null
             select.setOnClickListener {
-                setFragmentResult(
-                    REQUEST_KEY,
-                    bundleOf(RES_INDUSTRY to (industries.adapter as IndustryAdapter).currentIndustry)
-                )
+                val selectedIndustry = (industries.adapter as IndustryAdapter).currentIndustry
+                selectedIndustry?.let { it1 -> saveSelectedIndustryToSharedPreferences(it1) }
+                setFragmentResult(REQUEST_KEY, bundleOf(RES_INDUSTRY to selectedIndustry))
                 findNavController().navigateUp()
             }
             search()
@@ -128,6 +128,12 @@ class IndustryFragment : Fragment() {
             emptyList.isVisible = false
             loading.isVisible = true
         }
+    }
+
+    private fun saveSelectedIndustryToSharedPreferences(industry: Industry) {
+        val currentFilter = viewModel.get() ?: Filter()
+        currentFilter.industry = industry
+        viewModel.save(currentFilter)
     }
 
     companion object {
