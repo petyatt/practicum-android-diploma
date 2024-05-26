@@ -35,7 +35,11 @@ class MainFragment : Fragment() {
     private var vacancyListAdapter: VacancyListAdapter? = null
     private val binding get() = _binding!!
     private val onSearchDebounce = debounce<String>(SEARCH_DEBOUNCE_DELAY, lifecycleScope, true) { search(it) }
-    private val onVacancyClickDebounce = debounce<Vacancy>(VACANCY_CLICK_DEBOUNCE_DELAY, lifecycleScope, false) { vacancy ->
+    private val onVacancyClickDebounce = debounce<Vacancy>(
+        VACANCY_CLICK_DEBOUNCE_DELAY,
+        lifecycleScope,
+        false
+    ) { vacancy ->
         if (isConnected(requireContext())) {
             findNavController().navigate(
                 R.id.action_mainFragment_to_vacancyFragment,
