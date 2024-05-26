@@ -73,10 +73,7 @@ abstract class SearchFragment<T, H : ViewHolder>(
                 }
                 false
             }
-            select.setOnClickListener {
-                onSelect.invoke()
-                findNavController().navigateUp()
-            }
+            select.setOnClickListener { onSelect.invoke() }
             search()
         }
     }
@@ -90,6 +87,7 @@ abstract class SearchFragment<T, H : ViewHolder>(
 
     protected fun setFragmentResult(result: T?) {
         setFragmentResult(REQUEST_KEY, bundleOf(RES_SEARCH to result))
+        findNavController().navigateUp()
     }
 
     protected fun show(adapter: Adapter<H>) {

@@ -21,6 +21,7 @@ class CountryFragment : SearchFragment<Area, AreaViewHolder>(
     override fun getItems(searchText: String) {
         viewModel.getCountries(searchText)
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -32,17 +33,16 @@ class CountryFragment : SearchFragment<Area, AreaViewHolder>(
         }
     }
 
-    private fun show(industries: List<Area>) {
-        if (industries.isEmpty()) {
+    private fun show(country: List<Area>) {
+        if (country.isEmpty()) {
             showEmptyList()
         } else {
-            val adapter = AreaAdapter(industries) { currentItem = it }
+            val adapter = AreaAdapter(country) { setFragmentResult(it) }
             show(adapter)
         }
     }
 
     companion object {
-        fun createArgument(arg: Area?): Bundle? = createArgument<Area>(arg)
         fun createResultListener(fragment: Fragment, onResponse: (Area) -> Unit) {
             createResultListener(fragment, Area::class.java, onResponse)
         }

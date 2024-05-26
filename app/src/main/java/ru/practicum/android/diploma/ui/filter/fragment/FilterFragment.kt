@@ -39,6 +39,10 @@ class FilterFragment : Fragment() {
                 )
                 createResultListener(this@FilterFragment) { currentIndustry = it }
             }
+
+            etPlaceWork.setOnClickListener {
+                findNavController().navigate(R.id.action_filterFragment_to_placeOfWorkFragment)
+            }
         }
     }
 
