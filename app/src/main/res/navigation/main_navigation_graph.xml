@@ -67,7 +67,7 @@
         tools:layout="@layout/fragment_search"/>
     <fragment
         android:id="@+id/regionFragment"
-        android:name="ru.practicum.android.diploma.ui.filter.fragment.RegionFragment"
+        android:name="ru.practicum.android.diploma.ui.filter.area.RegionFragment"
         android:label="RegionFragment"
         tools:layout="@layout/fragment_region"/>
     <fragment

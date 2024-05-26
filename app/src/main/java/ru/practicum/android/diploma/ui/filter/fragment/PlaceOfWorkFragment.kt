@@ -34,6 +34,9 @@ class PlaceOfWorkFragment : Fragment() {
                 findNavController().navigate(R.id.action_placeOfWorkFragment_to_countryFragment)
                 createResultListener(this@PlaceOfWorkFragment) { currentCountry = it }
             }
+            etRegion.setOnClickListener {
+                findNavController().navigate(R.id.action_placeOfWorkFragment_to_regionFragment)
+            }
         }
     }
 

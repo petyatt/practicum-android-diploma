@@ -1,11 +1,11 @@
 package ru.practicum.android.diploma.domain.impl
 
-import ru.practicum.android.diploma.domain.api.filters.AreasInteractor
 import ru.practicum.android.diploma.domain.api.filters.AreasRepository
+import ru.practicum.android.diploma.domain.api.filters.RegionsInteractor
 import ru.practicum.android.diploma.domain.models.Area
 import ru.practicum.android.diploma.util.Resource
 
-class AreasInteractorImpl(val repository: AreasRepository) : AreasInteractor {
+class RegionsInteractorImpl(val repository: AreasRepository) : RegionsInteractor {
 
     private val cache = mutableMapOf<String, List<Area>>()
     override suspend fun search(country: String, name: String): Resource<List<Area>> {
@@ -21,9 +21,7 @@ class AreasInteractorImpl(val repository: AreasRepository) : AreasInteractor {
     private suspend fun fillCache(country: String) {
         val cached = cache[country]
         if (cached != null) return
-        val result = repository.getAreas(country)
-
+        val result = if (country.isEmpty()) repository.getRegions() else repository.getAreas(country)
         if (result is Resource.Success) cache[country] = result.data.toList()
     }
-
 }

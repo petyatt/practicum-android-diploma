@@ -24,4 +24,8 @@ interface HeadHunterApiService {
 
     @GET("/areas/{parent_id}")
     suspend fun getAreas(@Path("parent_id") parentId: String): AreasResponse
+
+    @GET("/areas")
+    suspend fun getRegions(): List<AreasResponse>
+
 }
