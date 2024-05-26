@@ -19,11 +19,19 @@ class VacanciesRepositoryImpl(
 
     override suspend fun searchVacancies(vacancy: String, page: Int): Resource<Vacancies> {
         val response = networkClient.doRequest(MainRequest(vacancy, page))
-        return getResource(response, vacanciesConverter.convert(response as VacanciesResponse))
+        return if (response is VacanciesResponse) {
+            getResource(response, vacanciesConverter.convert(response))
+        } else {
+            Resource.NotConnection()
+        }
     }
 
     override suspend fun getVacancy(id: String): Resource<Vacancy> {
         val response = networkClient.doRequest(VacancyRequest(id))
-        return getResource(response, vacanciesConverter.convert(response as VacancyResponse))
+        return if (response is VacancyResponse) {
+            getResource(response, vacanciesConverter.convert(response))
+        } else {
+            Resource.NotConnection()
+        }
     }
 }
