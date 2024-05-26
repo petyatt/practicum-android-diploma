@@ -53,6 +53,10 @@ class FilterFragment : Fragment() {
                     updateButtonsVisibility()
                 }
             }
+
+            etPlaceWork.setOnClickListener {
+                findNavController().navigate(R.id.action_filterFragment_to_placeOfWorkFragment)
+            }
             tvReset.setOnClickListener { viewModel.clear() }
             updateButtonsVisibility()
         }

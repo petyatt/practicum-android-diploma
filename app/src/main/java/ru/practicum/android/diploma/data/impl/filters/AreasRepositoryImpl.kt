@@ -10,7 +10,6 @@ import ru.practicum.android.diploma.data.response.AreasResponse
 import ru.practicum.android.diploma.data.response.ListResponse
 import ru.practicum.android.diploma.domain.api.filters.AreasRepository
 import ru.practicum.android.diploma.domain.models.Area
-import ru.practicum.android.diploma.domain.models.Country
 import ru.practicum.android.diploma.util.Resource
 
 class AreasRepositoryImpl(
@@ -18,7 +17,7 @@ class AreasRepositoryImpl(
     val converter: AreasConverter
 ) : AreasRepository, ResourceRepository() {
 
-    override suspend fun getCountries(): Resource<List<Country>> {
+    override suspend fun getCountries(): Resource<List<Area>> {
         val response = networkClient.doRequest(CountriesRequest)
         return getResource(response, (response as? ListResponse<*>)?.list?.map { converter.convert(it as CountryDto) })
     }
