@@ -74,5 +74,5 @@
         android:id="@+id/industryFragment"
         android:name="ru.practicum.android.diploma.ui.filter.industry.IndustryFragment"
         android:label="fragment_industry"
-        tools:layout="@layout/fragment_industry" />
+        tools:layout="@layout/fragment_search" />
 </navigation>

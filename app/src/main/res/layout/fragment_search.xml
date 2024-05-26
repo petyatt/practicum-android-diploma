@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/fragment"
-    tools:context=".ui.filter.industry.IndustryFragment">
+    tools:context=".ui.filter.SearchFragment">
 
     <Toolbar
         android:layout_width="match_parent"
@@ -21,7 +21,7 @@
             android:id="@+id/text_top_bar"
             style="@style/text_top_bar"
             android:layout_width="wrap_content"
-            android:text="@string/industry_select" />
+            tools:text="@string/industry_title" />
     </Toolbar>
 
     <ru.practicum.android.diploma.ui.main.SearchEditText
@@ -31,10 +31,10 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/dimen_16"
         android:layout_marginVertical="@dimen/dimen_8"
-        android:hint="@string/industry_search_hint" />
+        tools:hint="@string/industry_search_hint" />
 
     <LinearLayout
-        android:id="@+id/industries_group"
+        android:id="@+id/items_group"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -42,7 +42,7 @@
         android:visibility="gone">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/industries"
+            android:id="@+id/items"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -112,6 +112,7 @@
                 android:src="@drawable/placeholder_cat" />
 
             <TextView
+                android:id="@+id/not_found_message"
                 style="@style/placeholder_item"
                 android:text="@string/industry_not_found" />
         </LinearLayout>

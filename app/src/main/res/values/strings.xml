@@ -21,7 +21,7 @@
     <string name="contacts_phone">Телефон</string>
     <string name="contacts_comment">Комментарий</string>
 
-    <string name="industry_select">Выбор отрасли</string>
+    <string name="industry_title">Выбор отрасли</string>
     <string name="industry_search_hint">Введите отрасль</string>
     <string name="industry_not_found">Такой отрасли нет</string>
 
