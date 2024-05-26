@@ -10,8 +10,8 @@ import ru.practicum.android.diploma.domain.api.filters.AreasRepository
 import ru.practicum.android.diploma.domain.api.filters.IndustriesInteractor
 import ru.practicum.android.diploma.domain.api.filters.IndustriesRepository
 import ru.practicum.android.diploma.domain.impl.IndustriesInteractorImpl
-import ru.practicum.android.diploma.ui.filter.FilterViewModel
 import ru.practicum.android.diploma.ui.filter.industry.IndustryViewModel
+import ru.practicum.android.diploma.ui.filter.viewmodel.FilterViewModel
 
 val filter = module {
 

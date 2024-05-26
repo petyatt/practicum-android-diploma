@@ -20,6 +20,7 @@ import androidx.navigation.fragment.findNavController
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.databinding.FragmentIndustryBinding
 import ru.practicum.android.diploma.domain.models.Industry
+import ru.practicum.android.diploma.ui.model.ScreenState
 import ru.practicum.android.diploma.util.debounce
 
 class IndustryFragment : Fragment() {
@@ -31,6 +32,8 @@ class IndustryFragment : Fragment() {
     private val onSearchDebounce = debounce<String>(SEARCH_DEBOUNCE_DELAY, lifecycleScope, true) { search(it) }
     private var lastSearchText: String = ""
 
+    private var currentIndustry: Industry? = null
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentIndustryBinding.inflate(inflater, container, false)
         return binding.root
@@ -39,7 +42,7 @@ class IndustryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val currentIndustry = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        currentIndustry = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             arguments?.getParcelable(ARG_INDUSTRY, Industry::class.java)
         } else {
             arguments?.getParcelable(ARG_INDUSTRY) as? Industry
@@ -47,11 +50,11 @@ class IndustryFragment : Fragment() {
 
         with(binding) {
             buttNav.setOnClickListener { findNavController().navigateUp() }
-            viewModel.industries.observe(viewLifecycleOwner) {
-                industries.adapter = IndustryAdapter(it) { select.isVisible = true }
-                (industries.adapter as IndustryAdapter).currentIndustry = currentIndustry
-                industries.isVisible = true
-                loading.isVisible = false
+            viewModel.industriesState.observe(viewLifecycleOwner) {
+                when (it) {
+                    is ScreenState.Loaded -> show(it.t)
+                    else -> showError()
+                }
             }
             search.doOnTextChanged { text, _, _, _ -> onSearchDebounce(text.toString()) }
             search.setOnEditorActionListener { v, actionId, _ ->
@@ -81,9 +84,50 @@ class IndustryFragment : Fragment() {
 
     private fun search(text: String = "") {
         lastSearchText = text
-        binding.industries.isVisible = false
-        binding.loading.isVisible = true
+        showProgressBar()
         viewModel.getIndustries(text)
+    }
+
+    private fun show(data: List<Industry>) {
+        if (data.isEmpty()) {
+            showEmptyList()
+            return
+        }
+        with(binding) {
+            industries.adapter = IndustryAdapter(data) { select.isVisible = true }
+            (industries.adapter as IndustryAdapter).currentIndustry = currentIndustry
+            emptyList.isVisible = false
+            error.isVisible = false
+            loading.isVisible = false
+            industriesGroup.isVisible = true
+        }
+    }
+
+    private fun showError() {
+        with(binding) {
+            emptyList.isVisible = false
+            loading.isVisible = false
+            industriesGroup.isVisible = false
+            error.isVisible = true
+        }
+    }
+
+    private fun showEmptyList() {
+        with(binding) {
+            loading.isVisible = false
+            industriesGroup.isVisible = false
+            error.isVisible = false
+            emptyList.isVisible = true
+        }
+    }
+
+    private fun showProgressBar() {
+        with(binding) {
+            industriesGroup.isVisible = false
+            error.isVisible = false
+            emptyList.isVisible = false
+            loading.isVisible = true
+        }
     }
 
     companion object {

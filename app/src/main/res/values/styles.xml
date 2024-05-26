@@ -81,6 +81,15 @@
         <item name="textAllCaps">false</item>
     </style>
 
+    <style name="placeholder_item" parent="text_medium_22">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginHorizontal">@dimen/dimen_8</item>
+        <item name="android:layout_marginVertical">@dimen/dimen_16</item>
+        <item name="android:layout_margin">@dimen/dimen_16</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
     <style name="textInputLayout">
         <item name="android:paddingHorizontal">16dp</item>
         <item name="android:paddingTop">8dp</item>

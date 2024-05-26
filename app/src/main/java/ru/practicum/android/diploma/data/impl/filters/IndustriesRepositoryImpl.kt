@@ -15,7 +15,7 @@ class IndustriesRepositoryImpl(
     val converter: IndustriesConverter
 ) : IndustriesRepository, ResourceRepository() {
     override suspend fun get(): Resource<List<Industry>> {
-        val response = networkClient.doRequest(IndustriesRequest) as ListResponse<*>
-        return getResource(response, response.list.map { converter.convert(it as IndustryDto) })
+        val response = networkClient.doRequest(IndustriesRequest)
+        return getResource(response, (response as? ListResponse<*>)?.list?.map { converter.convert(it as IndustryDto) })
     }
 }

@@ -8,9 +8,13 @@ import ru.practicum.android.diploma.util.Resource
 class IndustriesInteractorImpl(private val repository: IndustriesRepository) : IndustriesInteractor {
 
     private val cache = mutableListOf<Industry>()
-    override suspend fun search(name: String): List<Industry> {
+    override suspend fun search(name: String): Resource<List<Industry>> {
         fillCache()
-        return cache.filter { it.name.contains(name, ignoreCase = true) }
+        return if (cache.isEmpty()) {
+            Resource.Failed()
+        } else {
+            Resource.Success(cache.filter { it.name.contains(name, ignoreCase = true) })
+        }
     }
 
     private suspend fun fillCache() {
