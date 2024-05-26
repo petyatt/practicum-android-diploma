@@ -19,12 +19,12 @@ class AreasRepositoryImpl(
 ) : AreasRepository, ResourceRepository() {
 
     override suspend fun getCountries(): Resource<List<Country>> {
-        val response = networkClient.doRequest(CountriesRequest) as ListResponse<*>
-        return getResource(response, response.list.map { converter.convert(it as CountryDto) })
+        val response = networkClient.doRequest(CountriesRequest)
+        return getResource(response, (response as? ListResponse<*>)?.list?.map { converter.convert(it as CountryDto) })
     }
 
     override suspend fun getAreas(parentId: String): Resource<List<Area>> {
-        val response = networkClient.doRequest(AreasRequest(parentId)) as AreasResponse
-        return getResource(response, response.areas.map { converter.convert(it) })
+        val response = networkClient.doRequest(AreasRequest(parentId))
+        return getResource(response, (response as? AreasResponse)?.areas?.map { converter.convert(it) })
     }
 }

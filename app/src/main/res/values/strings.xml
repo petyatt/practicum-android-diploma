@@ -21,6 +21,13 @@
     <string name="contacts_phone">Телефон</string>
     <string name="contacts_comment">Комментарий</string>
 
+    <string name="industry_select">Выбор отрасли</string>
+    <string name="industry_search_hint">Введите отрасль</string>
+    <string name="industry_not_found">Такой отрасли нет</string>
+
+    <string name="list_error">Не удалось получить\nсписок</string>
+    <string name="select">Выбрать</string>
+
     <string name="tools_vacancy_description">
         <b>Обязанности</b>\n
         \t• Разрабатывать новую функциональность\n

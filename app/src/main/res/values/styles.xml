@@ -47,6 +47,7 @@
         <item name="android:maxLines">1</item>
         <item name="android:inputType">text</item>
         <item name="android:textColorHint">?attr/colorOnSurface</item>
+        <item name="android:textColor">@color/Black</item>
         <item name="android:background">@drawable/edit_search_background</item>
         <item name="android:textCursorDrawable">@drawable/edit_search_cursor</item>
     </style>
@@ -70,6 +71,24 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:indeterminateTint">@color/Blue</item>
+    </style>
+
+    <style name="confirm_button" parent="text_medium_16">
+        <item name="android:layout_height">@dimen/dimen_60</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_margin">@dimen/dimen_16</item>
+        <item name="android:textColor">@color/White</item>
+        <item name="android:background">@drawable/confirm_button_background</item>
+        <item name="textAllCaps">false</item>
+    </style>
+
+    <style name="placeholder_item" parent="text_medium_22">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginHorizontal">@dimen/dimen_8</item>
+        <item name="android:layout_marginVertical">@dimen/dimen_16</item>
+        <item name="android:layout_margin">@dimen/dimen_16</item>
+        <item name="android:textAlignment">center</item>
     </style>
 
     <style name="textInputLayout">
@@ -122,9 +141,11 @@
     </style>
 
     <style name="place_work_textInputEditText" parent="textInputEditText">
+        <item name="android:textColor">?attr/colorPrimary</item>
         <item name="android:focusable">false</item>
         <item name="android:cursorVisible">false</item>
         <item name="android:paddingStart">0dp</item>
+        <item name="android:ellipsize">end</item>
     </style>
     <style name="selection_button">
         <item name="android:layout_width">0dp</item>
