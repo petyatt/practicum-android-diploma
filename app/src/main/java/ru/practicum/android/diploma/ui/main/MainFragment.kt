@@ -28,17 +28,26 @@ import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.ui.model.ScreenState
 import ru.practicum.android.diploma.ui.vacancy.VacancyFragment.Companion.ARG_VACANCY_ID
 import ru.practicum.android.diploma.util.debounce
+import ru.practicum.android.diploma.util.isConnected
 
 class MainFragment : Fragment() {
     private var _binding: FragmentMainBinding? = null
     private var vacancyListAdapter: VacancyListAdapter? = null
     private val binding get() = _binding!!
     private val onSearchDebounce = debounce<String>(SEARCH_DEBOUNCE_DELAY, lifecycleScope, true) { search(it) }
-    private val onVacancyClickDebounce = debounce<Vacancy>(VACANCY_CLICK_DEBOUNCE_DELAY, lifecycleScope, false) {
-        findNavController().navigate(
-            R.id.action_mainFragment_to_vacancyFragment,
-            bundleOf(ARG_VACANCY_ID to it.id)
-        )
+    private val onVacancyClickDebounce = debounce<Vacancy>(
+        VACANCY_CLICK_DEBOUNCE_DELAY,
+        lifecycleScope,
+        false
+    ) { vacancy ->
+        if (isConnected(requireContext())) {
+            findNavController().navigate(
+                R.id.action_mainFragment_to_vacancyFragment,
+                bundleOf(ARG_VACANCY_ID to vacancy.id)
+            )
+        } else {
+            showError(R.drawable.placeholder_no_internet, R.string.bad_connection)
+        }
     }
     private var lastSearchText: String = ""
     private val viewModel by viewModel<MainViewModel>()
@@ -164,7 +173,7 @@ class MainFragment : Fragment() {
             progressBarCenter.isVisible = false
             placeholderImage.isVisible = true
             placeholderText.isVisible = true
-            tvNumberVacancies.isVisible = true
+            tvNumberVacancies.isVisible = false
             placeholderImage.setImageResource(image)
             placeholderText.text = getText(text)
         }

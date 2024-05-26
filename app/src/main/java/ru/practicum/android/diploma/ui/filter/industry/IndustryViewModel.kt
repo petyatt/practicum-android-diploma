@@ -7,11 +7,16 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.domain.api.filters.IndustriesInteractor
+import ru.practicum.android.diploma.domain.api.sharedpreferences.SharedPreferencesInteractor
+import ru.practicum.android.diploma.domain.models.Filter
 import ru.practicum.android.diploma.domain.models.Industry
 import ru.practicum.android.diploma.ui.model.ScreenState
 import ru.practicum.android.diploma.util.Resource
 
-class IndustryViewModel(val interactor: IndustriesInteractor) : ViewModel() {
+class IndustryViewModel(
+    val interactor: IndustriesInteractor,
+    private val sharedPreferencesInteractor: SharedPreferencesInteractor
+) : ViewModel() {
     private val _industriesState = MutableLiveData<ScreenState<List<Industry>>>()
     val industriesState: LiveData<ScreenState<List<Industry>>> = _industriesState
 
@@ -23,5 +28,17 @@ class IndustryViewModel(val interactor: IndustriesInteractor) : ViewModel() {
             }
             _industriesState.postValue(result)
         }
+    }
+
+    fun save(filter: Filter?) {
+        val currentFilter = sharedPreferencesInteractor.get() ?: Filter()
+        currentFilter.industry = filter?.industry
+        viewModelScope.launch {
+            sharedPreferencesInteractor.save(currentFilter)
+        }
+    }
+
+    fun get(): Filter? {
+        return sharedPreferencesInteractor.get()
     }
 }
