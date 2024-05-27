@@ -1,6 +1,5 @@
 package ru.practicum.android.diploma.ui.filter.area
 
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentPlaceOfWorkBinding
 import ru.practicum.android.diploma.domain.models.Area
+import ru.practicum.android.diploma.util.getParcelable
 
 class PlaceOfWorkFragment : Fragment() {
     private var _binding: FragmentPlaceOfWorkBinding? = null
@@ -35,11 +35,7 @@ class PlaceOfWorkFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val currentArea = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            arguments?.getParcelable(ARG_AREA, Area::class.java)
-        } else {
-            arguments?.getParcelable(ARG_AREA) as? Area
-        }
+        val currentArea = getParcelable(arguments, ARG_AREA, Area::class.java)
 
         currentCountry = currentCountry ?: currentArea?.parent ?: currentArea
         currentRegion = currentRegion ?: currentArea?.parent?.let { Area(currentArea) }
@@ -118,11 +114,7 @@ class PlaceOfWorkFragment : Fragment() {
 
         fun createResultListener(fragment: Fragment, onResponse: (Area) -> Unit) {
             fragment.setFragmentResultListener(REQUEST_KEY) { _, bundle ->
-                val response = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    bundle.getParcelable(RES_AREA, Area::class.java)
-                } else {
-                    bundle.getParcelable(RES_AREA) as? Area
-                }
+                val response = getParcelable(bundle, RES_AREA, Area::class.java)
                 response?.apply { onResponse.invoke(response) }
                 fragment.clearFragmentResultListener(REQUEST_KEY)
             }

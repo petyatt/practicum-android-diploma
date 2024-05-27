@@ -5,6 +5,9 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities.TRANSPORT_CELLULAR
 import android.net.NetworkCapabilities.TRANSPORT_ETHERNET
 import android.net.NetworkCapabilities.TRANSPORT_WIFI
+import android.os.Build
+import android.os.Bundle
+import android.os.Parcelable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -37,3 +40,10 @@ fun isConnected(context: Context): Boolean {
         return hasTransport(TRANSPORT_CELLULAR) || hasTransport(TRANSPORT_WIFI) || hasTransport(TRANSPORT_ETHERNET)
     }
 }
+
+fun <T : Parcelable> getParcelable(bundle: Bundle?, key: String, clazz: Class<T>) =
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        bundle?.getParcelable(key, clazz)
+    } else {
+        clazz.cast(bundle?.getParcelable(key))
+    }
