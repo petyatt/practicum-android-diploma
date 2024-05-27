@@ -53,8 +53,10 @@ class FilterFragment : Fragment() {
                 createResultListener(this@FilterFragment) { selectedIndustry ->
                     currentIndustry = selectedIndustry
                     etIndustry.setText(selectedIndustry.name)
+                    saveToSharedPreferences()
                     updateButtonsVisibility()
                 }
+
             }
 
             etPlaceWork.setOnClickListener {
@@ -62,6 +64,7 @@ class FilterFragment : Fragment() {
             }
 
             cbFilter.setOnCheckedChangeListener { _, isChecked ->
+                checked = isChecked
                 saveToSharedPreferences()
             }
             tvReset.setOnClickListener { viewModel.clear() }
@@ -102,15 +105,17 @@ class FilterFragment : Fragment() {
     }
 
     private fun updateButtonsVisibility() {
-        val isNotEmpty = isFilterNotEmpty()
-        binding.tvApply.isVisible = isNotEmpty
-        binding.tvReset.isVisible = isNotEmpty
+        with(binding) {
+            if (currentIndustry != null || currentSalary != 0 || checked) {
+                tvApply.isVisible = true
+                tvReset.isVisible = true
+            } else {
+                tvApply.isVisible = false
+                tvReset.isVisible = false
+            }
+        }
     }
 
-    private fun isFilterNotEmpty(): Boolean {
-        val industryText = binding.etIndustry.text.toString().trim()
-        return industryText.isNotEmpty()
-    }
 
     override fun onResume() {
         super.onResume()
@@ -123,6 +128,7 @@ class FilterFragment : Fragment() {
             etPlaceWork.setText(textPlace)
             salaryVal.setText(savedFilter?.salary.toString())
         }
+        updateButtonsVisibility()
     }
 
     override fun onDestroyView() {
