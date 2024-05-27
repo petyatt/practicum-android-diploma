@@ -23,7 +23,7 @@ constructor(
 
     var value: Selectable? = null
         set(newValue) {
-            onChangeListener?.invoke(this, newValue)
+            if (field != newValue) onChangeListener?.invoke(this, newValue)
             field = newValue
             setText(newValue?.caption)
             setIcon()

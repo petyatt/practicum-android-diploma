@@ -16,8 +16,7 @@ class PlaceOfWorkFragment : Fragment() {
     private var _binding: FragmentPlaceOfWorkBinding? = null
     private val binding get() = _binding!!
 
-    private var currentCountry: Area? = null
-    private var currentRegion: Area? = null
+    private var currentArea: Area? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,36 +33,45 @@ class PlaceOfWorkFragment : Fragment() {
             backButton.setOnClickListener { findNavController().navigateUp() }
             etCountry.onSelectListener = {
                 findNavController().navigate(R.id.action_placeOfWorkFragment_to_countryFragment)
-                CountryFragment.createResultListener(this@PlaceOfWorkFragment) { currentCountry = it }
+                CountryFragment.createResultListener(this@PlaceOfWorkFragment) { currentArea = it }
             }
             etCountry.onChangeListener = { _, v ->
+                val area = v as? Area
+                currentArea = area
+                if (area == null) etRegion.value = null
                 select.isVisible = etRegion.value != null || v != null
-                currentCountry = v as? Area
             }
             etRegion.onSelectListener = {
                 findNavController().navigate(
                     R.id.action_placeOfWorkFragment_to_regionFragment,
-                    createArgument(currentCountry)
+                    createArgument(etCountry.value as? Area)
                 )
-                RegionFragment.createResultListener(this@PlaceOfWorkFragment) { currentRegion = it }
+                RegionFragment.createResultListener(this@PlaceOfWorkFragment) { currentArea = it }
             }
             etRegion.onChangeListener = { _, v ->
+                val area = v as? Area
+                currentArea = area
                 select.isVisible = etCountry.value != null || v != null
-                currentRegion = v as? Area
             }
         }
     }
 
     override fun onResume() {
         super.onResume()
-        with(binding) {
-            etCountry.value = currentCountry
-            etRegion.value = currentRegion
-        }
+        showArea(currentArea)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun showArea(area: Area?) {
+        val country = area?.parent ?: area
+        val region = if (area?.parent != null) area else null
+        with(binding) {
+            etRegion.value = region
+            etCountry.value = country
+        }
     }
 }
