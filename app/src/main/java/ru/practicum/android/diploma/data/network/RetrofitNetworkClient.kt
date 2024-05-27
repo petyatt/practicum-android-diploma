@@ -10,6 +10,7 @@ import ru.practicum.android.diploma.data.request.AreasRequest
 import ru.practicum.android.diploma.data.request.CountriesRequest
 import ru.practicum.android.diploma.data.request.IndustriesRequest
 import ru.practicum.android.diploma.data.request.MainRequest
+import ru.practicum.android.diploma.data.request.RegionsRequest
 import ru.practicum.android.diploma.data.request.Request
 import ru.practicum.android.diploma.data.request.VacancyRequest
 import ru.practicum.android.diploma.data.response.ListResponse
@@ -33,6 +34,7 @@ class RetrofitNetworkClient(
                     is IndustriesRequest -> ListResponse(headHunterApiService.getIndustries())
                     is CountriesRequest -> ListResponse(headHunterApiService.getCountries())
                     is AreasRequest -> headHunterApiService.getAreas(parentId = dto.parentId)
+                    is RegionsRequest -> ListResponse(headHunterApiService.getRegions())
                     else -> Response().apply { resultCode = ResponseCode.FAILED }
                 }
                 response.apply { resultCode = ResponseCode.SUCCESS }
