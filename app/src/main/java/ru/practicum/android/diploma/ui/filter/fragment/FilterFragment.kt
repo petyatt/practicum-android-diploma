@@ -14,8 +14,7 @@ import ru.practicum.android.diploma.domain.models.Area
 import ru.practicum.android.diploma.domain.models.Filter
 import ru.practicum.android.diploma.domain.models.Industry
 import ru.practicum.android.diploma.ui.filter.area.PlaceOfWorkFragment
-import ru.practicum.android.diploma.ui.filter.industry.IndustryFragment.Companion.createArgument
-import ru.practicum.android.diploma.ui.filter.industry.IndustryFragment.Companion.createResultListener
+import ru.practicum.android.diploma.ui.filter.industry.IndustryFragment
 import ru.practicum.android.diploma.ui.filter.viewmodel.FilterViewModel
 
 class FilterFragment : Fragment() {
@@ -45,17 +44,6 @@ class FilterFragment : Fragment() {
 
         with(binding) {
             ivFilterBackButton.setOnClickListener { findNavController().navigateUp() }
-            etIndustry.setOnClickListener {
-                findNavController().navigate(
-                    R.id.action_filterFragment_to_industryFragment,
-                    createArgument(currentIndustry)
-                )
-                createResultListener(this@FilterFragment) { selectedIndustry ->
-                    currentIndustry = selectedIndustry
-                    etIndustry.setText(selectedIndustry.name)
-                    updateButtonsVisibility()
-                }
-            }
 
             etPlaceWork.onSelectListener = {
                 findNavController().navigate(
@@ -65,6 +53,16 @@ class FilterFragment : Fragment() {
                 PlaceOfWorkFragment.createResultListener(this@FilterFragment) { currentArea = it }
             }
             etPlaceWork.onChangeListener = { _, v -> currentArea = v as? Area }
+
+            etIndustry.onSelectListener = {
+                findNavController().navigate(
+                    R.id.action_filterFragment_to_industryFragment,
+                    IndustryFragment.createArgument(it.value as? Industry)
+                )
+                IndustryFragment.createResultListener(this@FilterFragment) { currentIndustry = it }
+            }
+            etIndustry.onChangeListener = { _, v -> currentIndustry = v as? Industry }
+
             tvReset.setOnClickListener { viewModel.clear() }
             updateButtonsVisibility()
         }
@@ -90,10 +88,10 @@ class FilterFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        val savedFilter = viewModel.get()
-        currentIndustry = savedFilter?.industry
-        binding.etIndustry.setText(currentIndustry?.name)
-        binding.etPlaceWork.value = currentArea
+        with(binding) {
+            etPlaceWork.value = currentArea
+            etIndustry.value = currentIndustry
+        }
     }
 
     override fun onDestroyView() {
