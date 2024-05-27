@@ -18,6 +18,7 @@ import ru.practicum.android.diploma.ui.filter.area.CountryViewModel
 import ru.practicum.android.diploma.ui.filter.area.RegionViewModel
 import ru.practicum.android.diploma.ui.filter.industry.IndustryViewModel
 import ru.practicum.android.diploma.ui.filter.viewmodel.FilterViewModel
+import ru.practicum.android.diploma.ui.filter.viewmodel.PlaceOfWorkViewModel
 
 val filter = module {
 
@@ -55,5 +56,9 @@ val filter = module {
 
     viewModel {
         RegionViewModel(interactor = get())
+    }
+
+    viewModel {
+        PlaceOfWorkViewModel(get())
     }
 }

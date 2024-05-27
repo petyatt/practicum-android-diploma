@@ -22,6 +22,8 @@ class FilterFragment : Fragment() {
     private val viewModel: FilterViewModel by viewModel()
 
     private var currentIndustry: Industry? = null
+    private var currentSalary: Int = 0
+    private var checked: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,14 +59,39 @@ class FilterFragment : Fragment() {
             etPlaceWork.setOnClickListener {
                 findNavController().navigate(R.id.action_filterFragment_to_placeOfWorkFragment)
             }
+
+            cbFilter.setOnCheckedChangeListener { _, isChecked ->
+                saveToSharedPreferences()
+            }
             tvReset.setOnClickListener { viewModel.clear() }
             updateButtonsVisibility()
         }
+
+        with(binding.salaryVal) {
+            setOnEditorActionListener { v, actionId, _ ->
+                currentSalary = v.text.toString().toInt()
+                saveToSharedPreferences()
+                true
+            }
+        }
+    }
+
+    private fun saveToSharedPreferences() {
+        val currentFilter = viewModel.get() ?: Filter()
+        currentFilter.showWithoutSalary = checked
+        currentFilter.salary = currentSalary
+        viewModel.save(currentFilter)
     }
 
     private fun updateUI(filter: Filter) {
         currentIndustry = filter.industry
-        binding.etIndustry.setText(currentIndustry?.name)
+        with(binding) {
+            cbFilter.isChecked = filter.showWithoutSalary ?: false
+            etIndustry.setText(currentIndustry?.name)
+            val textPlace = "${filter.country?.name}, ${filter.area?.name}"
+            etPlaceWork.setText(textPlace)
+            salaryVal.setText(filter.salary.toString())
+        }
         updateButtonsVisibility()
     }
 
@@ -81,10 +108,15 @@ class FilterFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-
         val savedFilter = viewModel.get()
-        currentIndustry = savedFilter?.industry
-        binding.etIndustry.setText(currentIndustry?.name)
+        with(binding) {
+            cbFilter.isChecked = savedFilter?.showWithoutSalary ?: false
+            currentIndustry = savedFilter?.industry
+            etIndustry.setText(currentIndustry?.name)
+            val textPlace = "${savedFilter?.country?.name}, ${savedFilter?.area?.name}"
+            etPlaceWork.setText(textPlace)
+            salaryVal.setText(savedFilter?.salary.toString())
+        }
     }
 
     override fun onDestroyView() {
