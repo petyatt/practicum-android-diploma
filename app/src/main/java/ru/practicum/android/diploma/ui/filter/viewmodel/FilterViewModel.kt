@@ -18,7 +18,13 @@ class FilterViewModel(
 
     fun save(filter: Filter?) {
         val currentFilter = sharedPreferencesInteractor.get() ?: Filter()
-        currentFilter.industry = filter?.industry
+        with(currentFilter){
+            industry = filter?.industry
+            salary = filter?.salary
+            showWithoutSalary = filter?.showWithoutSalary
+            area = filter?.area
+            country = filter?.country
+        }
         viewModelScope.launch {
             sharedPreferencesInteractor.save(currentFilter)
         }

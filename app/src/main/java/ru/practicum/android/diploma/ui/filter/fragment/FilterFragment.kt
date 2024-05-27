@@ -85,6 +85,7 @@ class FilterFragment : Fragment() {
         val currentFilter = viewModel.get() ?: Filter()
         currentFilter.showWithoutSalary = checked
         currentFilter.salary = currentSalary
+        currentFilter.industry = currentIndustry
         viewModel.save(currentFilter)
     }
 
