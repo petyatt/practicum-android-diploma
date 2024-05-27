@@ -50,7 +50,7 @@
         tools:layout="@layout/fragment_vacancy"/>
     <fragment
         android:id="@+id/placeOfWorkFragment"
-        android:name="ru.practicum.android.diploma.ui.filter.fragment.PlaceOfWorkFragment"
+        android:name="ru.practicum.android.diploma.ui.filter.area.PlaceOfWorkFragment"
         android:label="PlaceOfWorkFragment"
         tools:layout="@layout/fragment_place_of_work">
         <action

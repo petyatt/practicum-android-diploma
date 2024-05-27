@@ -1,16 +1,15 @@
-package ru.practicum.android.diploma.ui.filter.fragment
+package ru.practicum.android.diploma.ui.filter.area
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentPlaceOfWorkBinding
 import ru.practicum.android.diploma.domain.models.Area
-import ru.practicum.android.diploma.ui.filter.area.CountryFragment
-import ru.practicum.android.diploma.ui.filter.area.RegionFragment
 import ru.practicum.android.diploma.ui.filter.area.RegionFragment.Companion.createArgument
 
 class PlaceOfWorkFragment : Fragment() {
@@ -33,16 +32,24 @@ class PlaceOfWorkFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
             backButton.setOnClickListener { findNavController().navigateUp() }
-            etCountry.setOnClickListener {
+            etCountry.onSelectListener = {
                 findNavController().navigate(R.id.action_placeOfWorkFragment_to_countryFragment)
                 CountryFragment.createResultListener(this@PlaceOfWorkFragment) { currentCountry = it }
             }
-            etRegion.setOnClickListener {
+            etCountry.onChangeListener = { _, v ->
+                select.isVisible = etRegion.value != null || v != null
+                currentCountry = v as? Area
+            }
+            etRegion.onSelectListener = {
                 findNavController().navigate(
                     R.id.action_placeOfWorkFragment_to_regionFragment,
                     createArgument(currentCountry?.id)
                 )
                 RegionFragment.createResultListener(this@PlaceOfWorkFragment) { currentRegion = it }
+            }
+            etRegion.onChangeListener = { _, v ->
+                select.isVisible = etCountry.value != null || v != null
+                currentRegion = v as? Area
             }
         }
     }
@@ -50,8 +57,8 @@ class PlaceOfWorkFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         with(binding) {
-            etCountry.setText(currentCountry?.name)
-            etRegion.setText(currentRegion?.name)
+            etCountry.value = currentCountry
+            etRegion.value = currentRegion
         }
     }
 
