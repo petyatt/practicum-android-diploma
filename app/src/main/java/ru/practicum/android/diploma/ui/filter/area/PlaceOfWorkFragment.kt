@@ -43,7 +43,7 @@ class PlaceOfWorkFragment : Fragment() {
             etRegion.onSelectListener = {
                 findNavController().navigate(
                     R.id.action_placeOfWorkFragment_to_regionFragment,
-                    createArgument(currentCountry?.id)
+                    createArgument(currentCountry)
                 )
                 RegionFragment.createResultListener(this@PlaceOfWorkFragment) { currentRegion = it }
             }
