@@ -9,6 +9,8 @@ data class Area(
     val name: String,
     val parent: Area? = null
 ) : Selectable {
+    constructor(area: Area, parent: Area? = null) : this(area.id, area.name, parent)
+
     override val caption: String
-        get() = name
+        get() = (parent?.let { parent.name + ", " } ?: "") + name
 }

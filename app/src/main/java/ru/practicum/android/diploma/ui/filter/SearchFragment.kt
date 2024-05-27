@@ -138,7 +138,7 @@ abstract class SearchFragment<T, H : ViewHolder>(
         private const val REQUEST_KEY = "search_fragment_request_key"
 
         private const val RES_SEARCH = "res_search"
-        private const val SEARCH_DEBOUNCE_DELAY = 2000L
+        private const val SEARCH_DEBOUNCE_DELAY = 1000L
 
         fun <T : Parcelable> createArgument(arg: T?): Bundle? {
             val bundle = bundleOf(ARG_SEARCH to (arg ?: return null))

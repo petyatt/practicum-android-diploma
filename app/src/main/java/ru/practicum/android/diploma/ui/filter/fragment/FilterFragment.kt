@@ -10,8 +10,10 @@ import androidx.navigation.fragment.findNavController
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentFilterBinding
+import ru.practicum.android.diploma.domain.models.Area
 import ru.practicum.android.diploma.domain.models.Filter
 import ru.practicum.android.diploma.domain.models.Industry
+import ru.practicum.android.diploma.ui.filter.area.PlaceOfWorkFragment
 import ru.practicum.android.diploma.ui.filter.industry.IndustryFragment.Companion.createArgument
 import ru.practicum.android.diploma.ui.filter.industry.IndustryFragment.Companion.createResultListener
 import ru.practicum.android.diploma.ui.filter.viewmodel.FilterViewModel
@@ -22,6 +24,7 @@ class FilterFragment : Fragment() {
     private val viewModel: FilterViewModel by viewModel()
 
     private var currentIndustry: Industry? = null
+    private var currentArea: Area? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -54,9 +57,14 @@ class FilterFragment : Fragment() {
                 }
             }
 
-            etPlaceWork.setOnClickListener {
-                findNavController().navigate(R.id.action_filterFragment_to_placeOfWorkFragment)
+            etPlaceWork.onSelectListener = {
+                findNavController().navigate(
+                    R.id.action_filterFragment_to_placeOfWorkFragment,
+                    PlaceOfWorkFragment.createArgument(it.value as? Area)
+                )
+                PlaceOfWorkFragment.createResultListener(this@FilterFragment) { currentArea = it }
             }
+            etPlaceWork.onChangeListener = { _, v -> currentArea = v as? Area }
             tvReset.setOnClickListener { viewModel.clear() }
             updateButtonsVisibility()
         }
@@ -85,6 +93,7 @@ class FilterFragment : Fragment() {
         val savedFilter = viewModel.get()
         currentIndustry = savedFilter?.industry
         binding.etIndustry.setText(currentIndustry?.name)
+        binding.etPlaceWork.value = currentArea
     }
 
     override fun onDestroyView() {
