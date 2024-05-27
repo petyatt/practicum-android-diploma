@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -65,15 +66,19 @@ class FilterFragment : Fragment() {
             }
             tvReset.setOnClickListener { viewModel.clear() }
             updateButtonsVisibility()
-        }
 
-        with(binding.salaryVal) {
-            setOnEditorActionListener { v, actionId, _ ->
-                currentSalary = v.text.toString().toInt()
-                saveToSharedPreferences()
+            salaryVal.setOnEditorActionListener { _, actionId, _ ->
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    val inputText = salaryVal.text.toString()
+                    if (inputText.isNotEmpty()) {
+                        currentSalary = inputText.toInt()
+                        saveToSharedPreferences()
+                    }
+                }
                 true
             }
         }
+
     }
 
     private fun saveToSharedPreferences() {

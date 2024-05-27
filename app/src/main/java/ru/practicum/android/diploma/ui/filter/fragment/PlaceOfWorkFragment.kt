@@ -82,10 +82,9 @@ class PlaceOfWorkFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        val savedFilter = viewModel.get()
         with(binding) {
-            etCountry.setText(savedFilter?.country?.name)
-            etRegion.setText(savedFilter?.area?.name)
+            etCountry.setText(currentCountry?.name)
+            etRegion.setText(currentRegion?.name)
         }
     }
 
