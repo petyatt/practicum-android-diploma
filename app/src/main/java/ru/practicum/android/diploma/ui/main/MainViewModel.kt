@@ -13,7 +13,8 @@ import ru.practicum.android.diploma.ui.model.ScreenState
 import ru.practicum.android.diploma.util.Resource
 
 class MainViewModel(
-    private val mainInteractor: MainInteractor, private val sharedPreferencesInteractor: SharedPreferencesInteractor
+    private val mainInteractor: MainInteractor,
+    private val sharedPreferencesInteractor: SharedPreferencesInteractor
 ) : ViewModel() {
 
     private val _state = MutableLiveData<ScreenState<Vacancies>>()
