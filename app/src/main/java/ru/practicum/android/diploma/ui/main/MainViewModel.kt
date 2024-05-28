@@ -51,8 +51,8 @@ class MainViewModel(
         return  mainInteractor.searchVacanciesWithFilters(
                 vacancy = searchText,
                 page = page,
-                area = filter?.area?.id,
-                industry = filter?.industry?.id,
+                area = filter?.area?.id.toString(),
+                industry = filter?.industry?.id.toString(),
                 salary = filter?.salary,
                 onlyWithSalary = filter?.showWithoutSalary ?: false
             )
