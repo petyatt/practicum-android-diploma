@@ -35,6 +35,7 @@ class VacanciesRepositoryImpl(
             Resource.NotConnection()
         }
     }
+
     override suspend fun searchVacanciesWithFilters(
         vacancy: String?,
         page: Int,
@@ -47,8 +48,15 @@ class VacanciesRepositoryImpl(
     ): Resource<Vacancies> {
         val response = networkClient.doRequest(
             FilterRequest(
-            vacancy,page,perPage,searchField,area,industry,salary,onlyWithSalary
-        )
+                vacancy,
+                page,
+                perPage,
+                searchField,
+                area,
+                industry,
+                salary,
+                onlyWithSalary
+            )
         )
         return if (response is VacanciesResponse) {
             getResource(response, vacanciesConverter.convert(response))

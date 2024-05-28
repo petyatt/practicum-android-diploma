@@ -18,7 +18,7 @@ class FilterViewModel(
 
     fun save(filter: Filter?) {
         val currentFilter = sharedPreferencesInteractor.get() ?: Filter()
-        with(currentFilter){
+        with(currentFilter) {
             industry = filter?.industry
             salary = filter?.salary
             showWithoutSalary = filter?.showWithoutSalary

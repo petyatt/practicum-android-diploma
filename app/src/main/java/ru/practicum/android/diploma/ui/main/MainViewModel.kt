@@ -46,7 +46,7 @@ class MainViewModel(
     private fun get(): Filter? {
         return sharedPreferencesInteractor.get()
     }
-    private suspend fun doSearchWithFilters(searchText: String,page: Int) : Resource<Vacancies> {
+    private suspend fun doSearchWithFilters(searchText: String, page: Int): Resource<Vacancies> {
         val filter = get()
         return  mainInteractor.searchVacanciesWithFilters(
             vacancy = searchText,

@@ -126,13 +126,13 @@ class FilterFragment : Fragment() {
         val savedFilter = viewModel.get()
         with(binding) {
             cbFilter.isChecked = savedFilter?.showWithoutSalary ?: false
-            if (currentIndustry == null){
+            if (currentIndustry == null) {
                 currentIndustry = savedFilter?.industry
             }
             etIndustry.setText(currentIndustry?.name)
             val textPlace = "${savedFilter?.country?.name}, ${savedFilter?.area?.name}"
             etPlaceWork.setText(textPlace)
-            if (currentSalary == 0){
+            if (currentSalary == 0) {
                 currentSalary = savedFilter?.salary ?: 0
             }
             salaryVal.setText(currentSalary.toString())

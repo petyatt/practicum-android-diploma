@@ -1,7 +1,6 @@
 package ru.practicum.android.diploma.data.request
 
-
-class FilterRequest (
+class FilterRequest(
     val vacancy: String? = null,
     val page: Int = 0,
     val perPage: Int = 20,
@@ -10,4 +9,4 @@ class FilterRequest (
     val industry: String? = null,
     val salary: Int? = null,
     val onlyWithSalary: Boolean = false
-): Request
+) : Request

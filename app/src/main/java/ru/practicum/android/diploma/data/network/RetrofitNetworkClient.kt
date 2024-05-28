@@ -41,7 +41,8 @@ class RetrofitNetworkClient(
                             dto.searchField,
                             dto.industry,
                             dto.salary,
-                            dto.onlyWithSalary)
+                            dto.onlyWithSalary
+                        )
                     }
                     is IndustriesRequest -> ListResponse(headHunterApiService.getIndustries())
                     is CountriesRequest -> ListResponse(headHunterApiService.getCountries())
