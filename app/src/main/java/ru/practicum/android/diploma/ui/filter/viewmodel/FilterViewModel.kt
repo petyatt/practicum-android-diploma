@@ -4,35 +4,29 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import ru.practicum.android.diploma.domain.api.sharedpreferences.SharedPreferencesInteractor
+import ru.practicum.android.diploma.domain.api.sharedpreferences.FilterIneractor
 import ru.practicum.android.diploma.domain.models.Filter
 
 class FilterViewModel(
-    private val sharedPreferencesInteractor: SharedPreferencesInteractor
+    private val interactor: FilterIneractor
 ) : ViewModel() {
 
     private val _filterLiveData = MutableLiveData<Filter>()
     val filterLiveData: LiveData<Filter>
         get() = _filterLiveData
 
-    fun save(filter: Filter?) {
-        val currentFilter = sharedPreferencesInteractor.get() ?: Filter()
-        currentFilter.industry = filter?.industry
-        viewModelScope.launch {
-            sharedPreferencesInteractor.save(currentFilter)
+    fun get() {
+        viewModelScope.launch(Dispatchers.IO) {
+            _filterLiveData.postValue(interactor.get() ?: Filter())
         }
     }
 
-    fun get(): Filter? {
-        val filter = sharedPreferencesInteractor.get()
-        return filter
-    }
-
-    fun clear() {
-        viewModelScope.launch {
-            sharedPreferencesInteractor.clear()
-            _filterLiveData.value = Filter()
+    fun save(filter: Filter) {
+        viewModelScope.launch(Dispatchers.IO) {
+            interactor.save(filter)
+            _filterLiveData.postValue(interactor.get() ?: Filter())
         }
     }
 }

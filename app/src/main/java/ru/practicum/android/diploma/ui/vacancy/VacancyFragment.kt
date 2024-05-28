@@ -51,12 +51,14 @@ class VacancyFragment : Fragment() {
                         error.isVisible = false
                         loading.isVisible = true
                     }
+
                     is ScreenState.Loaded -> {
                         vacancy = it.t
                         showVacancy()
                         viewModel.getIsFavorite(it.t.id)
                     }
-                    is ScreenState.IsFavorite -> renderFavorite(it.value)
+
+                    is ScreenState.Option<*, *> -> renderFavorite(it.value as? Boolean ?: false)
                     else -> {
                         data.isVisible = false
                         loading.isVisible = false

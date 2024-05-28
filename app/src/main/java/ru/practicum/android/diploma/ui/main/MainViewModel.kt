@@ -6,12 +6,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.domain.api.main.MainInteractor
+import ru.practicum.android.diploma.domain.api.sharedpreferences.FilterIneractor
+import ru.practicum.android.diploma.domain.models.Filter
 import ru.practicum.android.diploma.domain.models.Vacancies
 import ru.practicum.android.diploma.ui.model.ScreenState
 import ru.practicum.android.diploma.util.Resource
 
 class MainViewModel(
     private val mainInteractor: MainInteractor,
+    private val filterInteractor: FilterIneractor
 ) : ViewModel() {
 
     private val _state = MutableLiveData<ScreenState<Vacancies>>()
@@ -28,7 +31,8 @@ class MainViewModel(
             }
             _state.postValue(ScreenState.Loading())
             viewModelScope.launch {
-                when (val result = mainInteractor.searchVacancies(searchText, _page)) {
+                when (val result =
+                    mainInteractor.searchVacancies(searchText, _page, filterInteractor.get() ?: Filter())) {
                     is Resource.NotConnection -> _state.postValue(ScreenState.NotConnection())
                     is Resource.Failed -> _state.postValue(ScreenState.ServerError())
                     is Resource.Success -> {
@@ -38,6 +42,13 @@ class MainViewModel(
                     }
                 }
             }
+        }
+    }
+
+    fun getFilterState() {
+        viewModelScope.launch {
+            val filter = filterInteractor.get() ?: Filter()
+            _state.postValue(ScreenState.Option(filter))
         }
     }
 }

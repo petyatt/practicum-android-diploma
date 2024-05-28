@@ -2,19 +2,19 @@ package ru.practicum.android.diploma.di
 
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
-import ru.practicum.android.diploma.data.impl.sharedpreferences.SharedPreferencesRepositoryImpl
-import ru.practicum.android.diploma.domain.api.sharedpreferences.SharedPreferencesInteractor
-import ru.practicum.android.diploma.domain.api.sharedpreferences.SharedPreferencesRepository
-import ru.practicum.android.diploma.domain.impl.SharedPreferencesInteractorImpl
+import ru.practicum.android.diploma.data.impl.sharedpreferences.FilterRepositoryImpl
+import ru.practicum.android.diploma.domain.api.sharedpreferences.FilterIneractor
+import ru.practicum.android.diploma.domain.api.sharedpreferences.FilterRepository
+import ru.practicum.android.diploma.domain.impl.FilterIneractorImpl
 
 val sharedPreferences = module {
 
-    single<SharedPreferencesRepository> {
-        SharedPreferencesRepositoryImpl(androidContext())
+    single<FilterRepository> {
+        FilterRepositoryImpl(androidContext())
     }
 
-    single<SharedPreferencesInteractor> {
-        SharedPreferencesInteractorImpl(get())
+    single<FilterIneractor> {
+        FilterIneractorImpl(get())
     }
 
 }

@@ -46,7 +46,7 @@ val filter = module {
     }
 
     viewModel {
-        IndustryViewModel(interactor = get(), get())
+        IndustryViewModel(interactor = get())
     }
 
     viewModel {

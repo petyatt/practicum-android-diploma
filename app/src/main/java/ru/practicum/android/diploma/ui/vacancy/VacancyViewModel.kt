@@ -38,14 +38,14 @@ class VacancyViewModel(
 
     fun getIsFavorite(id: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            _vacancyState.postValue(ScreenState.IsFavorite(vacancyInteractor.getIsFavorite(id)))
+            _vacancyState.postValue(ScreenState.Option(vacancyInteractor.getIsFavorite(id)))
         }
     }
 
     fun changeIsFavorite(vacancy: Vacancy) {
         viewModelScope.launch(Dispatchers.IO) {
             val isFavorite = vacancyInteractor.getIsFavorite(vacancy.id)
-            _vacancyState.postValue(ScreenState.IsFavorite(vacancyInteractor.setIsFavorite(vacancy, !isFavorite)))
+            _vacancyState.postValue(ScreenState.Option(vacancyInteractor.setIsFavorite(vacancy, !isFavorite)))
         }
     }
 

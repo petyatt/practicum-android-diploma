@@ -29,7 +29,11 @@ class RetrofitNetworkClient(
         return withContext(Dispatchers.IO) {
             try {
                 val response = when (dto) {
-                    is MainRequest -> headHunterApiService.getVacancies(vacancy = dto.vacancy, page = dto.page)
+                    is MainRequest -> headHunterApiService.getVacancies(
+                        vacancy = dto.vacancy,
+                        filter = dto.filter,
+                        page = dto.page
+                    )
                     is VacancyRequest -> headHunterApiService.getVacancy(id = dto.id)
                     is IndustriesRequest -> ListResponse(headHunterApiService.getIndustries())
                     is CountriesRequest -> ListResponse(headHunterApiService.getCountries())
