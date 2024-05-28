@@ -17,7 +17,7 @@ import ru.practicum.android.diploma.ui.main.MainViewModel
 val main = module {
 
     viewModel {
-        MainViewModel(mainInteractor = get())
+        MainViewModel(mainInteractor = get(), filterInteractor = get())
     }
     single<MainInteractor> {
         MainInteractorImpl(repository = get())

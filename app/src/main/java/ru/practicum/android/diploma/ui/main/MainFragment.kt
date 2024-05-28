@@ -77,6 +77,7 @@ class MainFragment : Fragment() {
                 R.id.action_mainFragment_to_filterFragment
             )
         }
+        viewModel.getFilterState()
     }
 
     override fun onDestroyView() {
@@ -131,7 +132,7 @@ class MainFragment : Fragment() {
             is ScreenState.Loaded -> showContent(state.t)
             is ScreenState.NotConnection -> showError(R.drawable.placeholder_no_internet, R.string.bad_connection)
             is ScreenState.ServerError -> showError(R.drawable.placeholder_cat, R.string.no_vacancies)
-            else -> {}
+            is ScreenState.Option<*, *> -> binding.ivFilter.setImageResource(if (state.value as? Boolean == true) R.drawable.filter_on else R.drawable.filter_off)
         }
     }
 
