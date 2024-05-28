@@ -24,25 +24,34 @@ class FilterFragment : Fragment() {
     private val viewModel: FilterViewModel by viewModel()
 
     private var currentIndustry: Industry? = null
+        set(value) {
+            field = value
+            binding.apply.isVisible = newFilter() != currentFilter
+            binding.reset.isVisible = !newFilter(industry = value).isEmpty
+        }
     private var currentArea: Area? = null
         set(value) {
             field = value
             binding.apply.isVisible = newFilter() != currentFilter
+            binding.reset.isVisible = !newFilter(area = value).isEmpty
         }
     private var currentSalary: Int? = null
         set(value) {
             field = value
             binding.apply.isVisible = newFilter() != currentFilter
+            binding.reset.isVisible = !newFilter(salary = value).isEmpty
         }
     private var currentOnlyWithSalary: Boolean = false
         set(value) {
             field = value
             binding.apply.isVisible = newFilter() != currentFilter
+            binding.reset.isVisible = !newFilter(onlyWithSalary = value).isEmpty
         }
     private var currentFilter: Filter? = null
         set(value) {
             field = value
             binding.apply.isVisible = newFilter() != currentFilter
+            binding.reset.isVisible = !newFilter().isEmpty
         }
 
     override fun onCreateView(
@@ -100,21 +109,26 @@ class FilterFragment : Fragment() {
     }
 
     private fun updateUI(filter: Filter) {
-        currentFilter = filter
+        if (currentFilter == filter) return
         with(binding) {
+            currentFilter = filter
             etPlaceWork.value = filter.area
             etIndustry.value = filter.industry
             salaryVal.setText(filter.salary?.toString() ?: "")
             cbFilter.isChecked = filter.onlyWithSalary
-            reset.isVisible = currentFilter?.isEmpty?.not() ?: false
         }
     }
 
-    private fun newFilter() = Filter(
-        area = currentArea,
-        industry = currentIndustry,
-        salary = currentSalary,
-        onlyWithSalary = currentOnlyWithSalary
+    private fun newFilter(
+        area: Area? = currentArea,
+        industry: Industry? = currentIndustry,
+        salary: Int? = currentSalary,
+        onlyWithSalary: Boolean = currentOnlyWithSalary
+    ) = Filter(
+        area = area,
+        industry = industry,
+        salary = salary,
+        onlyWithSalary = onlyWithSalary
     )
 
     override fun onResume() {

@@ -195,6 +195,7 @@ class MainFragment : Fragment() {
             progressBarBottom.isVisible = false
             tvNumberVacancies.isVisible = true
             tvNumberVacancies.text = getStringOfVacancies(vacancies.found)
+            recyclerView.adapter?.notifyDataSetChanged()
         }
         vacancyListAdapter?.vacancyList?.addAll(vacancies.items)
         vacancyListAdapter?.notifyDataSetChanged()
