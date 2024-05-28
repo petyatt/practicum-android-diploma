@@ -6,12 +6,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.domain.api.main.MainInteractor
+import ru.practicum.android.diploma.domain.api.sharedpreferences.SharedPreferencesInteractor
+import ru.practicum.android.diploma.domain.models.Filter
 import ru.practicum.android.diploma.domain.models.Vacancies
 import ru.practicum.android.diploma.ui.model.ScreenState
 import ru.practicum.android.diploma.util.Resource
 
 class MainViewModel(
     private val mainInteractor: MainInteractor,
+    private val sharedPreferencesInteractor: SharedPreferencesInteractor
 ) : ViewModel() {
 
     private val _state = MutableLiveData<ScreenState<Vacancies>>()
@@ -28,7 +31,7 @@ class MainViewModel(
             }
             _state.postValue(ScreenState.Loading())
             viewModelScope.launch {
-                when (val result = mainInteractor.searchVacancies(searchText, _page)) {
+                when (val result = doSearchWithFilters(searchText, _page)) {
                     is Resource.NotConnection -> _state.postValue(ScreenState.NotConnection())
                     is Resource.Failed -> _state.postValue(ScreenState.ServerError())
                     is Resource.Success -> {
@@ -39,5 +42,19 @@ class MainViewModel(
                 }
             }
         }
+    }
+    private fun get(): Filter? {
+        return sharedPreferencesInteractor.get()
+    }
+    private suspend fun doSearchWithFilters(searchText: String,page: Int) : Resource<Vacancies> {
+        val filter = get()
+        return  mainInteractor.searchVacanciesWithFilters(
+                vacancy = searchText,
+                perPage = page,
+                area = filter?.area?.id?.toInt(),
+                industry = filter?.industry?.id,
+                salary = filter?.salary,
+                onlyWithSalary = filter?.showWithoutSalary ?: false
+            )
     }
 }

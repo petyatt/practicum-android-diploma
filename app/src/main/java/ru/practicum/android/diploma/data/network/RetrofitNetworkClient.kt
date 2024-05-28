@@ -8,6 +8,7 @@ import retrofit2.HttpException
 import ru.practicum.android.diploma.data.dto.ResponseCode
 import ru.practicum.android.diploma.data.request.AreasRequest
 import ru.practicum.android.diploma.data.request.CountriesRequest
+import ru.practicum.android.diploma.data.request.FilterRequest
 import ru.practicum.android.diploma.data.request.IndustriesRequest
 import ru.practicum.android.diploma.data.request.MainRequest
 import ru.practicum.android.diploma.data.request.RegionsRequest
@@ -15,6 +16,7 @@ import ru.practicum.android.diploma.data.request.Request
 import ru.practicum.android.diploma.data.request.VacancyRequest
 import ru.practicum.android.diploma.data.response.ListResponse
 import ru.practicum.android.diploma.data.response.Response
+import ru.practicum.android.diploma.di.vacancy
 import ru.practicum.android.diploma.util.isConnected
 
 class RetrofitNetworkClient(
@@ -30,6 +32,17 @@ class RetrofitNetworkClient(
             try {
                 val response = when (dto) {
                     is MainRequest -> headHunterApiService.getVacancies(vacancy = dto.vacancy, page = dto.page)
+                    is FilterRequest -> {
+                        headHunterApiService.getVacanciesWithFilters(
+                            dto.vacancy,
+                            dto.page,
+                            dto.perPage,
+                            dto.area,
+                            dto.searchField,
+                            dto.industry,
+                            dto.salary,
+                            dto.onlyWithSalary)
+                    }
                     is VacancyRequest -> headHunterApiService.getVacancy(id = dto.id)
                     is IndustriesRequest -> ListResponse(headHunterApiService.getIndustries())
                     is CountriesRequest -> ListResponse(headHunterApiService.getCountries())

@@ -13,11 +13,17 @@ interface HeadHunterApiService {
     @GET("/vacancies")
     suspend fun getVacancies(
         @Query("text") vacancy: String? = null,
+        @Query("page") page: Int = 0
+    ): VacanciesResponse
+
+    @GET("/vacancies")
+    suspend fun getVacanciesWithFilters(
+        @Query("text") vacancy: String? = null,
         @Query("page") page: Int = 0,
         @Query("per_page") perPage: Int = 20,
         @Query("area") area: Int? = null,
         @Query("search_field") searchField: String? = "name",
-        @Query("industry") industry: Int? = null,
+        @Query("industry") industry: String? = null,
         @Query("salary") salary: Int? = null,
         @Query("only_with_salary") onlyWithSalary: Boolean = false
     ): VacanciesResponse
