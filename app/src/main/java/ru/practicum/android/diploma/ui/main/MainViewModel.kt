@@ -50,8 +50,8 @@ class MainViewModel(
         val filter = get()
         return  mainInteractor.searchVacanciesWithFilters(
                 vacancy = searchText,
-                perPage = page,
-                area = filter?.area?.id?.toInt(),
+                page = page,
+                area = filter?.area?.id,
                 industry = filter?.industry?.id,
                 salary = filter?.salary,
                 onlyWithSalary = filter?.showWithoutSalary ?: false

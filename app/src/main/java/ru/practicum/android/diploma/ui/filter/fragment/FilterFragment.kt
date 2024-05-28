@@ -53,7 +53,6 @@ class FilterFragment : Fragment() {
                 createResultListener(this@FilterFragment) { selectedIndustry ->
                     currentIndustry = selectedIndustry
                     etIndustry.setText(selectedIndustry.name)
-                    saveToSharedPreferences()
                     updateButtonsVisibility()
                 }
 
@@ -65,7 +64,6 @@ class FilterFragment : Fragment() {
 
             cbFilter.setOnCheckedChangeListener { _, isChecked ->
                 checked = isChecked
-                saveToSharedPreferences()
             }
             tvReset.setOnClickListener { viewModel.clear() }
             updateButtonsVisibility()
@@ -75,10 +73,13 @@ class FilterFragment : Fragment() {
                     val inputText = salaryVal.text.toString()
                     if (inputText.isNotEmpty()) {
                         currentSalary = inputText.toInt()
-                        saveToSharedPreferences()
                     }
                 }
                 true
+            }
+            tvApply.setOnClickListener {
+                findNavController().navigateUp()
+                saveToSharedPreferences()
             }
         }
 
@@ -108,6 +109,7 @@ class FilterFragment : Fragment() {
         with(binding) {
             if (currentIndustry != null || currentSalary != 0 || checked) {
                 tvApply.isVisible = true
+                tvApply.isEnabled = true
                 tvReset.isVisible = true
             } else {
                 tvApply.isVisible = false
@@ -122,11 +124,16 @@ class FilterFragment : Fragment() {
         val savedFilter = viewModel.get()
         with(binding) {
             cbFilter.isChecked = savedFilter?.showWithoutSalary ?: false
-            currentIndustry = savedFilter?.industry
+            if (currentIndustry == null){
+                currentIndustry = savedFilter?.industry
+            }
             etIndustry.setText(currentIndustry?.name)
             val textPlace = "${savedFilter?.country?.name}, ${savedFilter?.area?.name}"
             etPlaceWork.setText(textPlace)
-            salaryVal.setText(savedFilter?.salary.toString())
+            if (currentSalary == 0){
+                currentSalary = savedFilter?.salary ?: 0
+            }
+            salaryVal.setText(currentSalary.toString())
         }
         updateButtonsVisibility()
     }

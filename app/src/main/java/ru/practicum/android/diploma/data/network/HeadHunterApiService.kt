@@ -21,7 +21,7 @@ interface HeadHunterApiService {
         @Query("text") vacancy: String? = null,
         @Query("page") page: Int = 0,
         @Query("per_page") perPage: Int = 20,
-        @Query("area") area: Int? = null,
+        @Query("area") area: String? = null,
         @Query("search_field") searchField: String? = "name",
         @Query("industry") industry: String? = null,
         @Query("salary") salary: Int? = null,

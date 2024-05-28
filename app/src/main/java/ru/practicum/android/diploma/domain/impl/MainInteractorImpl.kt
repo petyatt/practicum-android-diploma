@@ -11,7 +11,7 @@ class MainInteractorImpl(private val repository: VacanciesRepository) : MainInte
         vacancy: String?,
         page: Int,
         perPage: Int,
-        area: Int?,
+        area: String?,
         searchField: String?,
         industry: String?,
         salary: Int?,

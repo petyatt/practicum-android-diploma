@@ -11,7 +11,7 @@ interface VacanciesRepository {
         vacancy: String? = null,
         page: Int = 0,
         perPage: Int = 20,
-        area: Int? = null,
+        area: String? = null,
         searchField: String? = "name",
         industry: String? = null,
         salary: Int? = null,
