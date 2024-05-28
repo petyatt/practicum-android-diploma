@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentMainBinding
+import ru.practicum.android.diploma.domain.models.Filter
 import ru.practicum.android.diploma.domain.models.Vacancies
 import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.ui.model.ScreenState
@@ -50,6 +51,7 @@ class MainFragment : Fragment() {
         }
     }
     private var lastSearchText: String = ""
+    private var currentFilter = Filter()
     private val viewModel by viewModel<MainViewModel>()
 
     override fun onCreateView(
@@ -132,10 +134,19 @@ class MainFragment : Fragment() {
             is ScreenState.Loaded -> showContent(state.t)
             is ScreenState.NotConnection -> showError(R.drawable.placeholder_no_internet, R.string.bad_connection)
             is ScreenState.ServerError -> showError(R.drawable.placeholder_cat, R.string.no_vacancies)
-            is ScreenState.Option<*, *> -> binding.ivFilter.setImageResource(
-                if (state.value as? Boolean == true) R.drawable.filter_on else R.drawable.filter_off
-            )
+            is ScreenState.Option<*, *> -> changeFilter(state.value as? Filter ?: Filter())
         }
+    }
+
+    private fun changeFilter(filter: Filter) {
+        if (filter != currentFilter) {
+            vacancyListAdapter?.vacancyList?.clear()
+            viewModel.sendRequest(binding.search.text.toString())
+        }
+        binding.ivFilter.setImageResource(
+            if (filter.isEmpty) R.drawable.filter_off else R.drawable.filter_on
+        )
+        currentFilter = filter
     }
 
     private fun showDefaultState() {
