@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -171,11 +172,15 @@ class MainFragment : Fragment() {
 
     private fun showProgressBarBottom() {
         with(binding) {
-            progressBarBottom.isVisible = true
-            placeholderImage.isVisible = false
-            placeholderText.isVisible = false
-            recyclerView.layoutParams = (recyclerView.layoutParams as ConstraintLayout.LayoutParams).apply {
-                topToBottom = R.id.search
+            if (isConnected(requireContext())) {
+                progressBarBottom.isVisible = true
+                placeholderImage.isVisible = false
+                placeholderText.isVisible = false
+                recyclerView.layoutParams = (recyclerView.layoutParams as ConstraintLayout.LayoutParams).apply {
+                    topToBottom = R.id.search
+                }
+            } else {
+                Toast.makeText(requireContext(), "Проверьте подключение к интернету", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -204,7 +209,7 @@ class MainFragment : Fragment() {
             placeholderText.isVisible = false
             recyclerView.isVisible = true
             progressBarBottom.isVisible = false
-            tvNumberVacancies.isVisible = true
+            tvNumberVacancies.isVisible = isConnected(requireContext())
             tvNumberVacancies.text = getStringOfVacancies(vacancies.found)
             recyclerView.adapter?.notifyDataSetChanged()
         }
