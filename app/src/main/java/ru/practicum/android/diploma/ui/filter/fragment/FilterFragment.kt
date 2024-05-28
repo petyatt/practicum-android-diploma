@@ -138,7 +138,7 @@ class FilterFragment : Fragment() {
             if (savedFilter?.country == null && savedFilter?.area == null) {
                 etPlaceWork.setText("")
             } else {
-                val text = "${savedFilter.country?.name}, ${savedFilter.area?.name}"
+                val text = "${savedFilter.country?.name ?: ""}, ${savedFilter.area?.name ?: ""}"
                 etPlaceWork.setText(text)
             }
 
