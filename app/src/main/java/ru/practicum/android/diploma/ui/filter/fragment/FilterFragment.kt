@@ -134,17 +134,22 @@ class FilterFragment : Fragment() {
                 currentIndustry = savedFilter?.industry
             }
             etIndustry.setText(currentIndustry?.name)
-            val textPlace = if (savedFilter?.country == null && savedFilter?.area == null) {
-                ""
-            } else "${savedFilter.country?.name ?: ""}, ${savedFilter.area?.name ?: ""}"
-            etPlaceWork.setText(textPlace)
+
+            if (savedFilter?.country == null && savedFilter?.area == null) {
+                etPlaceWork.setText("")
+            } else {
+                val text = "${savedFilter.country?.name}, ${savedFilter.area?.name}"
+                etPlaceWork.setText(text)
+            }
+
             if (currentSalary == null) {
                 currentSalary = savedFilter?.salary
             }
-            val salaryText = if (currentSalary == null) ""
-            else currentSalary.toString()
-
-            salaryVal.setText(salaryText)
+            if (currentSalary == null) {
+                salaryVal.setText("")
+            } else {
+                salaryVal.setText(currentSalary.toString())
+            }
         }
         updateButtonsVisibility()
     }
