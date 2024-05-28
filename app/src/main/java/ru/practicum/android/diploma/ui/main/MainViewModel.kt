@@ -13,8 +13,7 @@ import ru.practicum.android.diploma.ui.model.ScreenState
 import ru.practicum.android.diploma.util.Resource
 
 class MainViewModel(
-    private val mainInteractor: MainInteractor,
-    private val sharedPreferencesInteractor: SharedPreferencesInteractor
+    private val mainInteractor: MainInteractor, private val sharedPreferencesInteractor: SharedPreferencesInteractor
 ) : ViewModel() {
 
     private val _state = MutableLiveData<ScreenState<Vacancies>>()
@@ -43,12 +42,14 @@ class MainViewModel(
             }
         }
     }
+
     private fun get(): Filter? {
         return sharedPreferencesInteractor.get()
     }
+
     private suspend fun doSearchWithFilters(searchText: String, page: Int): Resource<Vacancies> {
         val filter = get()
-        return  mainInteractor.searchVacanciesWithFilters(
+        return mainInteractor.searchVacanciesWithFilters(
             vacancy = searchText,
             page = page,
             area = filter?.area?.id.toString(),
