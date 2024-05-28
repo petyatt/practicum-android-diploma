@@ -25,7 +25,7 @@ class FilterFragment : Fragment() {
 
     private var currentIndustry: Industry? = null
     private var currentArea: Area? = null
-    private var currentSalary: Int = 0
+    private var currentSalary: Int? = null
     private var checked: Boolean = false
 
     override fun onCreateView(
@@ -82,7 +82,11 @@ class FilterFragment : Fragment() {
                 saveToSharedPreferences()
             }
 
-            tvReset.setOnClickListener { viewModel.clear() }
+            tvReset.setOnClickListener {
+                viewModel.clear()
+                etPlaceWork.setText("")
+                salaryVal.setText("")
+            }
             updateButtonsVisibility()
         }
     }
@@ -109,7 +113,7 @@ class FilterFragment : Fragment() {
 
     private fun updateButtonsVisibility() {
         with(binding) {
-            if (currentIndustry != null || currentSalary != 0 || checked) {
+            if (currentIndustry != null || currentSalary != null || checked) {
                 tvApply.isVisible = true
                 tvApply.isEnabled = true
                 tvReset.isVisible = true
@@ -130,12 +134,17 @@ class FilterFragment : Fragment() {
                 currentIndustry = savedFilter?.industry
             }
             etIndustry.setText(currentIndustry?.name)
-            val textPlace = "${savedFilter?.country?.name}, ${savedFilter?.area?.name}"
+            val textPlace = if (savedFilter?.country == null && savedFilter?.area == null) {
+                ""
+            } else "${savedFilter.country?.name ?: ""}, ${savedFilter.area?.name ?: ""}"
             etPlaceWork.setText(textPlace)
-            if (currentSalary == 0) {
-                currentSalary = savedFilter?.salary ?: 0
+            if (currentSalary == null) {
+                currentSalary = savedFilter?.salary
             }
-            salaryVal.setText(currentSalary.toString())
+            val salaryText = if (currentSalary == null) ""
+            else currentSalary.toString()
+
+            salaryVal.setText(salaryText)
         }
         updateButtonsVisibility()
     }

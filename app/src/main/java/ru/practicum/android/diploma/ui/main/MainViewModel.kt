@@ -50,13 +50,16 @@ class MainViewModel(
 
     private suspend fun doSearchWithFilters(searchText: String, page: Int): Resource<Vacancies> {
         val filter = get()
+        if (filter?.industry == null && filter?.area == null){
+            return mainInteractor.searchVacancies(searchText,page)
+        }
         return mainInteractor.searchVacanciesWithFilters(
             vacancy = searchText,
             page = page,
-            area = filter?.area?.id.toString(),
-            industry = filter?.industry?.id.toString(),
-            salary = filter?.salary,
-            onlyWithSalary = filter?.showWithoutSalary ?: false
+            area = filter.area?.id.toString(),
+            industry = filter.industry?.id.toString(),
+            salary = filter.salary,
+            onlyWithSalary = filter.showWithoutSalary ?: false
         )
     }
 }
