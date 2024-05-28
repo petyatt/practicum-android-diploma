@@ -173,7 +173,7 @@ class MainFragment : Fragment() {
             progressBarCenter.isVisible = false
             placeholderImage.isVisible = true
             placeholderText.isVisible = true
-            tvNumberVacancies.isVisible = false
+            tvNumberVacancies.isVisible = isConnected(requireContext())
             placeholderImage.setImageResource(image)
             placeholderText.text = getText(text)
         }

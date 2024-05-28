@@ -1,6 +1,7 @@
 package ru.practicum.android.diploma.data.impl.vacancy
 
 import ru.practicum.android.diploma.data.converters.VacanciesConverter
+import ru.practicum.android.diploma.data.dto.ResponseCode
 import ru.practicum.android.diploma.data.impl.ResourceRepository
 import ru.practicum.android.diploma.data.network.NetworkClient
 import ru.practicum.android.diploma.data.request.MainRequest
@@ -19,19 +20,41 @@ class VacanciesRepositoryImpl(
 
     override suspend fun searchVacancies(vacancy: String, page: Int): Resource<Vacancies> {
         val response = networkClient.doRequest(MainRequest(vacancy, page))
-        return if (response is VacanciesResponse) {
-            getResource(response, vacanciesConverter.convert(response))
-        } else {
-            Resource.NotConnection()
+        return when (response.resultCode) {
+            ResponseCode.SUCCESS -> {
+                val vacanciesResponse = response as? VacanciesResponse
+                if (vacanciesResponse != null) {
+                    getResource(vacanciesResponse, vacanciesConverter.convert(vacanciesResponse))
+                } else {
+                    Resource.Failed()
+                }
+            }
+            ResponseCode.NOT_CONNECTION -> {
+                Resource.NotConnection()
+            }
+            else -> {
+                Resource.Failed()
+            }
         }
     }
 
     override suspend fun getVacancy(id: String): Resource<Vacancy> {
         val response = networkClient.doRequest(VacancyRequest(id))
-        return if (response is VacancyResponse) {
-            getResource(response, vacanciesConverter.convert(response))
-        } else {
-            Resource.NotConnection()
+        return when (response.resultCode) {
+            ResponseCode.SUCCESS -> {
+                val vacancyResponse = response as? VacancyResponse
+                if (vacancyResponse != null) {
+                    getResource(vacancyResponse, vacanciesConverter.convert(vacancyResponse))
+                } else {
+                    Resource.Failed()
+                }
+            }
+            ResponseCode.NOT_CONNECTION -> {
+                Resource.NotConnection()
+            }
+            else -> {
+                Resource.Failed()
+            }
         }
     }
 }
