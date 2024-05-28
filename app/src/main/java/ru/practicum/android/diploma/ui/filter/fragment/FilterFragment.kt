@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -24,6 +25,25 @@ class FilterFragment : Fragment() {
 
     private var currentIndustry: Industry? = null
     private var currentArea: Area? = null
+        set(value) {
+            field = value
+            binding.apply.isVisible = newFilter() != currentFilter
+        }
+    private var currentSalary: Int? = null
+        set(value) {
+            field = value
+            binding.apply.isVisible = newFilter() != currentFilter
+        }
+    private var currentOnlyWithSalary: Boolean = false
+        set(value) {
+            field = value
+            binding.apply.isVisible = newFilter() != currentFilter
+        }
+    private var currentFilter: Filter? = null
+        set(value) {
+            field = value
+            binding.apply.isVisible = newFilter() != currentFilter
+        }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,9 +58,7 @@ class FilterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.filterLiveData.observe(viewLifecycleOwner) { filter ->
-            updateUI(filter)
-        }
+        viewModel.filterLiveData.observe(viewLifecycleOwner) { updateUI(it) }
 
         with(binding) {
             ivFilterBackButton.setOnClickListener { findNavController().navigateUp() }
@@ -63,27 +81,41 @@ class FilterFragment : Fragment() {
             }
             etIndustry.onChangeListener = { _, v -> currentIndustry = v as? Industry }
 
-            tvReset.setOnClickListener { viewModel.clear() }
-            updateButtonsVisibility()
+            salaryVal.doOnTextChanged { text, _, _, _ ->
+                val s = text?.toString()
+                currentSalary = if (s.isNullOrEmpty()) null else s.toInt()
+            }
+
+            cbFilter.setOnCheckedChangeListener { _, isChecked -> currentOnlyWithSalary = isChecked }
+
+            reset.setOnClickListener { viewModel.clear() }
+
+            apply.setOnClickListener {
+                currentFilter = Filter()
+                viewModel.save(newFilter())
+                findNavController().navigateUp()
+            }
+            if (currentFilter == null) viewModel.get()
         }
     }
 
     private fun updateUI(filter: Filter) {
-        currentIndustry = filter.industry
-        binding.etIndustry.setText(currentIndustry?.name)
-        updateButtonsVisibility()
+        currentFilter = filter
+        with(binding) {
+            etPlaceWork.value = filter.area
+            etIndustry.value = filter.industry
+            salaryVal.setText(filter.salary?.toString() ?: "")
+            cbFilter.isChecked = filter.onlyWithSalary
+            reset.isVisible = currentFilter?.isEmpty?.not() ?: false
+        }
     }
 
-    private fun updateButtonsVisibility() {
-        val isNotEmpty = isFilterNotEmpty()
-        binding.tvApply.isVisible = isNotEmpty
-        binding.tvReset.isVisible = isNotEmpty
-    }
-
-    private fun isFilterNotEmpty(): Boolean {
-        val industryText = binding.etIndustry.text.toString().trim()
-        return industryText.isNotEmpty()
-    }
+    private fun newFilter() = Filter(
+        area = currentArea,
+        industry = currentIndustry,
+        salary = currentSalary,
+        onlyWithSalary = currentOnlyWithSalary
+    )
 
     override fun onResume() {
         super.onResume()
@@ -91,6 +123,8 @@ class FilterFragment : Fragment() {
         with(binding) {
             etPlaceWork.value = currentArea
             etIndustry.value = currentIndustry
+            salaryVal.setText(currentSalary?.toString() ?: "")
+            cbFilter.isChecked = currentOnlyWithSalary
         }
     }
 

@@ -8,23 +8,18 @@ import ru.practicum.android.diploma.domain.models.Filter
 class SharedPreferencesRepositoryImpl(
     context: Context,
 ) : SharedPreferencesRepository {
-    private val gson = Gson()
     private var sharedPreferences = context.getSharedPreferences(
         KEY_FILTER_SHAREDPREF,
         Context.MODE_PRIVATE
     )
 
-    override suspend fun save(filter: Filter?) {
-        val filterJson = gson.toJson(filter)
-        sharedPreferences.edit().apply {
-            putString(FILTER_KEY, filterJson)
-            apply()
-        }
+    override suspend fun save(filter: Filter) {
+        sharedPreferences.edit().putString(FILTER_KEY, Gson().toJson(filter)).apply()
     }
 
-    override fun get(): Filter? {
+    override suspend fun get(): Filter? {
         val filterJson = sharedPreferences.getString(FILTER_KEY, null)
-        return gson.fromJson(filterJson, Filter::class.java)
+        return Gson().fromJson(filterJson, Filter::class.java)
     }
 
     override suspend fun clear() {
