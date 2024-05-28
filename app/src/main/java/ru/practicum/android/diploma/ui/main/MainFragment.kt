@@ -132,7 +132,9 @@ class MainFragment : Fragment() {
             is ScreenState.Loaded -> showContent(state.t)
             is ScreenState.NotConnection -> showError(R.drawable.placeholder_no_internet, R.string.bad_connection)
             is ScreenState.ServerError -> showError(R.drawable.placeholder_cat, R.string.no_vacancies)
-            is ScreenState.Option<*, *> -> binding.ivFilter.setImageResource(if (state.value as? Boolean == true) R.drawable.filter_on else R.drawable.filter_off)
+            is ScreenState.Option<*, *> -> binding.ivFilter.setImageResource(
+                if (state.value as? Boolean == true) R.drawable.filter_on else R.drawable.filter_off
+            )
         }
     }
 

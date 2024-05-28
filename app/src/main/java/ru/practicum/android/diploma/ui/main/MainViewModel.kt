@@ -46,7 +46,8 @@ class MainViewModel(
 
     fun getFilterState() {
         viewModelScope.launch {
-            _state.postValue(ScreenState.Option((filterInteractor.get() ?: Filter()) != Filter()))
+            val filter = filterInteractor.get() ?: Filter()
+            _state.postValue(ScreenState.Option(filter != Filter()))
         }
     }
 }
