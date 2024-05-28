@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -49,6 +50,7 @@ class MainFragment : Fragment() {
             showError(R.drawable.placeholder_no_internet, R.string.bad_connection)
         }
     }
+    private var isInternetCheckToastShown = false
     private var lastSearchText: String = ""
     private val viewModel by viewModel<MainViewModel>()
 
@@ -157,11 +159,17 @@ class MainFragment : Fragment() {
 
     private fun showProgressBarBottom() {
         with(binding) {
-            progressBarBottom.isVisible = true
-            placeholderImage.isVisible = false
-            placeholderText.isVisible = false
-            recyclerView.layoutParams = (recyclerView.layoutParams as ConstraintLayout.LayoutParams).apply {
-                topToBottom = R.id.search
+            if (isConnected(requireContext())) {
+                progressBarBottom.isVisible = true
+                placeholderImage.isVisible = false
+                placeholderText.isVisible = false
+                recyclerView.layoutParams = (recyclerView.layoutParams as ConstraintLayout.LayoutParams).apply {
+                    topToBottom = R.id.search
+                    isInternetCheckToastShown = true
+                }
+            } else {
+                Toast.makeText(requireContext(), "Проверьте подключение к интернету", Toast.LENGTH_SHORT).show()
+                isInternetCheckToastShown = false
             }
         }
     }
