@@ -194,6 +194,7 @@ class MainFragment : Fragment() {
             tvNumberVacancies.text = getStringOfVacancies(vacancies.found)
         }
         vacancyListAdapter?.vacancyList?.clear()
+        vacancyListAdapter?.notifyDataSetChanged()
         vacancyListAdapter?.vacancyList?.addAll(vacancies.items)
         vacancyListAdapter?.notifyDataSetChanged()
     }
