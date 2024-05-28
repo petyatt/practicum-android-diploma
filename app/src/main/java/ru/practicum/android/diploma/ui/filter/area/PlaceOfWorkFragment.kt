@@ -11,9 +11,12 @@ import androidx.fragment.app.clearFragmentResultListener
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.fragment.findNavController
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentPlaceOfWorkBinding
 import ru.practicum.android.diploma.domain.models.Area
+import ru.practicum.android.diploma.domain.models.Filter
+import ru.practicum.android.diploma.ui.filter.viewmodel.FilterViewModel
 import ru.practicum.android.diploma.util.getParcelable
 
 class PlaceOfWorkFragment : Fragment() {
@@ -22,6 +25,7 @@ class PlaceOfWorkFragment : Fragment() {
 
     private var currentCountry: Area? = null
     private var currentRegion: Area? = null
+    private val viewModel: FilterViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -61,6 +65,7 @@ class PlaceOfWorkFragment : Fragment() {
             select.setOnClickListener {
                 val area = currentRegion?.let { Area(it, currentCountry) } ?: currentCountry
                 setFragmentResult(REQUEST_KEY, bundleOf(RES_AREA to area))
+                saveToSharedPreferences(currentCountry,currentRegion)
                 findNavController().navigateUp()
             }
         }
@@ -72,6 +77,12 @@ class PlaceOfWorkFragment : Fragment() {
             etCountry.value = currentCountry
             etRegion.value = currentRegion
         }
+    }
+    private fun saveToSharedPreferences(country: Area?, area: Area?) {
+        val currentFilter = viewModel.get() ?: Filter()
+        currentFilter.country = country
+        currentFilter.area = area
+        viewModel.save(currentFilter)
     }
 
     override fun onDestroyView() {

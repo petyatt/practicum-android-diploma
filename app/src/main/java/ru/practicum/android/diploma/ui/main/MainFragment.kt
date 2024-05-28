@@ -193,6 +193,7 @@ class MainFragment : Fragment() {
             tvNumberVacancies.isVisible = true
             tvNumberVacancies.text = getStringOfVacancies(vacancies.found)
         }
+        vacancyListAdapter?.vacancyList?.clear()
         vacancyListAdapter?.vacancyList?.addAll(vacancies.items)
         vacancyListAdapter?.notifyDataSetChanged()
     }
