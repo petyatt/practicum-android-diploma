@@ -10,8 +10,4 @@ class FilterIneractorImpl(private var repository: FilterRepository) : FilterIner
     }
 
     override suspend fun get(): Filter? = repository.get()
-
-    override suspend fun clear() {
-        repository.clear()
-    }
 }

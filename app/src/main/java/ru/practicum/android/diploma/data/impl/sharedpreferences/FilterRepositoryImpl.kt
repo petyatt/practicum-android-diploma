@@ -22,10 +22,6 @@ class FilterRepositoryImpl(
         return Gson().fromJson(filterJson, Filter::class.java)
     }
 
-    override suspend fun clear() {
-        sharedPreferences.edit().remove(FILTER_KEY).apply()
-    }
-
     companion object {
         const val KEY_FILTER_SHAREDPREF = "key_filter_sharedPref"
         const val FILTER_KEY = "filter_key"

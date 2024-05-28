@@ -24,7 +24,11 @@ val main = module {
         MainInteractorImpl(repository = get())
     }
     single<VacanciesRepository> {
-        VacanciesRepositoryImpl(networkClient = get(), vacanciesConverter = VacanciesConverter(), filterConverter = FilterConverter())
+        VacanciesRepositoryImpl(
+            networkClient = get(),
+            vacanciesConverter = VacanciesConverter(),
+            filterConverter = FilterConverter()
+        )
     }
 
     single<HeadHunterApiService> {

@@ -97,7 +97,7 @@ class FilterFragment : Fragment() {
 
             cbFilter.setOnCheckedChangeListener { _, isChecked -> currentOnlyWithSalary = isChecked }
 
-            reset.setOnClickListener { viewModel.clear() }
+            reset.setOnClickListener { clearFilter() }
 
             apply.setOnClickListener {
                 currentFilter = Filter()
@@ -130,6 +130,15 @@ class FilterFragment : Fragment() {
         salary = salary,
         onlyWithSalary = onlyWithSalary
     )
+
+    private fun clearFilter() {
+        with(binding) {
+            salaryVal.text = null
+            etIndustry.value = null
+            etPlaceWork.value = null
+            cbFilter.isChecked = false
+        }
+    }
 
     override fun onResume() {
         super.onResume()

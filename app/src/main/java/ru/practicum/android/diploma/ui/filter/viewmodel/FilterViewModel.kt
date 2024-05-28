@@ -29,11 +29,4 @@ class FilterViewModel(
             _filterLiveData.postValue(interactor.get() ?: Filter())
         }
     }
-
-    fun clear() {
-        viewModelScope.launch {
-            interactor.clear()
-            _filterLiveData.postValue(interactor.get() ?: Filter())
-        }
-    }
 }

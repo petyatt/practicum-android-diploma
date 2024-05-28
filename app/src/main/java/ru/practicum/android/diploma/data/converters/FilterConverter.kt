@@ -3,7 +3,7 @@ package ru.practicum.android.diploma.data.converters
 import ru.practicum.android.diploma.domain.models.Filter
 
 class FilterConverter {
-    fun convert(filter : Filter?): Map<String, String> {
+    fun convert(filter: Filter?): Map<String, String> {
         if (filter == null) return emptyMap()
         val map = mutableMapOf<String, String>()
         with(filter) {
