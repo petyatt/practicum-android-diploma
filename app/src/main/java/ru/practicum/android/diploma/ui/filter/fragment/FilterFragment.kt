@@ -84,6 +84,7 @@ class FilterFragment : Fragment() {
 
             tvReset.setOnClickListener {
                 viewModel.clear()
+                currentSalary = null
                 etPlaceWork.setText("")
                 salaryVal.setText("")
             }
