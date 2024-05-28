@@ -64,8 +64,8 @@ class PlaceOfWorkFragment : Fragment() {
             etRegion.onChangeListener = { _, v -> regionChange(v as? Area) }
             select.setOnClickListener {
                 val area = currentRegion?.let { Area(it, currentCountry) } ?: currentCountry
-                setFragmentResult(REQUEST_KEY, bundleOf(RES_AREA to area))
                 saveToSharedPreferences(currentCountry,currentRegion)
+                setFragmentResult(REQUEST_KEY, bundleOf(RES_AREA to area))
                 findNavController().navigateUp()
             }
         }
