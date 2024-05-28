@@ -2,7 +2,6 @@ package ru.practicum.android.diploma.ui.filter.area
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
@@ -19,14 +18,11 @@ class RegionFragment : SearchFragment<Area, AreaViewHolder>(
 
     private val viewModel: RegionViewModel by viewModel()
 
-    private var countryId = ""
-
     override fun getItems(searchText: String) {
-        viewModel.getRegions(countryId, searchText)
+        viewModel.getRegions(currentItem, searchText)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        countryId = arguments?.getString(ARG_REGION) ?: ""
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.regionsState.observe(viewLifecycleOwner) {
@@ -47,9 +43,7 @@ class RegionFragment : SearchFragment<Area, AreaViewHolder>(
     }
 
     companion object {
-        private const val ARG_REGION = "arg_region"
-
-        fun createArgument(countryId: String?): Bundle = bundleOf(ARG_REGION to countryId)
+        fun createArgument(arg: Area?) = createArgument<Area>(arg)
 
         fun createResultListener(fragment: Fragment, onResponse: (Area) -> Unit) {
             createResultListener(fragment, Area::class.java, onResponse)

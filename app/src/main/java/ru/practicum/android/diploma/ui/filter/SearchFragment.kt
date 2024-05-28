@@ -1,7 +1,6 @@
 package ru.practicum.android.diploma.ui.filter
 
 import android.content.Context
-import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.LayoutInflater
@@ -23,8 +22,9 @@ import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import ru.practicum.android.diploma.databinding.FragmentSearchBinding
 import ru.practicum.android.diploma.util.debounce
+import ru.practicum.android.diploma.util.getParcelable
 
-abstract class SearchFragment<T, H : ViewHolder>(
+abstract class SearchFragment<T : Parcelable, H : ViewHolder>(
     @StringRes val title: Int,
     @StringRes val hint: Int,
     @StringRes val emptyListMessage: Int,
@@ -52,11 +52,7 @@ abstract class SearchFragment<T, H : ViewHolder>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        currentItem = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            arguments?.getParcelable(ARG_SEARCH, clazz)
-        } else {
-            clazz.cast(arguments?.getParcelable(ARG_SEARCH))
-        }
+        currentItem = getParcelable(arguments, ARG_SEARCH, clazz)
 
         with(binding) {
             textTopBar.setText(title)
@@ -138,7 +134,7 @@ abstract class SearchFragment<T, H : ViewHolder>(
         private const val REQUEST_KEY = "search_fragment_request_key"
 
         private const val RES_SEARCH = "res_search"
-        private const val SEARCH_DEBOUNCE_DELAY = 2000L
+        private const val SEARCH_DEBOUNCE_DELAY = 1000L
 
         fun <T : Parcelable> createArgument(arg: T?): Bundle? {
             val bundle = bundleOf(ARG_SEARCH to (arg ?: return null))
@@ -147,11 +143,7 @@ abstract class SearchFragment<T, H : ViewHolder>(
 
         fun <T : Parcelable> createResultListener(fragment: Fragment, clazz: Class<T>, onResponse: (T) -> Unit) {
             fragment.setFragmentResultListener(REQUEST_KEY) { _, bundle ->
-                val response = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    bundle.getParcelable(RES_SEARCH, clazz)
-                } else {
-                    clazz.cast(bundle.getParcelable(RES_SEARCH))
-                }
+                val response = getParcelable(bundle, RES_SEARCH, clazz)
                 if (response != null) onResponse.invoke(response)
                 fragment.clearFragmentResultListener(REQUEST_KEY)
             }

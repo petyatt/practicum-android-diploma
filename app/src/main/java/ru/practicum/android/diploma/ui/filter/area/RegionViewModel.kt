@@ -15,9 +15,9 @@ class RegionViewModel(private val interactor: RegionsInteractor) : ViewModel() {
     private val _regionsState = MutableLiveData<ScreenState<List<Area>>>()
     val regionsState: LiveData<ScreenState<List<Area>>> = _regionsState
 
-    fun getRegions(countryId: String, searchString: String) {
+    fun getRegions(country: Area?, searchString: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            val result = when (val resource = interactor.search(countryId, searchString)) {
+            val result = when (val resource = interactor.search(country, searchString)) {
                 is Resource.Success -> ScreenState.Loaded(resource.data)
                 else -> ScreenState.ServerError()
             }

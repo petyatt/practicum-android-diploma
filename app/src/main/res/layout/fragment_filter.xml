@@ -40,18 +40,15 @@
         android:layout_width="@dimen/_0dp"
         android:layout_height="wrap_content"
         android:hint="@string/place_work"
-        app:endIconDrawable="@drawable/arrow_forward"
-        app:endIconMode="custom"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/container_filter">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <ru.practicum.android.diploma.ui.model.FilterSelector
             android:id="@+id/et_place_work"
             style="@style/place_work_textInputEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="text"
             android:maxLines="1" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -61,18 +58,15 @@
         android:layout_width="@dimen/_0dp"
         android:layout_height="wrap_content"
         android:hint="@string/industry"
-        app:endIconDrawable="@drawable/arrow_forward"
-        app:endIconMode="custom"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/place_work">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <ru.practicum.android.diploma.ui.model.FilterSelector
             android:id="@+id/et_industry"
             style="@style/place_work_textInputEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="text"
             android:maxLines="1" />
     </com.google.android.material.textfield.TextInputLayout>
 

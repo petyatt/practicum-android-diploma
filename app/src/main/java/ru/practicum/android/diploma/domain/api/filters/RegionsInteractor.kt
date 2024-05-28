@@ -4,5 +4,5 @@ import ru.practicum.android.diploma.domain.models.Area
 import ru.practicum.android.diploma.util.Resource
 
 interface RegionsInteractor {
-    suspend fun search(country: String, name: String): Resource<List<Area>>
+    suspend fun search(country: Area?, name: String): Resource<List<Area>>
 }

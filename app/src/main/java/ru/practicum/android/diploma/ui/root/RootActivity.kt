@@ -36,5 +36,8 @@ class RootActivity : AppCompatActivity() {
         return destination.id != R.id.filterFragment
             && destination.id != R.id.vacancyFragment
             && destination.id != R.id.industryFragment
+            && destination.id != R.id.placeOfWorkFragment
+            && destination.id != R.id.countryFragment
+            && destination.id != R.id.regionFragment
     }
 }
