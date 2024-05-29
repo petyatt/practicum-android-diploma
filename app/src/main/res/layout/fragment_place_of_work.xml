@@ -29,7 +29,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/country"
         style="@style/place_work_inputLayout"
-        android:layout_width="@dimen/_0dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="@string/country"
         app:layout_constraintEnd_toEndOf="parent"
@@ -47,7 +47,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/region"
         style="@style/place_work_inputLayout"
-        android:layout_width="@dimen/_0dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="@string/region"
         app:layout_constraintEnd_toEndOf="parent"

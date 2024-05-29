@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
@@ -26,32 +27,32 @@ class FilterFragment : Fragment() {
     private var currentIndustry: Industry? = null
         set(value) {
             field = value
-            binding.apply.isVisible = newFilter() != currentFilter
-            binding.reset.isVisible = !newFilter(industry = value).isEmpty
+            binding.filterApply.isVisible = newFilter() != currentFilter
+            binding.filterReset.isVisible = !newFilter(industry = value).isEmpty
         }
     private var currentArea: Area? = null
         set(value) {
             field = value
-            binding.apply.isVisible = newFilter() != currentFilter
-            binding.reset.isVisible = !newFilter(area = value).isEmpty
+            binding.filterApply.isVisible = newFilter() != currentFilter
+            binding.filterReset.isVisible = !newFilter(area = value).isEmpty
         }
     private var currentSalary: Int? = null
         set(value) {
             field = value
-            binding.apply.isVisible = newFilter() != currentFilter
-            binding.reset.isVisible = !newFilter(salary = value).isEmpty
+            binding.filterApply.isVisible = newFilter() != currentFilter
+            binding.filterReset.isVisible = !newFilter(salary = value).isEmpty
         }
     private var currentOnlyWithSalary: Boolean = false
         set(value) {
             field = value
-            binding.apply.isVisible = newFilter() != currentFilter
-            binding.reset.isVisible = !newFilter(onlyWithSalary = value).isEmpty
+            binding.filterApply.isVisible = newFilter() != currentFilter
+            binding.filterReset.isVisible = !newFilter(onlyWithSalary = value).isEmpty
         }
     private var currentFilter: Filter? = null
         set(value) {
             field = value
-            binding.apply.isVisible = newFilter() != currentFilter
-            binding.reset.isVisible = !newFilter().isEmpty
+            binding.filterApply.isVisible = newFilter() != currentFilter
+            binding.filterReset.isVisible = !newFilter().isEmpty
         }
 
     override fun onCreateView(
@@ -61,7 +62,6 @@ class FilterFragment : Fragment() {
     ): View {
         _binding = FragmentFilterBinding.inflate(inflater, container, false)
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -70,36 +70,14 @@ class FilterFragment : Fragment() {
         viewModel.filterLiveData.observe(viewLifecycleOwner) { updateUI(it) }
 
         with(binding) {
-            ivFilterBackButton.setOnClickListener { findNavController().navigateUp() }
+            filterBackButton.setOnClickListener { findNavController().navigateUp() }
 
-            etPlaceWork.onSelectListener = {
-                findNavController().navigate(
-                    R.id.action_filterFragment_to_placeOfWorkFragment,
-                    PlaceOfWorkFragment.createArgument(it.value as? Area)
-                )
-                PlaceOfWorkFragment.createResultListener(this@FilterFragment) { currentArea = it }
-            }
-            etPlaceWork.onChangeListener = { _, v -> currentArea = v as? Area }
+            setPlaceWorkListeners()
+            setIndustryListeners()
+            setSalaryListeners()
 
-            etIndustry.onSelectListener = {
-                findNavController().navigate(
-                    R.id.action_filterFragment_to_industryFragment,
-                    IndustryFragment.createArgument(it.value as? Industry)
-                )
-                IndustryFragment.createResultListener(this@FilterFragment) { currentIndustry = it }
-            }
-            etIndustry.onChangeListener = { _, v -> currentIndustry = v as? Industry }
-
-            salaryVal.doOnTextChanged { text, _, _, _ ->
-                val s = text?.toString()
-                currentSalary = if (s.isNullOrEmpty()) null else s.toInt()
-            }
-
-            cbFilter.setOnCheckedChangeListener { _, isChecked -> currentOnlyWithSalary = isChecked }
-
-            reset.setOnClickListener { clearFilter() }
-
-            apply.setOnClickListener {
+            filterReset.setOnClickListener { clearFilter() }
+            filterApply.setOnClickListener {
                 currentFilter = Filter()
                 viewModel.save(newFilter())
                 findNavController().navigateUp()
@@ -108,14 +86,59 @@ class FilterFragment : Fragment() {
         }
     }
 
+    private fun setPlaceWorkListeners() {
+        with(binding.filterPlaceWork) {
+            onSelectListener = {
+                findNavController().navigate(
+                    R.id.action_filterFragment_to_placeOfWorkFragment,
+                    PlaceOfWorkFragment.createArgument(it.value as? Area)
+                )
+                PlaceOfWorkFragment.createResultListener(this@FilterFragment) { currentArea = it }
+            }
+            onChangeListener = { _, v -> currentArea = v as? Area }
+        }
+    }
+
+    private fun setIndustryListeners() {
+        with(binding.filterIndustry) {
+            onSelectListener = {
+                findNavController().navigate(
+                    R.id.action_filterFragment_to_industryFragment,
+                    IndustryFragment.createArgument(it.value as? Industry)
+                )
+                IndustryFragment.createResultListener(this@FilterFragment) { currentIndustry = it }
+            }
+            onChangeListener = { _, v -> currentIndustry = v as? Industry }
+        }
+    }
+
+    private fun setSalaryListeners() {
+        with(binding) {
+            val focusColor = ContextCompat.getColor(requireContext(), R.color.Blue)
+            val blurColor = filterSalaryCapt.solidColor
+            filterSalaryVal.doOnTextChanged { text, _, _, _ ->
+                val salary = text?.toString()
+                currentSalary = if (salary.isNullOrEmpty()) null else salary.toInt()
+                filterSalaryClear.isVisible = salary?.isNotEmpty() ?: false
+            }
+            filterSalaryClear.setOnClickListener {
+                filterSalaryVal.setText("")
+            }
+            filterSalaryVal.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+                filterSalaryCapt.setTextColor(if (hasFocus) focusColor else blurColor)
+            }
+            filterOnlyWithSalary.setOnCheckedChangeListener { _, isChecked -> currentOnlyWithSalary = isChecked }
+        }
+    }
+
     private fun updateUI(filter: Filter) {
         if (currentFilter == filter) return
         with(binding) {
             currentFilter = filter
-            etPlaceWork.value = filter.area
-            etIndustry.value = filter.industry
-            salaryVal.setText(filter.salary?.toString() ?: "")
-            cbFilter.isChecked = filter.onlyWithSalary
+            filterPlaceWork.value = filter.area
+            filterIndustry.value = filter.industry
+            filterSalaryVal.setText(filter.salary?.toString() ?: "")
+            filterOnlyWithSalary.isChecked = filter.onlyWithSalary
         }
     }
 
@@ -133,10 +156,10 @@ class FilterFragment : Fragment() {
 
     private fun clearFilter() {
         with(binding) {
-            salaryVal.text = null
-            etIndustry.value = null
-            etPlaceWork.value = null
-            cbFilter.isChecked = false
+            filterSalaryVal.text = null
+            filterIndustry.value = null
+            filterPlaceWork.value = null
+            filterOnlyWithSalary.isChecked = false
         }
     }
 
@@ -144,10 +167,10 @@ class FilterFragment : Fragment() {
         super.onResume()
 
         with(binding) {
-            etPlaceWork.value = currentArea
-            etIndustry.value = currentIndustry
-            salaryVal.setText(currentSalary?.toString() ?: "")
-            cbFilter.isChecked = currentOnlyWithSalary
+            filterPlaceWork.value = currentArea
+            filterIndustry.value = currentIndustry
+            filterSalaryVal.setText(currentSalary?.toString() ?: "")
+            filterOnlyWithSalary.isChecked = currentOnlyWithSalary
         }
     }
 
