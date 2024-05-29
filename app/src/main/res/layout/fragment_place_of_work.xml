@@ -6,7 +6,7 @@
     tools:context=".ui.filter.area.PlaceOfWorkFragment">
 
     <Toolbar
-        android:id="@+id/toolbar"
+        android:id="@+id/place_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/dimen_16"
@@ -14,30 +14,29 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
-            android:id="@+id/back_button"
+            android:id="@+id/place_back_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="?attr/colorSecondary"
             android:src="@drawable/arrow_back" />
 
         <TextView
-            android:id="@+id/text_top_bar"
             style="@style/text_top_bar"
             android:text="@string/place_of_work_selection" />
     </Toolbar>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/country"
+        android:id="@+id/place_country_capt"
         style="@style/place_work_inputLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="@string/country"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar">
+        app:layout_constraintTop_toBottomOf="@id/place_toolbar">
 
         <ru.practicum.android.diploma.ui.model.FilterSelector
-            android:id="@+id/et_country"
+            android:id="@+id/place_country_val"
             style="@style/place_work_textInputEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -45,17 +44,17 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/region"
+        android:id="@+id/place_region_capt"
         style="@style/place_work_inputLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="@string/region"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/country">
+        app:layout_constraintTop_toBottomOf="@id/place_country_capt">
 
         <ru.practicum.android.diploma.ui.model.FilterSelector
-            android:id="@+id/et_region"
+            android:id="@+id/place_region_val"
             style="@style/place_work_textInputEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -63,7 +62,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/select"
+        android:id="@+id/place_apply"
         style="@style/confirm_button"
         android:text="@string/select"
         android:visibility="gone"

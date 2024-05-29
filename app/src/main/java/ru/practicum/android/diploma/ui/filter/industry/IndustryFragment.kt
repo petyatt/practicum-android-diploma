@@ -38,6 +38,7 @@ class IndustryFragment : SearchFragment<Industry, IndustryViewHolder>(
             showEmptyList()
         } else {
             val adapter = IndustryAdapter(industries) { currentItem = it }
+            adapter.currentIndustry = currentItem
             show(adapter)
         }
     }
