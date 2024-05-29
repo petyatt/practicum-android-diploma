@@ -41,7 +41,7 @@ class PlaceOfWorkFragment : Fragment() {
         currentRegion = currentRegion ?: currentArea?.parent?.let { Area(currentArea) }
 
         setCountryListeners()
-        serRegionListeners()
+        setRegionListeners()
         with(binding) {
             placeBackButton.setOnClickListener { findNavController().navigateUp() }
             placeApply.setOnClickListener {
@@ -83,7 +83,7 @@ class PlaceOfWorkFragment : Fragment() {
         }
     }
 
-    private fun serRegionListeners() {
+    private fun setRegionListeners() {
         with(binding.placeRegionVal) {
             onSelectListener = {
                 findNavController().navigate(
