@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
     <androidx.appcompat.widget.AppCompatRadioButton
-        android:id="@+id/industry"
+        android:id="@+id/filter_industry_cont"
         style="@style/text_regular_16"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

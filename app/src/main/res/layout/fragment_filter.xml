@@ -5,47 +5,38 @@
     style="@style/fragment"
     tools:context=".ui.filter.fragment.FilterFragment">
 
-    <LinearLayout
-        android:id="@+id/container_filter"
+    <Toolbar
+        android:id="@+id/filter_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingVertical="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="@dimen/dimen_16"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/iv_filter_back_button"
+        <ImageButton
+            android:id="@+id/filter_back_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:padding="12dp"
+            android:backgroundTint="?attr/colorSecondary"
             android:src="@drawable/arrow_back" />
 
         <TextView
-            android:id="@+id/tv_filtering_settings"
-            style="@style/text_medium_22"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:text="@string/filter_settings"
-            android:textColor="?attr/colorPrimary" />
-    </LinearLayout>
+            style="@style/text_top_bar"
+            android:text="@string/filter_settings" />
+    </Toolbar>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/place_work"
+        android:id="@+id/filter_place_work_cont"
         style="@style/place_work_inputLayout"
-        android:layout_width="@dimen/_0dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="@string/place_work"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/container_filter">
+        app:layout_constraintTop_toBottomOf="@id/filter_toolbar">
 
         <ru.practicum.android.diploma.ui.model.FilterSelector
-            android:id="@+id/et_place_work"
+            android:id="@+id/filter_place_work"
             style="@style/place_work_textInputEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -53,17 +44,17 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/industry"
+        android:id="@+id/filter_industry_cont"
         style="@style/place_work_inputLayout"
-        android:layout_width="@dimen/_0dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="@string/industry"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/place_work">
+        app:layout_constraintTop_toBottomOf="@id/filter_place_work_cont">
 
         <ru.practicum.android.diploma.ui.model.FilterSelector
-            android:id="@+id/et_industry"
+            android:id="@+id/filter_industry"
             style="@style/place_work_textInputEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -71,31 +62,31 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <View
-        android:id="@+id/salary_container"
+        android:id="@+id/filter_salary_cont"
         android:layout_width="0dp"
         android:layout_height="@dimen/dimen_52"
         android:layout_margin="@dimen/dimen_16"
         android:background="@drawable/edit_search_background"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/industry" />
+        app:layout_constraintTop_toBottomOf="@+id/filter_industry_cont" />
 
     <TextView
-        android:id="@+id/salary_capt"
+        android:id="@+id/filter_salary_capt"
         style="@style/text_regular_12"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/dimen_16"
         android:text="@string/expected_salary"
         android:textColor="?attr/colorOnSurface"
-        app:layout_constraintBottom_toTopOf="@id/salary_val"
-        app:layout_constraintEnd_toEndOf="@id/salary_container"
-        app:layout_constraintStart_toStartOf="@id/salary_container"
-        app:layout_constraintTop_toTopOf="@id/salary_container"
+        app:layout_constraintBottom_toTopOf="@id/filter_salary_val"
+        app:layout_constraintEnd_toEndOf="@id/filter_salary_clear"
+        app:layout_constraintStart_toStartOf="@id/filter_salary_cont"
+        app:layout_constraintTop_toTopOf="@id/filter_salary_cont"
         app:layout_constraintVertical_chainStyle="packed" />
 
     <EditText
-        android:id="@+id/salary_val"
+        android:id="@+id/filter_salary_val"
         style="@style/text_regular_16"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -107,54 +98,51 @@
         android:textColor="@color/Black"
         android:textColorHint="?attr/colorOnSurface"
         android:textCursorDrawable="@drawable/cursor"
-        app:layout_constraintBottom_toBottomOf="@id/salary_container"
-        app:layout_constraintEnd_toEndOf="@id/salary_container"
-        app:layout_constraintStart_toStartOf="@id/salary_container"
-        app:layout_constraintTop_toBottomOf="@id/salary_capt" />
+        app:layout_constraintBottom_toBottomOf="@id/filter_salary_cont"
+        app:layout_constraintEnd_toEndOf="@id/filter_salary_clear"
+        app:layout_constraintStart_toStartOf="@id/filter_salary_cont"
+        app:layout_constraintTop_toBottomOf="@id/filter_salary_capt" />
 
-    <LinearLayout
-        android:id="@+id/show_only_with_salary"
-        android:layout_width="match_parent"
+    <ImageView
+        android:id="@+id/filter_salary_clear"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:orientation="horizontal"
-        android:paddingStart="@dimen/_16dp"
-        android:paddingEnd="@dimen/_0dp"
+        android:layout_marginTop="19dp"
+        android:layout_marginEnd="21dp"
+        android:layout_marginBottom="18dp"
+        android:src="@drawable/icon_close"
+        app:layout_constraintBottom_toBottomOf="@+id/filter_salary_cont"
+        app:layout_constraintEnd_toEndOf="@+id/filter_salary_cont"
+        app:layout_constraintStart_toEndOf="@id/filter_salary_val"
+        app:layout_constraintTop_toTopOf="@+id/filter_salary_cont" />
+
+    <CheckBox
+        android:id="@+id/filter_only_with_salary"
+        style="@style/text_regular_16"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dimen_16"
+        android:layoutDirection="rtl"
+        android:text="@string/do_not_show_without_salary"
+        app:buttonTint="@color/Blue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/salary_container">
+        app:layout_constraintTop_toBottomOf="@id/filter_salary_cont" />
 
-        <TextView
-            android:id="@+id/tv_without_salary"
-            style="@style/text_regular_16"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:text="@string/do_not_show_without_salary"
-            android:textColor="?attr/colorPrimary" />
-
-        <CheckBox
-            android:id="@+id/cb_filter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            app:buttonTint="@color/Blue" />
-    </LinearLayout>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/apply"
+        android:id="@+id/filter_apply"
         style="@style/confirm_button"
         android:layout_marginBottom="8dp"
         android:text="@string/apply"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/reset"
+        app:layout_constraintBottom_toTopOf="@+id/filter_reset"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:visibility="visible" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/reset"
+        android:id="@+id/filter_reset"
         style="@style/cancel_button"
         android:text="@string/reset"
         android:visibility="gone"
@@ -163,15 +151,4 @@
         app:layout_constraintStart_toStartOf="parent"
         tools:visibility="visible" />
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="19dp"
-        android:layout_marginEnd="21dp"
-        android:layout_marginBottom="18dp"
-        android:src="@drawable/icon_close"
-        app:layout_constraintBottom_toBottomOf="@+id/salary_val"
-        app:layout_constraintEnd_toEndOf="@+id/salary_container"
-        app:layout_constraintTop_toTopOf="@+id/salary_container" />
 </androidx.constraintlayout.widget.ConstraintLayout>
