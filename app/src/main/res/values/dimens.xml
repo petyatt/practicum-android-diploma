@@ -17,7 +17,9 @@
     <dimen name="text_22">22sp</dimen>
     <dimen name="text_16">16sp</dimen>
     <dimen name="text_12">12sp</dimen>
+
     <dimen name="icon_size">24dp</dimen>
+
     <dimen name="fragment_main_paddingHorizontal_12dp">12dp</dimen>
     <dimen name="fragment_main_paddingVertical">4dp</dimen>
     <dimen name="fragment_main_width_and_height_progress_bar_36">36dp</dimen>
@@ -31,11 +33,5 @@
     <dimen name="layout_marginStart_16dp">16dp</dimen>
     <dimen name="layout_marginEnd_16dp">16dp</dimen>
     <dimen name="corner_radius_small_2">2dp</dimen>
-    <dimen name="_16dp">16dp</dimen>
-    <dimen name="_12dp">12dp</dimen>
-    <dimen name="_0dp">0dp</dimen>
-    <dimen name="button_height_59dp">59dp</dimen>
-    <dimen name="dimen_30">30dp</dimen>
-    <dimen name="dimen_17">17dp</dimen>
     <dimen name="corner_radius_12">12dp</dimen>
 </resources>

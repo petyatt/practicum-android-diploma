@@ -35,7 +35,7 @@ class VacancyViewHolder(parent: ViewGroup) :
     private val progressBar = itemView.findViewById<ProgressBar>(R.id.progress_bar)
 
     fun bind(state: ScreenState<Vacancy>) {
-        when(state) {
+        when (state) {
             is ScreenState.Loaded -> bind(state.t)
             else -> bindLoading()
         }

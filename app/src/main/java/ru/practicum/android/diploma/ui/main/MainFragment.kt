@@ -26,32 +26,16 @@ import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.ui.model.ScreenState
 import ru.practicum.android.diploma.ui.vacancy.VacancyFragment.Companion.ARG_VACANCY_ID
 import ru.practicum.android.diploma.util.debounce
-import ru.practicum.android.diploma.util.isConnected
 
 class MainFragment : Fragment() {
     private var _binding: FragmentMainBinding? = null
-    private var vacancyListAdapter: VacancyListAdapter? = null
     private val binding get() = _binding!!
 
-    private val onNeedPage: (Int) -> Unit = { viewModel.getVacancies(lastSearchText, it) }
+    private var onNeedPage: ((Int) -> Unit)? = null
+    private var onRequestDebounce: ((String) -> Unit)? = null
+    private var onSearchDebounce: ((String) -> Unit)? = null
+    private var onVacancyClickDebounce: ((Vacancy) -> Unit)? = null
 
-    private val onSearchDebounce = debounce<String>(SEARCH_DEBOUNCE_DELAY, lifecycleScope, true) { search(it) }
-    private val onRequestDebounce =
-        debounce<String>(REQUEST_DELAY, lifecycleScope, false) { viewModel.getVacancies(it) }
-    private val onVacancyClickDebounce = debounce<Vacancy>(
-        VACANCY_CLICK_DEBOUNCE_DELAY,
-        lifecycleScope,
-        false
-    ) { vacancy ->
-        if (isConnected(requireContext())) {
-            findNavController().navigate(
-                R.id.action_mainFragment_to_vacancyFragment,
-                bundleOf(ARG_VACANCY_ID to vacancy.id)
-            )
-        } else {
-            showPlaceholder(R.drawable.placeholder_no_internet, R.string.bad_connection)
-        }
-    }
     private var lastSearchText: String = ""
     private var currentFilter = Filter()
     private val viewModel by viewModel<MainViewModel>()
@@ -63,7 +47,6 @@ class MainFragment : Fragment() {
     ): View {
         _binding = FragmentMainBinding.inflate(inflater, container, false)
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -73,7 +56,6 @@ class MainFragment : Fragment() {
         setSearchFieldListeners()
 
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
-        binding.recyclerView.adapter = vacancyListAdapter
 
         binding.ivFilter.setOnClickListener {
             findNavController().navigate(
@@ -83,14 +65,31 @@ class MainFragment : Fragment() {
         viewModel.getFilterState()
     }
 
+    override fun onResume() {
+        super.onResume()
+        onNeedPage = { viewModel.getVacancies(lastSearchText, it) }
+        onRequestDebounce = debounce(REQUEST_DELAY, lifecycleScope, false) { viewModel.getVacancies(it) }
+        onSearchDebounce = debounce(SEARCH_DEBOUNCE_DELAY, lifecycleScope, true) { search(it) }
+        onVacancyClickDebounce = debounce(VACANCY_CLICK_DEBOUNCE_DELAY, lifecycleScope, false) { vacancy ->
+            findNavController().navigate(
+                R.id.action_mainFragment_to_vacancyFragment,
+                bundleOf(ARG_VACANCY_ID to vacancy.id)
+            )
+        }
+        if (binding.search.text?.isEmpty() == true) showDefaultState() else search(binding.search.text.toString())
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
+        onNeedPage = null
+        onRequestDebounce = null
+        onSearchDebounce = null
+        onVacancyClickDebounce = null
         _binding = null
     }
 
     private fun setSearchFieldListeners() {
         with(binding.search) {
-            lastSearchText = text.toString()
             setOnEditorActionListener { v, actionId, _ ->
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     search(v.text.toString())
@@ -103,7 +102,7 @@ class MainFragment : Fragment() {
                 if (text.isNullOrBlank()) {
                     showDefaultState()
                 } else {
-                    onSearchDebounce(text.toString())
+                    onSearchDebounce?.run { onSearchDebounce!!(text.toString()) }
                 }
             }
         }
@@ -112,7 +111,7 @@ class MainFragment : Fragment() {
     private fun search(text: String) {
         lastSearchText = text
         binding.recyclerView.adapter = null
-        onRequestDebounce(text)
+        onRequestDebounce?.run { onRequestDebounce!!(text) }
         if (text.isNotEmpty()) showProgressBar()
     }
 
@@ -151,6 +150,12 @@ class MainFragment : Fragment() {
         }
     }
 
+    private fun showEmptyList() {
+        showPlaceholder(R.drawable.placeholder_cat, R.string.no_vacancies)
+        binding.tvNumberVacancies.isVisible = true
+        binding.tvNumberVacancies.text = requireContext().getString(R.string.not_find_vacancies)
+    }
+
     private fun showError() {
         if (binding.recyclerView.adapter == null) {
             showPlaceholder(R.drawable.placeholder_cat, R.string.no_vacancies)
@@ -163,7 +168,8 @@ class MainFragment : Fragment() {
         with(binding) {
             placeholderImage.setImageResource(image)
             placeholderText.text = getText(text)
-            groupVacancies.isVisible = false
+            tvNumberVacancies.isVisible = false
+            recyclerView.isVisible = false
             progressBar.isVisible = false
             groupPlaceholder.isVisible = true
         }
@@ -172,7 +178,8 @@ class MainFragment : Fragment() {
     private fun showProgressBar() {
         with(binding) {
             recyclerView.adapter?.run { return }
-            groupVacancies.isVisible = false
+            tvNumberVacancies.isVisible = false
+            recyclerView.isVisible = false
             groupPlaceholder.isVisible = false
             progressBar.isVisible = true
         }
@@ -180,28 +187,28 @@ class MainFragment : Fragment() {
 
     private fun show(vacancies: Vacancies) {
         with(binding) {
-            if (recyclerView.adapter == null) {
+            if (vacancies.found == 0) {
+                recyclerView.adapter = null
+                showEmptyList()
+            } else if (recyclerView.adapter == null) {
                 recyclerView.adapter = VacancyListAdapter(vacancies, onVacancyClickDebounce, onNeedPage)
 
                 progressBar.isVisible = false
                 placeholderImage.isVisible = false
                 placeholderText.isVisible = false
-                groupVacancies.isVisible = true
-                tvNumberVacancies.text = getStringOfVacancies(vacancies.found)
+                tvNumberVacancies.isVisible = true
+                recyclerView.isVisible = true
+                tvNumberVacancies.text = resources.getQuantityString(
+                    R.plurals.founded_vacancies,
+                    vacancies.found,
+                    vacancies.found
+                )
             } else {
                 val adapter = recyclerView.adapter as? VacancyListAdapter
                 adapter?.load(vacancies)
             }
         }
     }
-
-    private fun getStringOfVacancies(count: Int): String =
-        if (count == 0) resources.getString(R.string.not_find_vacancies) else resources.getQuantityString(
-            R.plurals.founded_vacancies,
-            count,
-            count
-        )
-
 
     companion object {
         private const val SEARCH_DEBOUNCE_DELAY = 2000L

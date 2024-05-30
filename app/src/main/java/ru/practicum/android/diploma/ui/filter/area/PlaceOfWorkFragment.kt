@@ -40,25 +40,11 @@ class PlaceOfWorkFragment : Fragment() {
         currentCountry = currentCountry ?: currentArea?.parent ?: currentArea
         currentRegion = currentRegion ?: currentArea?.parent?.let { Area(currentArea) }
 
+        setCountryListeners()
+        setRegionListeners()
         with(binding) {
-            backButton.setOnClickListener { findNavController().navigateUp() }
-            etCountry.onSelectListener = {
-                findNavController().navigate(R.id.action_placeOfWorkFragment_to_countryFragment)
-                CountryFragment.createResultListener(this@PlaceOfWorkFragment) { currentCountry = it }
-            }
-            etCountry.onChangeListener = { _, v -> countryChange(v as? Area) }
-            etRegion.onSelectListener = {
-                findNavController().navigate(
-                    R.id.action_placeOfWorkFragment_to_regionFragment,
-                    RegionFragment.createArgument(currentCountry)
-                )
-                RegionFragment.createResultListener(this@PlaceOfWorkFragment) {
-                    currentCountry = it.parent
-                    currentRegion = Area(it)
-                }
-            }
-            etRegion.onChangeListener = { _, v -> regionChange(v as? Area) }
-            select.setOnClickListener {
+            placeBackButton.setOnClickListener { findNavController().navigateUp() }
+            placeApply.setOnClickListener {
                 val area = currentRegion?.let { Area(it, currentCountry) } ?: currentCountry
                 setFragmentResult(REQUEST_KEY, bundleOf(RES_AREA to area))
                 findNavController().navigateUp()
@@ -69,8 +55,8 @@ class PlaceOfWorkFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         with(binding) {
-            etCountry.value = currentCountry
-            etRegion.value = currentRegion
+            placeCountryVal.value = currentCountry
+            placeRegionVal.value = currentRegion
         }
     }
 
@@ -79,26 +65,50 @@ class PlaceOfWorkFragment : Fragment() {
         _binding = null
     }
 
-    private fun countryChange(country: Area?) {
-        if (country != currentCountry) {
-            currentCountry = country
-            currentRegion = null
-            binding.etRegion.value = null
-        }
-        binding.select.isVisible = binding.etRegion.value != null || country != null
-    }
-
-    private fun regionChange(area: Area?) {
-        val country = area?.parent
-        val region = area?.let { Area(area) }
-        if (region != currentRegion) {
-            currentRegion = region
-            if (region != null) {
-                currentCountry = country
-                binding.etCountry.value = country
+    private fun setCountryListeners() {
+        with(binding.placeCountryVal) {
+            onSelectListener = {
+                findNavController().navigate(R.id.action_placeOfWorkFragment_to_countryFragment)
+                CountryFragment.createResultListener(this@PlaceOfWorkFragment) { currentCountry = it }
+            }
+            onChangeListener = { _, v ->
+                val country = v as? Area
+                if (country != currentCountry) {
+                    currentCountry = country
+                    currentRegion = null
+                    binding.placeRegionVal.value = null
+                }
+                binding.placeApply.isVisible = binding.placeRegionVal.value != null || country != null
             }
         }
-        binding.select.isVisible = binding.etCountry.value != null || area != null
+    }
+
+    private fun setRegionListeners() {
+        with(binding.placeRegionVal) {
+            onSelectListener = {
+                findNavController().navigate(
+                    R.id.action_placeOfWorkFragment_to_regionFragment,
+                    RegionFragment.createArgument(currentCountry)
+                )
+                RegionFragment.createResultListener(this@PlaceOfWorkFragment) {
+                    currentCountry = it.parent
+                    currentRegion = Area(it)
+                }
+            }
+            onChangeListener = { _, v ->
+                val area = v as? Area
+                val country = area?.parent
+                val region = area?.let { Area(area) }
+                if (region != currentRegion) {
+                    currentRegion = region
+                    if (region != null) {
+                        currentCountry = country
+                        binding.placeCountryVal.value = country
+                    }
+                }
+                binding.placeApply.isVisible = binding.placeCountryVal.value != null || area != null
+            }
+        }
     }
 
     companion object {
@@ -119,6 +129,5 @@ class PlaceOfWorkFragment : Fragment() {
                 fragment.clearFragmentResultListener(REQUEST_KEY)
             }
         }
-
     }
 }

@@ -48,7 +48,6 @@
         android:textColor="@color/White"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTag="tv_number_vacancies"
         app:layout_constraintTop_toBottomOf="@+id/search"
         tools:text="найдено 286 вакансий" />
 
@@ -60,16 +59,10 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTag="recycler_view"
         app:layout_constraintTop_toBottomOf="@+id/tv_number_vacancies"
         tools:itemCount="15"
         tools:listitem="@layout/item_vacancy"
         tools:visibility="visible" />
-
-    <androidx.constraintlayout.widget.Group
-        android:id="@+id/group_vacancies"
-        style="@style/constraint_auxiliary"
-        app:constraint_referenced_tags="tv_number_vacancies, recycler_view" />
 
     <ProgressBar
         android:id="@+id/progress_bar"
