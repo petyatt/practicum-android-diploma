@@ -36,8 +36,6 @@ class VacanciesConverter {
             found = found,
             items = items.map { convert(it) },
             page = page,
-            pages = pages,
-            perPage = perPage
         )
     }
 

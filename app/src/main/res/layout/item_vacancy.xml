@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/vacancy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/dimen_16"
+        android:paddingVertical="@dimen/dimen_8">
+
+        <ImageView
+            android:id="@+id/image_company"
+            android:layout_width="@dimen/dimen_48"
+            android:layout_height="@dimen/dimen_48"
+            android:scaleType="fitCenter"
+            android:src="@drawable/placeholder"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTag="image_company"
+            app:layout_constraintTop_toTopOf="parent"
+            app:strokeColor="@color/LightGray"
+            app:strokeWidth="1dp" />
+
+        <TextView
+            android:id="@+id/vacancy_title"
+            style="@style/text_medium_22"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dimen_12"
+            android:textColor="?android:textColorPrimary"
+            app:layout_constraintBottom_toTopOf="@id/company_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/image_company"
+            app:layout_constraintTag="vacancy_title"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:text="Android-разработчик, Москва" />
+
+        <TextView
+            android:id="@+id/company_title"
+            style="@style/text_regular_16"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="?android:textColorPrimary"
+            app:layout_constraintBottom_toTopOf="@id/salary_top"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/vacancy_title"
+            app:layout_constraintTag="company_title"
+            app:layout_constraintTop_toBottomOf="@id/vacancy_title"
+            tools:text="Еда" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/salary_top"
+            style="@style/constraint_auxiliary"
+            app:barrierDirection="top"
+            app:constraint_referenced_tags="no_salary, salary_min_capt, salary_min_val, salary_max_capt, salary_max_val, currency" />
+
+        <TextView
+            android:id="@+id/no_salary"
+            style="@style/text_regular_16"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/no_salary"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/vacancy_title"
+            app:layout_constraintTag="no_salary"
+            app:layout_constraintTop_toTopOf="@id/salary_top" />
+
+        <TextView
+            android:id="@+id/salary_min_capt"
+            style="@style/text_regular_16"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/salary_from"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@id/vacancy_title"
+            app:layout_constraintTag="salary_min_capt"
+            app:layout_constraintTop_toTopOf="@id/salary_top" />
+
+        <TextView
+            android:id="@+id/salary_min_val"
+            style="@style/text_regular_16"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="@dimen/dimen_4"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/salary_min_capt"
+            app:layout_constraintTag="salary_min_val"
+            app:layout_constraintTop_toTopOf="@id/salary_top"
+            tools:text="100 000" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/salary_min"
+            style="@style/constraint_auxiliary"
+            app:constraint_referenced_tags="salary_min_capt, salary_min_val"
+            app:layout_constraintTag="salary_min" />
+
+        <TextView
+            android:id="@+id/salary_max_capt"
+            style="@style/text_regular_16"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/salary_to"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/salary_min_val"
+            app:layout_constraintTag="salary_max_capt"
+            app:layout_constraintTop_toTopOf="@id/salary_top" />
+
+        <TextView
+            android:id="@+id/salary_max_val"
+            style="@style/text_regular_16"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="@dimen/dimen_4"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/salary_max_capt"
+            app:layout_constraintTag="salary_max_val"
+            app:layout_constraintTop_toTopOf="@id/salary_top"
+            tools:text="500 000" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@id/salary_max"
+            style="@style/constraint_auxiliary"
+            app:constraint_referenced_tags="salary_max_capt, salary_max_val"
+            app:layout_constraintTag="salary_max" />
+
+        <TextView
+            android:id="@+id/currency"
+            style="@style/text_regular_16"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/salary_max_val"
+            app:layout_constraintTag="currency"
+            app:layout_constraintTop_toTopOf="@id/salary_top"
+            tools:text="р" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        style="@style/progress_bar" />
+
+</androidx.cardview.widget.CardView>

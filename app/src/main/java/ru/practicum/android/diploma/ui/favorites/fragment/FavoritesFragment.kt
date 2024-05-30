@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentFavoritesBinding
+import ru.practicum.android.diploma.domain.models.Vacancies
 import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.ui.favorites.viewmodel.FavoritesViewModel
 import ru.practicum.android.diploma.ui.main.VacancyListAdapter
@@ -54,7 +55,7 @@ class FavoritesFragment : Fragment() {
             if (favourites.isNotEmpty()) {
                 placeholder.isVisible = false
                 recyclerView.isVisible = true
-                recyclerView.adapter = VacancyListAdapter(favourites.toMutableList(), onVacancyClickDebounce)
+                recyclerView.adapter = VacancyListAdapter(Vacancies(items = favourites), onVacancyClickDebounce)
             } else {
                 placeholder.isVisible = true
                 recyclerView.isVisible = false
