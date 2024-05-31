@@ -5,25 +5,13 @@
     style="@style/fragment"
     tools:context=".ui.filter.fragment.FilterFragment">
 
-    <Toolbar
-        android:id="@+id/filter_toolbar"
+    <ru.practicum.android.diploma.ui.model.CustomToolbar
         android:layout_width="match_parent"
+        android:id="@+id/filter_toolbar"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/dimen_16"
+        android:text="@string/filter_settings"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageButton
-            android:id="@+id/filter_back_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="?attr/colorSecondary"
-            android:src="@drawable/arrow_back" />
-
-        <TextView
-            style="@style/text_top_bar"
-            android:text="@string/filter_settings" />
-    </Toolbar>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/filter_place_work_cont"

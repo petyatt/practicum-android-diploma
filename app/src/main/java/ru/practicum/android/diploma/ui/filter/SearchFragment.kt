@@ -53,11 +53,11 @@ abstract class SearchFragment<T : Parcelable, H : ViewHolder>(private val clazz:
         currentItem = getParcelable(arguments, ARG_SEARCH, clazz)
 
         with(binding) {
-            textTopBar.setText(title)
+            industryToolbar.text = title
             search.setHint(hint)
             notFoundMessage.setText(emptyListMessage)
 
-            buttNav.setOnClickListener { findNavController().navigateUp() }
+            industryToolbar.onBackClickListener = { findNavController().navigateUp() }
             search.doOnTextChanged { text, _, _, _ -> onSearchDebounce(text.toString()) }
             search.setOnEditorActionListener { v, actionId, _ ->
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {

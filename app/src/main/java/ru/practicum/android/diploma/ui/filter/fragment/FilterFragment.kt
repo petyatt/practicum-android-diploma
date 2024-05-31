@@ -70,7 +70,7 @@ class FilterFragment : Fragment() {
         viewModel.filterLiveData.observe(viewLifecycleOwner) { updateUI(it) }
 
         with(binding) {
-            filterBackButton.setOnClickListener { findNavController().navigateUp() }
+            filterToolbar.onBackClickListener = { findNavController().navigateUp() }
 
             setPlaceWorkListeners()
             setIndustryListeners()
