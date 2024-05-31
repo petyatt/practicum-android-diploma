@@ -35,7 +35,7 @@ class VacancyListAdapter(
         if (vacancyList.size < vacancies.found && ok) vacancyList.size + 1 else vacancyList.size
 
     override fun onBindViewHolder(holder: VacancyViewHolder, position: Int) {
-        if (getItemCount() - 1 == position && getItemCount() <= vacancies.found) {
+        if (vacancyList.size - PREREAD_HOLDER == position && vacancyList.size < vacancies.found) {
             onNeedPage?.run { onNeedPage.invoke(page + 1) }
         }
         if (position < vacancyList.size) {
@@ -44,5 +44,9 @@ class VacancyListAdapter(
         } else {
             holder.bind(ScreenState.Loading())
         }
+    }
+
+    companion object {
+        private const val PREREAD_HOLDER = 1
     }
 }
