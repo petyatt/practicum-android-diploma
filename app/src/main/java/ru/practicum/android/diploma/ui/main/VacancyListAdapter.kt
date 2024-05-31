@@ -18,8 +18,10 @@ class VacancyListAdapter(
     private var ok = true
 
     fun load(state: ScreenState<Vacancies>) {
+        val prevOk = ok
         ok = state is ScreenState.Loaded
         if (ok) load((state as ScreenState.Loaded).t)
+        if (prevOk && !ok) notifyDataSetChanged()
     }
 
     private fun load(vacancies: Vacancies) {
