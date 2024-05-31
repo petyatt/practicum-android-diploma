@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import androidx.annotation.StringRes
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
@@ -24,12 +23,7 @@ import ru.practicum.android.diploma.databinding.FragmentSearchBinding
 import ru.practicum.android.diploma.util.debounce
 import ru.practicum.android.diploma.util.getParcelable
 
-abstract class SearchFragment<T : Parcelable, H : ViewHolder>(
-    @StringRes val title: Int,
-    @StringRes val hint: Int,
-    @StringRes val emptyListMessage: Int,
-    val clazz: Class<T>
-) : Fragment() {
+abstract class SearchFragment<T : Parcelable, H : ViewHolder>(private val clazz: Class<T>) : Fragment() {
 
     protected var onSelect: () -> Unit = {}
     protected var currentItem: T? = null
@@ -37,6 +31,10 @@ abstract class SearchFragment<T : Parcelable, H : ViewHolder>(
             binding.select.isVisible = value != null
             field = value
         }
+
+    protected var title = ""
+    protected var hint = ""
+    protected var emptyListMessage = ""
 
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
