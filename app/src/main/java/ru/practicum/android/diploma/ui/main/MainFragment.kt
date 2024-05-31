@@ -143,10 +143,12 @@ class MainFragment : Fragment() {
     }
 
     private fun showNoInternet() {
-        if (binding.recyclerView.adapter == null) {
+        val adapter = binding.recyclerView.adapter as? VacancyListAdapter
+        if (adapter == null) {
             showPlaceholder(R.drawable.placeholder_no_internet, R.string.bad_connection)
         } else {
-            Toast.makeText(requireContext(), R.string.bad_connection, Toast.LENGTH_LONG).show()
+            adapter.load(ScreenState.NotConnection())
+            Toast.makeText(requireContext(), R.string.toast_not_connection, Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -157,10 +159,12 @@ class MainFragment : Fragment() {
     }
 
     private fun showError() {
-        if (binding.recyclerView.adapter == null) {
+        val adapter = binding.recyclerView.adapter as? VacancyListAdapter
+        if (adapter == null) {
             showPlaceholder(R.drawable.placeholder_cat, R.string.no_vacancies)
         } else {
-            Toast.makeText(requireContext(), R.string.no_vacancies, Toast.LENGTH_LONG).show()
+            adapter.load(ScreenState.ServerError())
+            Toast.makeText(requireContext(), R.string.toast_error, Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -205,7 +209,7 @@ class MainFragment : Fragment() {
                 )
             } else {
                 val adapter = recyclerView.adapter as? VacancyListAdapter
-                adapter?.load(vacancies)
+                adapter?.load(ScreenState.Loaded(vacancies))
             }
         }
     }

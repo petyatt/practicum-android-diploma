@@ -37,6 +37,9 @@
     <string name="list_error">Не удалось получить\nсписок</string>
     <string name="select">Выбрать</string>
 
+    <string name="toast_error">Произошла ошибка</string>
+    <string name="toast_not_connection">Проверьте подключение к интернету</string>
+
     <string name="tools_vacancy_description">
         <b>Обязанности</b>\n
         \t• Разрабатывать новую функциональность\n

@@ -15,8 +15,14 @@ class VacancyListAdapter(
 
     private val vacancyList = vacancies.items.toMutableList()
     private var page = 0
+    private var ok = true
 
-    fun load(vacancies: Vacancies) {
+    fun load(state: ScreenState<Vacancies>) {
+        ok = state is ScreenState.Loaded
+        if (ok) load((state as ScreenState.Loaded).t)
+    }
+
+    private fun load(vacancies: Vacancies) {
         if (vacancies.page <= page) return
         page = vacancies.page
         vacancyList.addAll(vacancies.items)
@@ -25,9 +31,11 @@ class VacancyListAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = VacancyViewHolder(parent)
 
-    override fun getItemCount() = if (vacancyList.size < vacancies.found) vacancyList.size + 1 else vacancyList.size
+    override fun getItemCount() =
+        if (vacancyList.size < vacancies.found && ok) vacancyList.size + 1 else vacancyList.size
+
     override fun onBindViewHolder(holder: VacancyViewHolder, position: Int) {
-        if (vacancyList.size == position && vacancyList.size < vacancies.found) {
+        if (getItemCount() - 1 == position && getItemCount() <= vacancies.found) {
             onNeedPage?.run { onNeedPage.invoke(page + 1) }
         }
         if (position < vacancyList.size) {
