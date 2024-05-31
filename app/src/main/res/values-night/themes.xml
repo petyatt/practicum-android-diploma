@@ -4,5 +4,7 @@
         <item name="colorSecondary">@color/Black</item>
         <item name="colorSurface">@color/Gray</item>
         <item name="colorOnSurface">@color/White</item>
+
+        <item name="colorPrimaryDark">@color/Black</item>
     </style>
 </resources>

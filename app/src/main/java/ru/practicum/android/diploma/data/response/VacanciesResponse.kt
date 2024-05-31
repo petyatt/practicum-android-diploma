@@ -2,11 +2,11 @@ package ru.practicum.android.diploma.data.response
 
 import com.google.gson.annotations.SerializedName
 import ru.practicum.android.diploma.data.dto.AddressDto
+import ru.practicum.android.diploma.data.dto.AreaDto
 import ru.practicum.android.diploma.data.dto.ContactsDto
 import ru.practicum.android.diploma.data.dto.IdNameDto
-import ru.practicum.android.diploma.data.dto.Response
 
-data class VacanciesResponse(
+class VacanciesResponse(
     val found: Int,
     val items: List<VacancyResponse>,
     val page: Int,
@@ -17,9 +17,8 @@ data class VacanciesResponse(
 data class VacancyResponse(
     val id: String,
     val name: String,
-    val area: AreaResponse,
+    val area: AreaDto,
     val employer: EmployerResponse,
-    val department: DepartmentResponse?,
     val experience: IdNameDto?,
     val description: String?,
     val employment: IdNameDto?,
@@ -29,32 +28,18 @@ data class VacancyResponse(
     @SerializedName("key_skills") val keySkills: List<IdNameDto>?
 ) : Response()
 
-data class AreaResponse(
-    val id: String,
-    val name: String,
-    val url: String
-)
-
-data class EmployerResponse(
-    @SerializedName("alternate_url") val alternateUrl: String?,
+class EmployerResponse(
     val id: String?,
     @SerializedName("logo_urls") val logoUrls: LogoUrlsResponse?,
     val name: String,
-    val url: String?
 )
 
-data class LogoUrlsResponse(
+class LogoUrlsResponse(
     val original: String
 )
 
-data class DepartmentResponse(
-    val id: String,
-    val name: String
-)
-
-data class SalaryResponse(
+class SalaryResponse(
     val currency: String?,
     val from: Int?,
-    val gross: Boolean?,
     val to: Int?
 )

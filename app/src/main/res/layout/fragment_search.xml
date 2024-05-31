@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/fragment"
+    tools:context=".ui.filter.SearchFragment">
+
+    <Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dimen_16">
+
+        <ImageButton
+            android:id="@+id/butt_nav"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="?attr/colorSecondary"
+            android:src="@drawable/arrow_back" />
+
+        <TextView
+            android:id="@+id/text_top_bar"
+            style="@style/text_top_bar"
+            android:layout_width="wrap_content"
+            tools:text="@string/industry_title" />
+    </Toolbar>
+
+    <ru.practicum.android.diploma.ui.main.SearchEditText
+        android:id="@+id/search"
+        style="@style/edit_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dimen_16"
+        android:layout_marginVertical="@dimen/dimen_8"
+        tools:hint="@string/industry_search_hint" />
+
+    <LinearLayout
+        android:id="@+id/items_group"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/items"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginHorizontal="@dimen/dimen_16"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:itemCount="5"
+            tools:listitem="@layout/item_industry" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/select"
+            style="@style/confirm_button"
+            android:text="@string/select"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/loading"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        tools:visibility="gone">
+
+        <ProgressBar
+            style="@style/progress_bar"
+            android:layout_gravity="center" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/error"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        tools:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                style="@style/placeholder_item"
+                android:src="@drawable/placeholder_carpet" />
+
+            <TextView
+                style="@style/placeholder_item"
+                android:text="@string/list_error" />
+        </LinearLayout>
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/empty_list"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                style="@style/placeholder_item"
+                android:src="@drawable/placeholder_cat" />
+
+            <TextView
+                android:id="@+id/not_found_message"
+                style="@style/placeholder_item"
+                android:text="@string/industry_not_found" />
+        </LinearLayout>
+    </FrameLayout>
+
+</LinearLayout>

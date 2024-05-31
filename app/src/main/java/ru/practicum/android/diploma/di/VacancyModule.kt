@@ -17,11 +17,11 @@ val vacancy = module {
     }
 
     single<VacancyInteractor> {
-        VacancyInteractorImpl(repository = get())
+        VacancyInteractorImpl(vacancies = get(), favorites = get())
     }
 
     viewModel {
-        VacancyViewModel(vacancyInteractor = get(), get(), get())
+        VacancyViewModel(vacancyInteractor = get(), get())
     }
 
     single<ExternalNavigator> {

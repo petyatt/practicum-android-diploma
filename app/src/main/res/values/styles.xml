@@ -1,26 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="text_bold_32" >
+
+    <style name="text_bold_32">
         <item name="android:textSize">@dimen/text_32</item>
         <item name="android:textColor">?attr/colorPrimary</item>
         <item name="android:fontFamily">@font/ys_display_bold</item>
     </style>
-    <style name="text_medium_22" >
+
+    <style name="text_medium_22">
         <item name="android:textSize">@dimen/text_22</item>
         <item name="android:textColor">?attr/colorPrimary</item>
         <item name="android:fontFamily">@font/ys_display_medium</item>
     </style>
-    <style name="text_medium_16" >
+
+    <style name="text_medium_16">
         <item name="android:textSize">@dimen/text_16</item>
         <item name="android:textColor">?attr/colorPrimary</item>
         <item name="android:fontFamily">@font/ys_display_medium</item>
     </style>
-    <style name="text_regular_16" >
+
+    <style name="text_regular_16">
         <item name="android:textSize">@dimen/text_16</item>
         <item name="android:textColor">?attr/colorPrimary</item>
         <item name="android:fontFamily">@font/ys_display_regular</item>
     </style>
-    <style name="text_regular_12" >
+
+    <style name="text_regular_12">
         <item name="android:textSize">@dimen/text_12</item>
         <item name="android:textColor">?attr/colorPrimary</item>
         <item name="android:fontFamily">@font/ys_display_regular</item>
@@ -47,6 +52,7 @@
         <item name="android:maxLines">1</item>
         <item name="android:inputType">text</item>
         <item name="android:textColorHint">?attr/colorOnSurface</item>
+        <item name="android:textColor">@color/Black</item>
         <item name="android:background">@drawable/edit_search_background</item>
         <item name="android:textCursorDrawable">@drawable/edit_search_cursor</item>
     </style>
@@ -70,6 +76,96 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:indeterminateTint">@color/Blue</item>
+    </style>
+
+    <style name="confirm_button" parent="text_medium_16">
+        <item name="android:layout_height">@dimen/dimen_60</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_margin">@dimen/dimen_16</item>
+        <item name="android:textColor">@color/White</item>
+        <item name="android:background">@drawable/confirm_button_background</item>
+        <item name="textAllCaps">false</item>
+    </style>
+
+    <style name="cancel_button" parent="confirm_button">
+        <item name="android:background">@color/Transparent</item>
+        <item name="android:textColor">@color/Red</item>
+    </style>
+
+    <style name="placeholder_item" parent="text_medium_22">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginHorizontal">@dimen/dimen_8</item>
+        <item name="android:layout_marginVertical">@dimen/dimen_16</item>
+        <item name="android:layout_margin">@dimen/dimen_16</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
+    <style name="textInputLayout">
+        <item name="android:paddingHorizontal">16dp</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:textColorHint">?attr/colorOnSurface</item>
+        <item name="boxBackgroundColor">?attr/colorSurface</item>
+        <item name="boxBackgroundMode">filled</item>
+        <item name="boxCornerRadiusBottomEnd">12dp</item>
+        <item name="boxCornerRadiusBottomStart">12dp</item>
+        <item name="boxCornerRadiusTopEnd">12dp</item>
+        <item name="boxCornerRadiusTopStart">12dp</item>
+        <item name="boxStrokeWidth">0dp</item>
+        <item name="boxStrokeWidthFocused">0dp</item>
+        <item name="cursorColor">@color/Blue</item>
+        <item name="endIconTint">@color/Black</item>
+        <item name="expandedHintEnabled">false</item>
+        <item name="hintEnabled">false</item>
+        <item name="hintTextAppearance">@style/text_regular_12</item>
+        <item name="placeholderTextAppearance">@style/text_regular_16</item>
+        <item name="placeholderTextColor">?attr/colorOnSurface</item>
+    </style>
+
+    <style name="place_work_inputLayout" parent="textInputLayout">
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingTop">6dp</item>
+        <item name="android:paddingEnd">4dp</item>
+        <item name="android:paddingBottom">6dp</item>
+        <item name="boxBackgroundColor">?attr/colorSecondary</item>
+        <item name="endIconTint">?attr/colorPrimary</item>
+        <item name="expandedHintEnabled">true</item>
+        <item name="hintEnabled">true</item>
+    </style>
+
+    <style name="country_region_inputLayout" parent="textInputLayout">
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingTop">6dp</item>
+        <item name="android:paddingEnd">4dp</item>
+        <item name="android:paddingBottom">6dp</item>
+        <item name="boxBackgroundColor">?attr/colorSecondary</item>
+        <item name="endIconTint">?attr/colorPrimary</item>
+        <item name="expandedHintEnabled">true</item>
+        <item name="hintEnabled">true</item>
+        <item name="android:textColorHint">?attr/colorPrimary</item>
+    </style>
+
+    <style name="textInputEditText">
+        <item name="android:textAppearance">@style/text_regular_16</item>
+        <item name="android:textColor">?attr/colorSecondary</item>
+    </style>
+
+    <style name="place_work_textInputEditText" parent="textInputEditText">
+        <item name="android:textColor">?attr/colorPrimary</item>
+        <item name="android:focusable">false</item>
+        <item name="android:cursorVisible">false</item>
+        <item name="android:paddingStart">0dp</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+    <style name="selection_button">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">@dimen/button_height_59dp</item>
+        <item name="android:textSize">@dimen/text_16</item>
+        <item name="android:textColor">@color/White</item>
+        <item name="android:fontFamily">@font/ys_display_medium</item>
+        <item name="android:textAllCaps">false</item>
     </style>
 
 </resources>

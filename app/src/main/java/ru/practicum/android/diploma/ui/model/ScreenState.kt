@@ -5,4 +5,5 @@ sealed class ScreenState<T> {
     class Loaded<T>(var t: T) : ScreenState<T>()
     class ServerError<T> : ScreenState<T>()
     class NotConnection<T> : ScreenState<T>()
+    class Option<T, R>(var value: R) : ScreenState<T>()
 }

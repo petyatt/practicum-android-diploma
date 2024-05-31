@@ -42,8 +42,8 @@ class VacancyItemViewHolder(parent: ViewGroup) :
         salaryMinVal.text = String.format(Locale.forLanguageTag("ru"), "%,d", vacancy.salaryMin)
         salaryMax.isVisible = vacancy.salaryMax != null
         salaryMaxVal.text = String.format(Locale.forLanguageTag("ru"), "%,d", vacancy.salaryMax)
-        currency.isVisible = vacancy.salaryMin != null || salaryMax != null
+        currency.isVisible = vacancy.salaryMin != null || vacancy.salaryMax != null
         currency.text = CURRENCY_SYMBOLS[vacancy.currency] ?: ""
-        noSalary.isVisible = vacancy.salaryMin == null && salaryMax == null
+        noSalary.isVisible = vacancy.salaryMin == null && vacancy.salaryMax == null
     }
 }

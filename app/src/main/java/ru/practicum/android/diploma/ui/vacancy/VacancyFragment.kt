@@ -44,38 +44,42 @@ class VacancyFragment : Fragment() {
 
         with(binding) {
             buttNav.setOnClickListener { findNavController().navigateUp() }
-            buttFav.setOnClickListener { viewModel.changeFavourite() }
             viewModel.vacancyState.observe(viewLifecycleOwner) {
                 when (it) {
                     is ScreenState.Loading -> {
                         data.isVisible = false
+                        error.isVisible = false
                         loading.isVisible = true
                     }
 
                     is ScreenState.Loaded -> {
                         vacancy = it.t
                         showVacancy()
+                        viewModel.getIsFavorite(it.t.id)
                     }
 
+                    is ScreenState.Option<*, *> -> renderFavorite(it.value as? Boolean ?: false)
                     else -> {
-                        TODO("Обработка ошибки")
+                        data.isVisible = false
+                        loading.isVisible = false
+                        error.isVisible = true
                     }
                 }
             }
+
+            buttFav.setOnClickListener { if (vacancy != null) viewModel.changeIsFavorite(vacancy!!) }
         }
+
         val id = requireArguments().getString(ARG_VACANCY_ID, "")
+        if (id.isBlank()) {
+            findNavController().navigateUp()
+            return
+        }
         viewModel.getVacancyState(id)
 
-        viewModel.isFavorite.observe(viewLifecycleOwner, ::renderFavorite)
-
         binding.buttShare.setOnClickListener {
-            viewModel.shareVacation(id)
+            if (vacancy != null) viewModel.shareVacation(id)
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.checkFavorite()
     }
 
     override fun onDestroyView() {
@@ -126,6 +130,7 @@ class VacancyFragment : Fragment() {
         }
         binding.loading.isVisible = false
         binding.data.isVisible = true
+        binding.error.isVisible = false
     }
 
     private fun renderFavorite(favorite: Boolean) {
