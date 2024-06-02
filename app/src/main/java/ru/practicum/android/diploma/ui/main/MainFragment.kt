@@ -180,7 +180,11 @@ class MainFragment : Fragment() {
                     topToBottom = R.id.search
                 }
             } else {
-                Toast.makeText(requireContext(), "Проверьте подключение к интернету", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.check_interner_connection),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }
