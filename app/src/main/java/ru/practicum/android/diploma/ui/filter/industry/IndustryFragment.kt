@@ -9,19 +9,20 @@ import ru.practicum.android.diploma.domain.models.Industry
 import ru.practicum.android.diploma.ui.filter.SearchFragment
 import ru.practicum.android.diploma.ui.model.ScreenState
 
-class IndustryFragment : SearchFragment<Industry, IndustryViewHolder>(
-    R.string.industry_title,
-    R.string.industry_search_hint,
-    R.string.industry_not_found,
-    Industry::class.java
-) {
+class IndustryFragment : SearchFragment<Industry, IndustryViewHolder>(Industry::class.java) {
 
     private val viewModel: IndustryViewModel by viewModel()
+
     override fun getItems(searchText: String) {
         viewModel.getIndustries(searchText)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        with(requireContext()) {
+            title = getString(R.string.industry_title)
+            hint = getString(R.string.industry_search_hint)
+            emptyListMessage = getString(R.string.industry_not_found)
+        }
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.industriesState.observe(viewLifecycleOwner) {

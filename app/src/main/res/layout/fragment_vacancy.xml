@@ -5,24 +5,12 @@
     style="@style/fragment"
     tools:context=".ui.vacancy.VacancyFragment">
 
-    <Toolbar
+    <ru.practicum.android.diploma.ui.model.CustomToolbar
+        android:id="@+id/vacancy_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/dimen_16">
-
-        <ImageButton
-            android:id="@+id/butt_nav"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="?attr/colorSecondary"
-            android:src="@drawable/arrow_back" />
-
-        <TextView
-            android:id="@+id/text_top_bar"
-            style="@style/text_top_bar"
-            android:layout_width="wrap_content"
-            android:text="@string/vacancy" />
-
+        android:layout_marginEnd="@dimen/dimen_16"
+        android:text="@string/vacancy">
         <ImageButton
             android:id="@+id/butt_fav"
             android:layout_width="wrap_content"
@@ -38,7 +26,7 @@
             android:layout_gravity="end"
             android:backgroundTint="?attr/colorSecondary"
             android:src="@drawable/share" />
-    </Toolbar>
+    </ru.practicum.android.diploma.ui.model.CustomToolbar>
 
     <ScrollView
         android:id="@+id/data"

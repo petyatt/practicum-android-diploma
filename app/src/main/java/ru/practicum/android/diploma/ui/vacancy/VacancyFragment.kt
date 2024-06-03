@@ -43,7 +43,7 @@ class VacancyFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         with(binding) {
-            buttNav.setOnClickListener { findNavController().navigateUp() }
+            vacancyToolbar.onBackClickListener = { findNavController().navigateUp() }
             viewModel.vacancyState.observe(viewLifecycleOwner) {
                 when (it) {
                     is ScreenState.Loading -> {

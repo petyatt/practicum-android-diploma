@@ -9,9 +9,7 @@ import ru.practicum.android.diploma.data.dto.IdNameDto
 class VacanciesResponse(
     val found: Int,
     val items: List<VacancyResponse>,
-    val page: Int,
-    val pages: Int,
-    @SerializedName("per_page") val perPage: Int,
+    val page: Int
 ) : Response()
 
 data class VacancyResponse(

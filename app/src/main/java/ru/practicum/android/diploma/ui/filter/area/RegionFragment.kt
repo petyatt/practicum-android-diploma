@@ -9,12 +9,7 @@ import ru.practicum.android.diploma.domain.models.Area
 import ru.practicum.android.diploma.ui.filter.SearchFragment
 import ru.practicum.android.diploma.ui.model.ScreenState
 
-class RegionFragment : SearchFragment<Area, AreaViewHolder>(
-    R.string.region_title,
-    R.string.region_search_hint,
-    R.string.region_not_found,
-    Area::class.java
-) {
+class RegionFragment : SearchFragment<Area, AreaViewHolder>(Area::class.java) {
 
     private val viewModel: RegionViewModel by viewModel()
 
@@ -23,6 +18,11 @@ class RegionFragment : SearchFragment<Area, AreaViewHolder>(
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        with(requireContext()) {
+            title = getString(R.string.region_title)
+            hint = getString(R.string.region_search_hint)
+            emptyListMessage = getString(R.string.region_not_found)
+        }
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.regionsState.observe(viewLifecycleOwner) {
