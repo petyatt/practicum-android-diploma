@@ -2,8 +2,11 @@
     <style name="Base.Theme.PracticumAndroidDiploma" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/Black</item>
         <item name="colorSecondary">@color/White</item>
+        <item name="colorOnSecondary">@color/Gray</item>
+
         <item name="colorSurface">@color/LightGray</item>
         <item name="colorOnSurface">@color/Gray</item>
+
     </style>
 
     <style name="Theme.PracticumAndroidDiploma" parent="Base.Theme.PracticumAndroidDiploma" />
