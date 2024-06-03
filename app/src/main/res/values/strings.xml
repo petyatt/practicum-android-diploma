@@ -75,4 +75,5 @@
     <string name="region">Регион</string>
     <string name="country_selection">Выбор страны</string>
     <string name="filter_settings">Настройки фильтрации</string>
+    <string name="check_interner_connection">Проверьте подключение к интернету</string>
 </resources>

@@ -31,7 +31,8 @@
     <ScrollView
         android:id="@+id/data"
         style="@style/fragment"
-        android:visibility="gone">
+        android:visibility="gone"
+        tools:visibility="visible">
 
         <androidx.constraintlayout.widget.ConstraintLayout style="@style/fragment">
 
@@ -182,7 +183,7 @@
 
             <TextView
                 android:id="@+id/company_name"
-                style="@style/text_medium_22"
+                style="@style/text_medium_22_black"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dimen_8"
@@ -199,7 +200,7 @@
 
             <TextView
                 android:id="@+id/company_address"
-                style="@style/text_regular_16"
+                style="@style/text_regular_16_black"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dimen_8"
