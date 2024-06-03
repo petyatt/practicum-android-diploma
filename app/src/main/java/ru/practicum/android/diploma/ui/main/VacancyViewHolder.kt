@@ -1,6 +1,7 @@
 package ru.practicum.android.diploma.ui.main
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ProgressBar
@@ -34,19 +35,30 @@ class VacancyViewHolder(parent: ViewGroup) :
     private val vacancyGroup = itemView.findViewById<ConstraintLayout>(R.id.vacancy)
     private val progressBar = itemView.findViewById<ProgressBar>(R.id.progress_bar)
 
+    private val topItem = itemView.findViewById<View>(R.id.top_item)
+
     fun bind(state: ScreenState<Vacancy>) {
         when (state) {
             is ScreenState.Loaded -> bind(state.t)
+            is ScreenState.Option<*, *> -> bindTop(state.value as Boolean)
             else -> bindLoading()
         }
     }
 
     private fun bindLoading() {
+        topItem.isVisible = false
         vacancyGroup.isVisible = false
         progressBar.isVisible = true
     }
 
+    private fun bindTop(visible: Boolean) {
+        vacancyGroup.isVisible = false
+        progressBar.isVisible = false
+        topItem.isVisible = visible
+    }
+
     private fun bind(vacancy: Vacancy) {
+        topItem.isVisible = false
         progressBar.isVisible = false
         vacancyGroup.isVisible = true
 
