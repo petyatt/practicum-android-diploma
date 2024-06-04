@@ -43,8 +43,11 @@ class RetrofitNetworkClient(
                     else -> Response().apply { resultCode = ResponseCode.FAILED }
                 }
                 response.apply { resultCode = ResponseCode.SUCCESS }
+            } catch (e: retrofit2.HttpException) {
+                Log.e("RetrofitHttpException", e.message.toString(), e)
+                Response().apply { resultCode = ResponseCode.FAILED }
             } catch (e: IOException) {
-                Log.e("NetworkClientHttpException", e.message.toString(), e)
+                Log.e("IoException", e.message.toString(), e)
                 Response().apply { resultCode = ResponseCode.FAILED }
             }
         }

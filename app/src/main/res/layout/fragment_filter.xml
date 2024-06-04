@@ -15,7 +15,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/filter_place_work_cont"
-        style="@style/place_work_inputLayout"
+        style="@style/filter_item_inputLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="@string/place_work"
@@ -33,7 +33,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/filter_industry_cont"
-        style="@style/place_work_inputLayout"
+        style="@style/filter_item_inputLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="@string/industry"

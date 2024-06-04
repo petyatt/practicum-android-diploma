@@ -34,21 +34,23 @@ class VacancyListAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = VacancyViewHolder(parent)
 
     override fun getItemCount() =
-        if (vacancyList.size < vacancies.found && ok) vacancyList.size + 1 else vacancyList.size
+        if (vacancyList.size < vacancies.found && ok) vacancyList.size + 2 else vacancyList.size + 1
 
     override fun onBindViewHolder(holder: VacancyViewHolder, position: Int) {
         if (vacancyList.size - PREREAD_HOLDER == position && vacancyList.size < vacancies.found) {
             onNeedPage?.run { onNeedPage.invoke(page + 1) }
         }
-        if (position < vacancyList.size) {
-            holder.bind(ScreenState.Loaded(vacancyList[position]))
-            holder.itemView.setOnClickListener { onClick?.run { onClick.invoke(vacancyList[position]) } }
+        if (position == 0) {
+            holder.bind(ScreenState.Option(true))
+        } else if (position <= vacancyList.size) {
+            holder.bind(ScreenState.Loaded(vacancyList[position - 1]))
+            holder.itemView.setOnClickListener { onClick?.run { onClick.invoke(vacancyList[position - 1]) } }
         } else {
             holder.bind(ScreenState.Loading())
         }
     }
 
     companion object {
-        private const val PREREAD_HOLDER = 1
+        private const val PREREAD_HOLDER = 2
     }
 }

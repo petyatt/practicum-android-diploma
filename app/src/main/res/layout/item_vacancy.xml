@@ -9,6 +9,7 @@
         android:id="@+id/vacancy"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="?attr/colorSecondary"
         android:paddingHorizontal="@dimen/dimen_16"
         android:paddingVertical="@dimen/dimen_8">
 
@@ -143,6 +144,14 @@
 
     <ProgressBar
         android:id="@+id/progress_bar"
-        style="@style/progress_bar" />
+        style="@style/progress_bar"
+        android:layout_width="match_parent"
+        android:background="?attr/colorSecondary" />
+
+    <View
+        android:id="@+id/top_item"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_32"
+        android:background="?attr/colorSecondary" />
 
 </androidx.cardview.widget.CardView>
