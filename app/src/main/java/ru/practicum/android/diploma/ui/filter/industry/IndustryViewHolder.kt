@@ -8,7 +8,7 @@ import ru.practicum.android.diploma.domain.models.Industry
 
 class IndustryViewHolder(view: View, val onClick: (Industry) -> Unit) : ViewHolder(view) {
 
-    private val industryView = view.findViewById<AppCompatRadioButton>(R.id.industry)
+    private val industryView = view.findViewById<AppCompatRadioButton>(R.id.filter_industry_cont)
 
     var isChecked = industryView.isChecked
         set(value) {

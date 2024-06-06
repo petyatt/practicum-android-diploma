@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import retrofit2.HttpException
 import ru.practicum.android.diploma.data.dto.ResponseCode
 import ru.practicum.android.diploma.data.request.AreasRequest
 import ru.practicum.android.diploma.data.request.CountriesRequest
@@ -16,6 +15,7 @@ import ru.practicum.android.diploma.data.request.VacancyRequest
 import ru.practicum.android.diploma.data.response.ListResponse
 import ru.practicum.android.diploma.data.response.Response
 import ru.practicum.android.diploma.util.isConnected
+import java.io.IOException
 
 class RetrofitNetworkClient(
     private val headHunterApiService: HeadHunterApiService,
@@ -34,6 +34,7 @@ class RetrofitNetworkClient(
                         filter = dto.filter,
                         page = dto.page
                     )
+
                     is VacancyRequest -> headHunterApiService.getVacancy(id = dto.id)
                     is IndustriesRequest -> ListResponse(headHunterApiService.getIndustries())
                     is CountriesRequest -> ListResponse(headHunterApiService.getCountries())
@@ -42,8 +43,11 @@ class RetrofitNetworkClient(
                     else -> Response().apply { resultCode = ResponseCode.FAILED }
                 }
                 response.apply { resultCode = ResponseCode.SUCCESS }
-            } catch (e: HttpException) {
-                Log.e("NetworkClientHttpException", e.message.toString(), e)
+            } catch (e: retrofit2.HttpException) {
+                Log.e("RetrofitHttpException", e.message.toString(), e)
+                Response().apply { resultCode = ResponseCode.FAILED }
+            } catch (e: IOException) {
+                Log.e("IoException", e.message.toString(), e)
                 Response().apply { resultCode = ResponseCode.FAILED }
             }
         }

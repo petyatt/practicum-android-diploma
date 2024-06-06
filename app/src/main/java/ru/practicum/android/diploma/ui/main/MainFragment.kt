@@ -1,6 +1,5 @@
 package ru.practicum.android.diploma.ui.main
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,7 +10,6 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
@@ -19,8 +17,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentMainBinding
@@ -30,27 +26,16 @@ import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.ui.model.ScreenState
 import ru.practicum.android.diploma.ui.vacancy.VacancyFragment.Companion.ARG_VACANCY_ID
 import ru.practicum.android.diploma.util.debounce
-import ru.practicum.android.diploma.util.isConnected
 
 class MainFragment : Fragment() {
     private var _binding: FragmentMainBinding? = null
-    private var vacancyListAdapter: VacancyListAdapter? = null
     private val binding get() = _binding!!
-    private val onSearchDebounce = debounce<String>(SEARCH_DEBOUNCE_DELAY, lifecycleScope, true) { search(it) }
-    private val onVacancyClickDebounce = debounce<Vacancy>(
-        VACANCY_CLICK_DEBOUNCE_DELAY,
-        lifecycleScope,
-        false
-    ) { vacancy ->
-        if (isConnected(requireContext())) {
-            findNavController().navigate(
-                R.id.action_mainFragment_to_vacancyFragment,
-                bundleOf(ARG_VACANCY_ID to vacancy.id)
-            )
-        } else {
-            showError(R.drawable.placeholder_no_internet, R.string.bad_connection)
-        }
-    }
+
+    private var onNeedPage: ((Int) -> Unit)? = null
+    private var onRequestDebounce: ((String) -> Unit)? = null
+    private var onSearchDebounce: ((String) -> Unit)? = null
+    private var onVacancyClickDebounce: ((Vacancy) -> Unit)? = null
+
     private var lastSearchText: String = ""
     private var currentFilter = Filter()
     private val viewModel by viewModel<MainViewModel>()
@@ -62,7 +47,6 @@ class MainFragment : Fragment() {
     ): View {
         _binding = FragmentMainBinding.inflate(inflater, container, false)
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -71,9 +55,7 @@ class MainFragment : Fragment() {
         showDefaultState()
         setSearchFieldListeners()
 
-        vacancyListAdapter = VacancyListAdapter(mutableListOf(), onVacancyClickDebounce)
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
-        binding.recyclerView.adapter = vacancyListAdapter
 
         binding.ivFilter.setOnClickListener {
             findNavController().navigate(
@@ -83,14 +65,31 @@ class MainFragment : Fragment() {
         viewModel.getFilterState()
     }
 
+    override fun onResume() {
+        super.onResume()
+        onNeedPage = { viewModel.getVacancies(lastSearchText, it) }
+        onRequestDebounce = debounce(REQUEST_DELAY, lifecycleScope, false) { viewModel.getVacancies(it) }
+        onSearchDebounce = debounce(SEARCH_DEBOUNCE_DELAY, lifecycleScope, true) { search(it) }
+        onVacancyClickDebounce = debounce(VACANCY_CLICK_DEBOUNCE_DELAY, lifecycleScope, false) { vacancy ->
+            findNavController().navigate(
+                R.id.action_mainFragment_to_vacancyFragment,
+                bundleOf(ARG_VACANCY_ID to vacancy.id)
+            )
+        }
+        if (binding.search.text?.isEmpty() == true) showDefaultState() else search(binding.search.text.toString())
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
+        onNeedPage = null
+        onRequestDebounce = null
+        onSearchDebounce = null
+        onVacancyClickDebounce = null
         _binding = null
     }
 
     private fun setSearchFieldListeners() {
         with(binding.search) {
-            lastSearchText = text.toString()
             setOnEditorActionListener { v, actionId, _ ->
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     search(v.text.toString())
@@ -101,48 +100,33 @@ class MainFragment : Fragment() {
             }
             doOnTextChanged { text, _, _, _ ->
                 if (text.isNullOrBlank()) {
-                    vacancyListAdapter?.vacancyList?.clear()
-                    vacancyListAdapter?.notifyDataSetChanged()
                     showDefaultState()
                 } else {
-                    onSearchDebounce(text.toString())
+                    onSearchDebounce?.run { onSearchDebounce!!(text.toString()) }
                 }
             }
         }
-        binding.recyclerView.addOnScrollListener(object : OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-                if (dy > 0) {
-                    val pos = (binding.recyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
-                    val itemsCount = vacancyListAdapter!!.itemCount
-                    if (pos >= itemsCount - 1) {
-                        showProgressBarBottom()
-                        onSearchDebounce(binding.search.text.toString())
-                    }
-                }
-            }
-        })
     }
 
     private fun search(text: String) {
         lastSearchText = text
-        viewModel.sendRequest(text)
+        binding.recyclerView.adapter = null
+        onRequestDebounce?.run { onRequestDebounce!!(text) }
+        if (text.isNotEmpty()) showProgressBar()
     }
 
     private fun render(state: ScreenState<Vacancies>) {
         when (state) {
-            is ScreenState.Loading -> showProgressBarCenter()
-            is ScreenState.Loaded -> showContent(state.t)
-            is ScreenState.NotConnection -> showError(R.drawable.placeholder_no_internet, R.string.bad_connection)
-            is ScreenState.ServerError -> showError(R.drawable.placeholder_cat, R.string.no_vacancies)
+            is ScreenState.Loaded -> show(state.t)
+            is ScreenState.NotConnection -> showNoInternet()
             is ScreenState.Option<*, *> -> changeFilter(state.value as? Filter ?: Filter())
+            else -> showError()
         }
     }
 
     private fun changeFilter(filter: Filter) {
         if (filter != currentFilter) {
-            vacancyListAdapter?.vacancyList?.clear()
-            viewModel.sendRequest(binding.search.text.toString())
+            search(binding.search.text.toString())
         }
         binding.ivFilter.setImageResource(
             if (filter.isEmpty) R.drawable.filter_off else R.drawable.filter_on
@@ -152,85 +136,87 @@ class MainFragment : Fragment() {
 
     private fun showDefaultState() {
         with(binding) {
-            progressBarCenter.isVisible = false
-            placeholderImage.isVisible = true
-            placeholderImage.setImageResource(R.drawable.placeholder_search)
-            tvNumberVacancies.isVisible = false
-            placeholderText.isVisible = false
+            recyclerView.adapter = null
+            showPlaceholder(R.drawable.placeholder_search, R.string.empty_string)
             search.text?.clear()
         }
-
     }
 
-    private fun showProgressBarCenter() {
-        with(binding) {
-            progressBarCenter.isVisible = true
-            placeholderImage.isVisible = false
-            placeholderText.isVisible = false
+    private fun showNoInternet() {
+        val adapter = binding.recyclerView.adapter as? VacancyListAdapter
+        if (adapter == null) {
+            showPlaceholder(R.drawable.placeholder_no_internet, R.string.bad_connection)
+        } else {
+            adapter.load(ScreenState.NotConnection())
+            Toast.makeText(requireContext(), R.string.toast_not_connection, Toast.LENGTH_SHORT).show()
         }
     }
 
-    private fun showProgressBarBottom() {
-        with(binding) {
-            if (isConnected(requireContext())) {
-                progressBarBottom.isVisible = true
-                placeholderImage.isVisible = false
-                placeholderText.isVisible = false
-                recyclerView.layoutParams = (recyclerView.layoutParams as ConstraintLayout.LayoutParams).apply {
-                    topToBottom = R.id.search
-                }
-            } else {
-                Toast.makeText(requireContext(), "Проверьте подключение к интернету", Toast.LENGTH_SHORT).show()
-            }
+    private fun showEmptyList() {
+        showPlaceholder(R.drawable.placeholder_cat, R.string.no_vacancies)
+        binding.tvNumberVacancies.isVisible = true
+        binding.tvNumberVacancies.text = requireContext().getString(R.string.not_find_vacancies)
+    }
+
+    private fun showError() {
+        val adapter = binding.recyclerView.adapter as? VacancyListAdapter
+        if (adapter == null) {
+            showPlaceholder(R.drawable.placeholder_cat, R.string.no_vacancies)
+        } else {
+            adapter.load(ScreenState.ServerError())
+            Toast.makeText(requireContext(), R.string.toast_error, Toast.LENGTH_SHORT).show()
         }
     }
 
-    private fun showError(@DrawableRes image: Int, @StringRes text: Int) {
-        vacancyListAdapter?.vacancyList?.clear()
-        vacancyListAdapter?.notifyDataSetChanged()
+    private fun showPlaceholder(@DrawableRes image: Int, @StringRes text: Int) {
         with(binding) {
-            progressBarCenter.isVisible = false
-            placeholderImage.isVisible = true
-            placeholderText.isVisible = true
-            tvNumberVacancies.isVisible = false
             placeholderImage.setImageResource(image)
             placeholderText.text = getText(text)
+            tvNumberVacancies.isVisible = false
+            recyclerView.isVisible = false
+            progressBar.isVisible = false
+            groupPlaceholder.isVisible = true
         }
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    private fun showContent(vacancies: Vacancies) {
+    private fun showProgressBar() {
         with(binding) {
-            recyclerView.layoutParams = (recyclerView.layoutParams as ConstraintLayout.LayoutParams).apply {
-                topToBottom = R.id.tv_number_vacancies
-            }
-            progressBarCenter.isVisible = false
-            placeholderImage.isVisible = false
-            placeholderText.isVisible = false
-            recyclerView.isVisible = true
-            progressBarBottom.isVisible = false
-            tvNumberVacancies.isVisible = isConnected(requireContext())
-            tvNumberVacancies.text = getStringOfVacancies(vacancies.found)
-            recyclerView.adapter?.notifyDataSetChanged()
+            recyclerView.adapter?.run { return }
+            tvNumberVacancies.isVisible = false
+            recyclerView.isVisible = false
+            groupPlaceholder.isVisible = false
+            progressBar.isVisible = true
         }
-        vacancyListAdapter?.vacancyList?.addAll(vacancies.items)
-        vacancyListAdapter?.notifyDataSetChanged()
     }
 
-    private fun getStringOfVacancies(count: Int): String {
-        if (count == 0) {
-            showError(R.drawable.placeholder_cat, R.string.no_vacancies)
-            return resources.getString(R.string.not_find_vacancies)
+    private fun show(vacancies: Vacancies) {
+        with(binding) {
+            if (vacancies.found == 0) {
+                recyclerView.adapter = null
+                showEmptyList()
+            } else if (recyclerView.adapter == null) {
+                recyclerView.adapter = VacancyListAdapter(vacancies, onVacancyClickDebounce, onNeedPage)
+
+                progressBar.isVisible = false
+                placeholderImage.isVisible = false
+                placeholderText.isVisible = false
+                tvNumberVacancies.isVisible = true
+                recyclerView.isVisible = true
+                tvNumberVacancies.text = resources.getQuantityString(
+                    R.plurals.founded_vacancies,
+                    vacancies.found,
+                    vacancies.found
+                )
+            } else {
+                val adapter = recyclerView.adapter as? VacancyListAdapter
+                adapter?.load(ScreenState.Loaded(vacancies))
+            }
         }
-        return resources.getQuantityString(
-            R.plurals.founded_vacancies,
-            count,
-            count
-        )
     }
 
     companion object {
         private const val SEARCH_DEBOUNCE_DELAY = 2000L
         private const val VACANCY_CLICK_DEBOUNCE_DELAY = 500L
+        private const val REQUEST_DELAY = 1000L
     }
 }

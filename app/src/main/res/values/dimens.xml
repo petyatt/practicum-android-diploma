@@ -6,6 +6,7 @@
     <dimen name="dimen_20">20dp</dimen>
     <dimen name="dimen_24">24dp</dimen>
     <dimen name="dimen_32">32dp</dimen>
+    <dimen name="dimen_48">48dp</dimen>
     <dimen name="dimen_52">52dp</dimen>
     <dimen name="dimen_56">56dp</dimen>
     <dimen name="dimen_60">60dp</dimen>
@@ -16,14 +17,15 @@
     <dimen name="text_22">22sp</dimen>
     <dimen name="text_16">16sp</dimen>
     <dimen name="text_12">12sp</dimen>
+
     <dimen name="icon_size">24dp</dimen>
+
     <dimen name="fragment_main_paddingHorizontal_12dp">12dp</dimen>
     <dimen name="fragment_main_paddingVertical">4dp</dimen>
     <dimen name="fragment_main_width_and_height_progress_bar_36">36dp</dimen>
     <dimen name="fragment_main_marginTop_26dp">26dp</dimen>
     <dimen name="fragment_main_marginEnd_23dp">23dp</dimen>
     <dimen name="item_vacancy_list_marginStart_16dp">16dp</dimen>
-    <dimen name="item_vacancy_list_width_and_height_image_company_48dp">48dp</dimen>
     <dimen name="layout_marginTop_16dp">16dp</dimen>
     <dimen name="layout_marginTop_4dp">4dp</dimen>
     <dimen name="layout_marginStart_46dp">46dp</dimen>
@@ -31,11 +33,5 @@
     <dimen name="layout_marginStart_16dp">16dp</dimen>
     <dimen name="layout_marginEnd_16dp">16dp</dimen>
     <dimen name="corner_radius_small_2">2dp</dimen>
-    <dimen name="_16dp">16dp</dimen>
-    <dimen name="_12dp">12dp</dimen>
-    <dimen name="_0dp">0dp</dimen>
-    <dimen name="button_height_59dp">59dp</dimen>
-    <dimen name="dimen_30">30dp</dimen>
-    <dimen name="dimen_17">17dp</dimen>
     <dimen name="corner_radius_12">12dp</dimen>
 </resources>

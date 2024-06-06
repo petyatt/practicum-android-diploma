@@ -3,6 +3,7 @@
     <string name="main">Главная</string>
     <string name="favorites">Избранное</string>
     <string name="empty_list">Список пуст</string>
+    <string name="empty_string" />
 
     <string name="team">Команда</string>
     <string name="filter">Настройки фильтрации</string>
@@ -35,6 +36,9 @@
 
     <string name="list_error">Не удалось получить\nсписок</string>
     <string name="select">Выбрать</string>
+
+    <string name="toast_error">Произошла ошибка</string>
+    <string name="toast_not_connection">Проверьте подключение к интернету</string>
 
     <string name="tools_vacancy_description">
         <b>Обязанности</b>\n
@@ -71,4 +75,5 @@
     <string name="region">Регион</string>
     <string name="country_selection">Выбор страны</string>
     <string name="filter_settings">Настройки фильтрации</string>
+    <string name="check_interner_connection">Проверьте подключение к интернету</string>
 </resources>
